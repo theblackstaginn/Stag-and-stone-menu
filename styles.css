@@ -1,120 +1,130 @@
-const CACHE_VERSION = "2025.12.27.3";
-const CACHE_NAME = `stag-stone-menu-${CACHE_VERSION}`;
+(() => {
+"use strict";
 
-// Core files required for offline display
-const CORE_ASSETS = [
-"./",
-"./index.html",
-"./styles.css",
-"./menu.js",
-"./app.js",
-"./manifest.webmanifest"
-// Add icons later if desired:
-// "./icons/icon-192.png",
-// "./icons/icon-512.png"
-];
+const APP_VERSION = "2025.12.27.4";
+const LS_KEY = "stag_stone_menu_version";
 
-// INSTALL — cache core assets
-self.addEventListener("install", (event) => {
-self.skipWaiting();
-event.waitUntil(
-(async () => {
-const cache = await caches.open(CACHE_NAME);
-await cache.addAll(
-CORE_ASSETS.map(
-(url) => new Request(url, { cache: "reload" })
-)
-);
-})()
-);
-});
-
-// ACTIVATE — delete old caches
-self.addEventListener("activate", (event) => {
-event.waitUntil(
-(async () => {
-const keys = await caches.keys();
-await Promise.all(
-keys.map((key) => {
-if (key.startsWith("stag-stone-menu-") && key !== CACHE_NAME) {
-return caches.delete(key);
+function forceOneTimeRefreshOnVersionChange() {
+try {
+const prev = localStorage.getItem(LS_KEY);
+if (prev !== APP_VERSION) {
+localStorage.setItem(LS_KEY, APP_VERSION);
+const url = new URL(window.location.href);
+url.searchParams.set("v", APP_VERSION);
+window.location.replace(url.toString());
 }
-})
-);
-await self.clients.claim();
-})()
-);
-});
-
-// ALLOW IMMEDIATE ACTIVATION
-self.addEventListener("message", (event) => {
-if (event?.data?.type === "SKIP_WAITING") {
-self.skipWaiting();
-}
-});
-
-// FETCH STRATEGY
-self.addEventListener("fetch", (event) => {
-const req = event.request;
-
-if (req.method !== "GET") return;
-
-const url = new URL(req.url);
-
-// Only handle same-origin requests
-if (url.origin !== self.location.origin) return;
-
-const accept = req.headers.get("accept") || "";
-
-// HTML — network first (so updates appear quickly)
-if (accept.includes("text/html")) {
-event.respondWith(networkFirst(req));
-return;
+} catch (_) {}
 }
 
-// Everything else — stale-while-revalidate
-event.respondWith(staleWhileRevalidate(req));
-});
-
-// ---------- Strategies ----------
-
-async function networkFirst(req) {
-const cache = await caches.open(CACHE_NAME);
+async function registerSW() {
+if (!("serviceWorker" in navigator)) return;
 
 try {
-const fresh = await fetch(req);
-if (fresh && fresh.ok) {
-cache.put(req, fresh.clone());
+const reg = await navigator.serviceWorker.register("./sw.js", { scope: "./" });
+reg.update?.();
+
+if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" });
+
+reg.addEventListener("updatefound", () => {
+const sw = reg.installing;
+if (!sw) return;
+sw.addEventListener("statechange", () => {
+if (sw.state === "installed" && navigator.serviceWorker.controller) {
+sw.postMessage({ type: "SKIP_WAITING" });
 }
-return fresh;
-} catch (_) {
-const cached = await cache.match(req);
-if (cached) return cached;
+});
+});
 
-const fallback = await cache.match("./index.html");
-return fallback || new Response("Offline", { status: 503 });
+let reloaded = false;
+navigator.serviceWorker.addEventListener("controllerchange", () => {
+if (reloaded) return;
+reloaded = true;
+window.location.reload();
+});
+} catch (err) {
+console.warn("Service worker registration failed:", err);
 }
 }
 
-async function staleWhileRevalidate(req) {
-const cache = await caches.open(CACHE_NAME);
+// Keep screen awake (when supported)
+let wakeLock = null;
+async function requestWakeLock() {
+try {
+if (!("wakeLock" in navigator)) return;
+wakeLock = await navigator.wakeLock.request("screen");
 
-const cached = await cache.match(req);
-
-const fetchPromise = fetch(req)
-.then((fresh) => {
-if (fresh && fresh.ok) {
-cache.put(req, fresh.clone());
+document.addEventListener("visibilitychange", async () => {
+if (document.visibilityState === "visible") {
+try { wakeLock = await navigator.wakeLock.request("screen"); } catch (_) {}
 }
-return fresh;
-})
-.catch(() => null);
-
-if (cached) return cached;
-
-const fresh = await fetchPromise;
-if (fresh) return fresh;
-
-const fallback = await cache.match("./index.html");
-return fallback || new Response("Offline", { status: 503 });
+});
+} catch (_) {}
 }
+
+function fullscreenHotkey() {
+window.addEventListener("keydown", (e) => {
+if (e.key.toLowerCase() !== "f") return;
+if (document.fullscreenElement) document.exitFullscreen?.();
+else document.documentElement.requestFullscreen?.();
+}, { passive: true });
+}
+
+// ===== AUTO-FIT (THE FIX) =====
+function autoFit() {
+const fit = document.querySelector(".fit");
+const menu = document.querySelector("#menu");
+if (!fit || !menu) return;
+
+// Reset scale to measure true content size
+fit.style.transform = "scale(1)";
+
+const fitH = fit.clientHeight;
+const fitW = fit.clientWidth;
+
+// menu scroll sizes reflect content size
+const contentH = menu.scrollHeight;
+const contentW = menu.scrollWidth;
+
+if (!fitH || !fitW || !contentH || !contentW) return;
+
+// Scale down to fit BOTH height and width, with a tiny safety margin
+const sH = fitH / contentH;
+const sW = fitW / contentW;
+const scale = Math.min(1, sH, sW) * 0.985;
+
+fit.style.transform = `scale(${scale.toFixed(4)})`;
+}
+
+function scheduleAutoFit() {
+// Run after layout + fonts settle
+requestAnimationFrame(() => {
+autoFit();
+setTimeout(autoFit, 60);
+setTimeout(autoFit, 220);
+});
+}
+
+function init() {
+forceOneTimeRefreshOnVersionChange();
+
+window.addEventListener("load", () => {
+registerSW();
+requestWakeLock();
+fullscreenHotkey();
+
+// Auto-fit now and whenever size changes
+scheduleAutoFit();
+window.addEventListener("resize", scheduleAutoFit);
+
+// If fonts load late, refit
+if (document.fonts && document.fonts.ready) {
+document.fonts.ready.then(scheduleAutoFit).catch(() => {});
+}
+}, { once: true });
+}
+
+init();
+
+// Expose a manual hook if you ever need it
+window.__AUTO_FIT_MENU__ = autoFit;
+})();
