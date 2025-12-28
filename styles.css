@@ -1,41 +1,38 @@
+/* ==========================
+Stag & Stone — Menu Styles
+Namespaced to avoid conflicts
+========================== */
+
 :root{
 --m-bg0:#050403;
 --m-bg1:#0b0705;
 
+/* Copper palette */
 --m-c1:#f0b35b;
 --m-c2:#d57a1f;
 --m-c3:#7a3a10;
+
 --m-glow: rgba(255, 140, 40, .16);
+--m-line: rgba(240,179,91,.35);
 }
 
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 
-/* PROBE: if you see this badge, CSS is loading. If you DON'T, CSS is not applied. */
-.css-probe{
-position:fixed;
-top:10px;
-right:10px;
-z-index:10000;
-padding:8px 10px;
-border-radius:10px;
-background:#1f7a3a;
-color:white;
-font: 700 12px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial;
-letter-spacing:.06em;
-box-shadow: 0 10px 30px rgba(0,0,0,.35);
-}
-
 body.menu-page{
 margin:0;
+color:#eee;
+font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+
 background:
 radial-gradient(1200px 900px at 50% 35%, rgba(255,160,70,.06), transparent 60%),
 radial-gradient(900px 900px at 50% 55%, rgba(0,0,0,.85), rgba(0,0,0,.95)),
 linear-gradient(180deg, var(--m-bg0), var(--m-bg1));
-color:#eee;
-font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
 }
 
+/* ==========================
+Layout / Canvas (Landscape)
+========================== */
 .menu-stage{
 height:100%;
 display:grid;
@@ -43,12 +40,14 @@ place-items:center;
 padding:3vh 3vw;
 }
 
-/* Landscape plaque */
+/* One canvas for TV + app */
 .menu-plaque{
 position:relative;
+
 width:min(96vw, 1600px);
 height:min(90vh, 900px);
 aspect-ratio: 16 / 9;
+
 border-radius: 12px;
 overflow:hidden;
 
@@ -62,6 +61,7 @@ box-shadow:
 inset 0 0 0 1px rgba(255,255,255,.06);
 }
 
+/* Ambient vignette like the reference plaque */
 .menu-plaque::before{
 content:"";
 position:absolute;
@@ -72,18 +72,21 @@ linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.55));
 pointer-events:none;
 }
 
+/* Frames */
 .menu-frame-outer, .menu-frame-inner{
 position:absolute;
 inset:4.2%;
 border-radius:10px;
 pointer-events:none;
 }
+
 .menu-frame-outer{
 box-shadow:
 inset 0 0 0 2px rgba(40,18,8,.95),
 inset 0 0 0 6px rgba(110,58,18,.35),
 inset 0 0 0 10px rgba(0,0,0,.55);
 }
+
 .menu-frame-inner{
 inset:6.0%;
 box-shadow:
@@ -91,31 +94,64 @@ inset 0 0 0 1px rgba(255,220,160,.10),
 inset 0 0 70px rgba(0,0,0,.78);
 }
 
+/* ==========================
+Typography / Copper Treatment
+========================== */
+.menu-title,
+.menu-section-title,
+.menu-item-name{
+font-family:"Cinzel", serif;
+text-transform:uppercase;
+background: linear-gradient(180deg, var(--m-c1), var(--m-c2) 55%, var(--m-c3));
+-webkit-background-clip:text;
+background-clip:text;
+color: transparent;
+}
+
+.menu-title{
+margin:0;
+font-size: clamp(30px, 3.2vw, 64px);
+letter-spacing:.18em;
+text-shadow: 0 1px 0 rgba(0,0,0,.75), 0 0 24px rgba(255,140,40,.18);
+}
+
+.menu-section-title{
+margin:0 0 1.1% 0;
+text-align:center;
+font-size: clamp(16px, 1.55vw, 26px);
+letter-spacing:.14em;
+text-shadow: 0 1px 0 rgba(0,0,0,.75), 0 0 16px rgba(255,140,40,.14);
+}
+
+.menu-item-name{
+letter-spacing:.12em;
+font-size: clamp(14px, 1.25vw, 22px);
+text-shadow: 0 1px 0 rgba(0,0,0,.78), 0 0 12px rgba(255,140,40,.12);
+}
+
+/* Prices: solid copper (not gradient) for clarity */
+.menu-item-price{
+font-family:"Cinzel", serif;
+font-size: clamp(13px, 1.1vw, 20px);
+letter-spacing:.12em;
+white-space:nowrap;
+color: rgba(240,179,91,.90);
+text-shadow: 0 1px 0 rgba(0,0,0,.82), 0 0 12px rgba(255,140,40,.10);
+}
+
+/* ==========================
+Sections / Grid / Rows
+========================== */
 .menu-top{
 position:relative;
 padding: 4.0% 6.5% 1.2% 6.5%;
 text-align:center;
 }
 
-.menu-title{
-margin:0;
-font-size: clamp(30px, 3.2vw, 64px);
-font-family:"Cinzel", serif;
-text-transform:uppercase;
-letter-spacing:.18em;
-
-background: linear-gradient(180deg, var(--m-c1), var(--m-c2) 55%, var(--m-c3));
--webkit-background-clip:text;
-background-clip:text;
-color: transparent;
-
-text-shadow: 0 1px 0 rgba(0,0,0,.75), 0 0 24px rgba(255,140,40,.18);
-}
-
 .menu-rule{
 height:1px;
 margin-top: 1.3%;
-background: linear-gradient(90deg, transparent, rgba(240,179,91,.35), transparent);
+background: linear-gradient(90deg, transparent, var(--m-line), transparent);
 opacity:.9;
 }
 
@@ -127,21 +163,6 @@ padding: 1.4% 6.5% 4.6% 6.5%;
 .menu-section{
 margin: 1.6% 0 2.0% 0;
 }
-.menu-section-title{
-margin:0 0 1.1% 0;
-text-align:center;
-font-family:"Cinzel", serif;
-font-size: clamp(16px, 1.55vw, 26px);
-text-transform:uppercase;
-letter-spacing:.14em;
-
-background: linear-gradient(180deg, var(--m-c1), var(--m-c2) 55%, var(--m-c3));
--webkit-background-clip:text;
-background-clip:text;
-color: transparent;
-
-text-shadow: 0 1px 0 rgba(0,0,0,.75), 0 0 16px rgba(255,140,40,.14);
-}
 
 .menu-grid{
 display:grid;
@@ -149,6 +170,7 @@ grid-template-columns: 1fr 1fr;
 gap: .9vh 5.5vw;
 }
 
+/* Bullet-proof list reset */
 .menu-list{
 list-style:none;
 padding:0;
@@ -163,29 +185,7 @@ gap:18px;
 padding: .42vh 0;
 }
 
-.menu-item-name{
-font-family:"Cinzel", serif;
-text-transform:uppercase;
-letter-spacing:.12em;
-font-size: clamp(14px, 1.25vw, 22px);
-
-background: linear-gradient(180deg, rgba(240,179,91,.95), rgba(213,122,31,.92) 55%, rgba(122,58,16,.95));
--webkit-background-clip:text;
-background-clip:text;
-color: transparent;
-
-text-shadow: 0 1px 0 rgba(0,0,0,.78), 0 0 12px rgba(255,140,40,.12);
-}
-
-.menu-item-price{
-font-family:"Cinzel", serif;
-font-size: clamp(13px, 1.1vw, 20px);
-letter-spacing:.12em;
-white-space:nowrap;
-color: rgba(240,179,91,.90);
-text-shadow: 0 1px 0 rgba(0,0,0,.82), 0 0 12px rgba(255,140,40,.10);
-}
-
+/* Footer rule */
 .menu-bottom{
 position:absolute;
 left:0; right:0;
@@ -193,8 +193,16 @@ bottom:2.8%;
 padding: 0 6.5%;
 }
 
-/* Portrait ward — PHONES ONLY */
-@media (orientation: portrait) and (max-width: 900px) {
+/* ==========================
+Portrait Ward (Phones only)
+Avoid hiding menu on laptops/TVs
+========================== */
+
+/* Default: ward hidden */
+.menu-rotate-ward{ display:none; }
+
+/* Show ward only on small screens in portrait */
+@media (orientation: portrait) and (max-width: 900px){
 .menu-rotate-ward{
 display:grid;
 place-items:center;
@@ -218,9 +226,4 @@ text-shadow: 0 0 26px rgba(255,140,40,.25);
 .menu-stage{
 visibility:hidden;
 }
-}
-
-/* Default: hide the ward */
-.menu-rotate-ward{
-display:none;
 }
