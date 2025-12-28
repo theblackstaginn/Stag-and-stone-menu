@@ -147,7 +147,7 @@ GRID
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:3.2vw;
+  gap:2.4vw; /* tighter than before */
 }
 
 .list{
@@ -162,9 +162,9 @@ ITEM ROWS
 ========================= */
 .item{
   display:grid;
-  grid-template-columns: 1fr max-content;
+  grid-template-columns: auto max-content;
   align-items:baseline;
-  column-gap:1.2vw;   /* controls name ↔ price spacing */
+  column-gap:0.9vw;   /* tighter price spacing */
   margin:.55vh 0;
 }
 
@@ -203,4 +203,25 @@ If your TV is short, slightly tighten text.
   .section{ margin-bottom:1.7vh; }
   .item{ margin:.45vh 0; }
   .rule{ margin:1.1vh auto 2.1vh; }
+}
+
+/* =========================
+BOTTOM SECTION SAFETY (Sandwiches)
+========================= */
+.section:last-of-type{
+  margin-bottom:0;
+}
+
+.fit{
+  overflow:hidden;
+}
+
+/* Slight vertical compression to fit sandwiches */
+@media (min-width: 1200px){
+  .section{
+    margin-bottom:2.0vh;
+  }
+  .item{
+    margin:.45vh 0;
+  }
 }
