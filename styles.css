@@ -99,7 +99,7 @@ HEADER
 }
 
 .rule{
-  margin:1.5vh auto 2.6vh;
+  margin:1.2vh auto 1.8vh; /* tighter bottom gap */
   width:42%;
   height:1px;
   background:linear-gradient(90deg, transparent, rgba(185,139,85,.6), transparent);
