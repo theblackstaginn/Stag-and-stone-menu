@@ -1,47 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Stag & Stone — Drink Menu</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stag & Stone — Menu</title>
 
-<meta name="theme-color" content="#050403" />
-<link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#050403" />
+  <link rel="manifest" href="./manifest.webmanifest?v=2025.12.27.3" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="./styles.css?v=2025.12.27.2">
+  <!-- Styles (versioned to bust cache) -->
+  <link rel="stylesheet" href="./styles.css?v=2025.12.27.3" />
 </head>
 
 <body class="menu-page">
 
-<!-- Phone-only portrait ward (CSS decides when to show) -->
-<div class="menu-rotate-ward" aria-hidden="true">
-<div class="menu-rotate-ward__text">Rotate Device</div>
-</div>
+  <!-- Portrait phones: show “Rotate Device” (CSS controls visibility) -->
+  <div class="rotate-ward" aria-hidden="true">
+    <div class="rotate-ward__text">Rotate Device</div>
+  </div>
 
-<main class="menu-stage">
-<section class="menu-plaque" aria-label="Menu Board">
+  <main class="stage">
+    <section class="plaque" aria-label="Stag & Stone Menu Board">
 
-<div class="menu-frame-outer"></div>
-<div class="menu-frame-inner"></div>
+      <!-- Frame layers -->
+      <div class="frame-outer"></div>
+      <div class="frame-inner"></div>
 
-<header class="menu-top">
-<h1 class="menu-title">Drink Menu</h1>
-<div class="menu-rule"></div>
-</header>
+      <!-- Title -->
+      <header class="top">
+        <h1 class="title">Drink Menu</h1>
+        <div class="rule"></div>
+      </header>
 
-<!-- FIT WRAPPER prevents clipping inside the frame -->
-<div class="menu-fit">
-<div id="menu" class="menu-body"></div>
-</div>
+      <!-- Fit wrapper: content scales to stay inside frame (NO CLIPPING) -->
+      <div class="fit">
+        <div id="menu" class="menu"></div>
+      </div>
 
-</section>
-</main>
+    </section>
+  </main>
 
-<script src="./app.js?v=2025.12.27.2"></script>
-<script src="./menu.js?v=2025.12.27.2"></script>
+  <!-- App + Menu scripts (versioned to bust cache) -->
+  <script src="./app.js?v=2025.12.27.3"></script>
+  <script src="./menu.js?v=2025.12.27.3"></script>
 </body>
 </html>
