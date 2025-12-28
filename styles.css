@@ -37,7 +37,7 @@ Layout / Canvas (Landscape)
 height:100%;
 display:grid;
 place-items:center;
-padding:3vh 3vw;
+padding:1.6vh 2.2vw;
 }
 
 /* One canvas for TV + app */
@@ -128,7 +128,12 @@ letter-spacing:.12em;
 font-size: clamp(14px, 1.25vw, 22px);
 text-shadow: 0 1px 0 rgba(0,0,0,.78), 0 0 12px rgba(255,140,40,.12);
 }
-
+.menu-item-name{
+min-width:0;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
 /* Prices: solid copper (not gradient) for clarity */
 .menu-item-price{
 font-family:"Cinzel", serif;
@@ -144,7 +149,7 @@ Sections / Grid / Rows
 ========================== */
 .menu-top{
 position:relative;
-padding: 4.0% 6.5% 1.2% 6.5%;
+padding: 3.2% 6.2% 0.8% 6.2%;
 text-align:center;
 }
 
@@ -157,7 +162,7 @@ opacity:.9;
 
 .menu-body{
 position:relative;
-padding: 1.4% 6.5% 4.6% 6.5%;
+padding: 1.0% 6.2% 3.0% 6.2%;
 }
 
 .menu-section{
@@ -167,7 +172,7 @@ margin: 2.4% 0 3.0% 0;
 .menu-grid{
 display:grid;
 grid-template-columns: 1fr 1fr;
-gap: .9vh 5.5vw;
+gap: 1.0vh 4.0vw; /* slightly tighter column separation */
 }
 
 /* Bullet-proof list reset */
@@ -178,19 +183,16 @@ margin:0;
 }
 
 .menu-item{
-display:flex;
+display:grid;
+grid-template-columns: 1fr auto; /* name then price right next to it */
 align-items:baseline;
-justify-content:space-between;
-gap:18px;
-padding: .6vh 0;
+column-gap: 14px; /* THIS is the “price proximity” control */
+padding: .55vh 0;
 }
 
 /* Footer rule */
 .menu-bottom{
-position:absolute;
-left:0; right:0;
-bottom:2.8%;
-padding: 0 6.5%;
+  display:none;
 }
 
 /* ==========================
