@@ -1,48 +1,76 @@
+
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Hints for app/PWA wrappers -->
-  <meta name="screen-orientation" content="landscape">
-  <meta name="orientation" content="landscape">
+<meta name="screen-orientation" content="landscape">
+<meta name="orientation" content="landscape">
 
-  <title>Stag & Stone — Drink Menu</title>
+<title>Stag & Stone — Drink Menu</title>
 
-  <!-- Cinzel = ceremonial serif -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<!-- Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <!-- IMPORTANT: cache-bust while you iterate -->
-  <link rel="stylesheet" href="./styles.css?v=menu1">
+<!-- IMPORTANT: Use ABSOLUTE path so GitHub Pages / custom domain can't get cute -->
+<link rel="stylesheet" href="/styles.css?v=NUKE1">
+
+<!-- If CSS is NOT loading, this inline fallback will show (white page).
+If CSS IS loading, you'll see the dark plaque and the probe badge. -->
 </head>
 
 <body class="menu-page">
-  <!-- Portrait ward: keep it intentional -->
-  <div class="menu-rotate-ward" aria-hidden="true">
-    <div class="menu-rotate-ward__text">Rotate Device</div>
-  </div>
 
-  <main class="menu-stage">
-    <section class="menu-plaque" role="img" aria-label="Drink Menu">
-      <div class="menu-frame-outer"></div>
-      <div class="menu-frame-inner"></div>
+<!-- Visible probe: if CSS loads, this becomes a green badge in top-right -->
+<div class="css-probe">CSS LOADED</div>
 
-      <header class="menu-top">
-        <h1 class="menu-title">Drink Menu</h1>
-        <div class="menu-rule"></div>
-      </header>
+<!-- Portrait ward -->
+<div class="menu-rotate-ward" aria-hidden="true">
+<div class="menu-rotate-ward__text">Rotate Device</div>
+</div>
 
-      <div id="menu" class="menu-body"></div>
+<main class="menu-stage">
+<section class="menu-plaque" role="img" aria-label="Drink Menu">
+<div class="menu-frame-outer"></div>
+<div class="menu-frame-inner"></div>
 
-      <footer class="menu-bottom">
-        <div class="menu-rule"></div>
-      </footer>
-    </section>
-  </main>
+<header class="menu-top">
+<h1 class="menu-title">Drink Menu</h1>
+<div class="menu-rule"></div>
+</header>
 
-  <script src="./menu.js?v=menu1"></script>
+<div id="menu" class="menu-body"></div>
+
+<footer class="menu-bottom">
+<div class="menu-rule"></div>
+</footer>
+</section>
+</main>
+
+<!-- Nuclear cache reset: unregister SW + delete caches -->
+<script>
+(async () => {
+try {
+// Unregister ALL service workers (even old ones from prior filenames)
+if ('serviceWorker' in navigator) {
+const regs = await navigator.serviceWorker.getRegistrations();
+await Promise.all(regs.map(r => r.unregister()));
+}
+
+// Clear Cache Storage (where SW usually keeps old CSS/JS)
+if (window.caches && caches.keys) {
+const keys = await caches.keys();
+await Promise.all(keys.map(k => caches.delete(k)));
+}
+} catch (e) {
+// silent: this is just a purge
+}
+})();
+</script>
+
+<script src="/menu.js?v=NUKE1"></script>
 </body>
 </html>
