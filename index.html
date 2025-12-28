@@ -3,46 +3,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#1b1b1b" />
+  <meta name="theme-color" content="#0b0f14" />
   <title>Stag & Stone Menu</title>
-  <link rel="stylesheet" href="styles.css" />
 
-  <!-- Optional (for “show people on phone” home-screen icon) -->
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
   <main class="stage" aria-label="Stag & Stone Menu">
-    <div class="frame" role="presentation">
-      <div class="plaster" aria-hidden="true"></div>
+    <!-- Border image (repo root) -->
+    <div class="border" aria-hidden="true"></div>
 
-      <!-- Keep FX layers OUT of text. We’ll place them only in empty zones later. -->
-      <div class="runes zone zone-left" aria-hidden="true"></div>
-      <div class="runes zone zone-right" aria-hidden="true"></div>
-      <div class="runes zone zone-bottom-left" aria-hidden="true"></div>
-      <div class="runes zone zone-bottom-right" aria-hidden="true"></div>
-      <canvas id="embers" aria-hidden="true"></canvas>
+    <!-- Runes only in “empty space” zones -->
+    <div class="runes runes-top" aria-hidden="true"></div>
+    <div class="runes runes-bottom" aria-hidden="true"></div>
 
-      <section class="content">
-        <header class="masthead">
-          <h1 class="title copper">STAG &amp; STONE</h1>
-        </header>
+    <!-- Embers -->
+    <canvas id="embers" aria-hidden="true"></canvas>
 
-        <!-- Layout matches your sketch -->
-        <section class="layout">
-          <div class="panel panel-left" id="leftPanel"></div>
-          <div class="panel panel-right" id="rightPanel"></div>
+    <!-- Content -->
+    <section class="content" role="document">
+      <header class="masthead">
+        <h1 class="title">STAG &amp; STONE</h1>
+        <div class="rule" aria-hidden="true"></div>
+      </header>
 
-          <div class="panel panel-center" id="centerPanel"></div>
+      <!-- Vertical layout blocks -->
+      <section class="stack">
+        <div class="row2">
+          <section class="block" id="houseCoffees"></section>
+          <section class="block" id="espressoClassics"></section>
+        </div>
 
-          <div class="panel panel-sandwiches" id="sandwichPanel"></div>
-          <div class="panel panel-pastries" id="pastryPanel"></div>
-        </section>
+        <div class="row2">
+          <section class="block" id="featuredLattes"></section>
+          <section class="block" id="signatureCoffeehouse"></section>
+        </div>
+
+        <section class="block center" id="teasHerbals"></section>
+
+        <div class="row2">
+          <section class="block" id="sandwiches"></section>
+          <section class="block" id="pastries"></section>
+        </div>
       </section>
-    </div>
+    </section>
   </main>
 
+  <script src="menu.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
