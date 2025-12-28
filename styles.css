@@ -144,10 +144,9 @@ GRID
 ========================= */
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:2.2vw;
+  grid-template-columns:1.05fr 1.05fr;
+  gap:3.5vw;
 }
-
 .list{
   list-style:none;
   margin:0;
