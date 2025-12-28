@@ -1,5 +1,5 @@
 /* =========================
-   RESET & ROOT
+   ROOT + RESET
 ========================= */
 *,
 *::before,
@@ -9,84 +9,118 @@
 
 html, body {
   margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
-  background: #05070b;
-  font-family: "Cormorant Garamond", serif;
-  color: #e6d8c3;
+  background: #0b0f14;
+  color: #e9dccb;
+  font-family: "Cormorant Garamond", "Garamond", serif;
 }
 
 /* =========================
-   SCREEN (FULL VIEWPORT)
+   FULL SCREEN STAGE
 ========================= */
 .screen {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #05070b;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20,25,32,0.9) 0%,
+    #0b0f14 70%
+  );
+  overflow: hidden;
 }
 
 /* =========================
-   BORDER (FITS SCREEN)
+   BORDER FRAME
 ========================= */
 .border {
   position: relative;
-  width: min(92vw, 92vh * 9 / 16);
-  height: min(92vh, 92vw * 16 / 9);
-
+  width: min(92vw, 60vh);   /* portrait-friendly */
+  height: min(92vh, 95vw);
+  aspect-ratio: 3 / 5;     /* tall medieval tablet */
   background-image: url("moss-border.PNG");
-  background-size: contain;
   background-repeat: no-repeat;
+  background-size: contain;
   background-position: center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* =========================
-   CONTENT (INSIDE BORDER)
+   INNER SAFE ZONE
+   (THIS is the magic)
 ========================= */
 .content {
-  width: 82%;
-  height: 84%;
-
+  position: absolute;
+  inset: 8% 10% 8% 10%; /* top | right | bottom | left */
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  padding: 2vh 2vw;
+  justify-content: flex-start;
+  gap: 2.5vh;
+  z-index: 3;
 }
 
 /* =========================
-   TITLE
+   HEADER
 ========================= */
+.masthead {
+  text-align: center;
+}
+
 .title {
-  font-size: clamp(28px, 4.2vh, 64px);
-  letter-spacing: 0.12em;
-  margin-bottom: 2vh;
-  color: #c9a26a;
+  font-size: clamp(2.2rem, 4vh, 3.6rem);
+  letter-spacing: 0.15em;
+  color: #c8a36b;
+  text-shadow:
+    0 2px 6px rgba(0,0,0,0.8),
+    0 0 18px rgba(200,163,107,0.25);
+  margin: 0;
+}
+
+.rule {
+  margin: 1vh auto 0;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(200,163,107,0.6),
+    transparent
+  );
+}
+
+/* =========================
+   STACKED MENU LAYOUT
+========================= */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+}
+
+/* Two-column rows */
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3vw;
+}
+
+/* Center block */
+.block.center {
   text-align: center;
 }
 
 /* =========================
-   SECTIONS
+   SECTION HEADERS
 ========================= */
-.section {
-  width: 100%;
-  margin-bottom: 3vh;
-}
-
-.section h2 {
+.block h2 {
   text-align: center;
-  font-size: clamp(18px, 2.6vh, 36px);
+  font-size: clamp(1.3rem, 2.6vh, 2rem);
   letter-spacing: 0.08em;
-  margin-bottom: 1.2vh;
-  color: #b89662;
-  border-bottom: 1px solid rgba(200,160,90,0.35);
-  padding-bottom: 0.6vh;
+  color: #c8a36b;
+  margin: 0 0 1vh;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.7);
 }
 
 /* =========================
@@ -95,30 +129,52 @@ html, body {
 .item {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1vw;
+  column-gap: 1vw;
   margin-bottom: 1.2vh;
 }
 
 .item-name {
-  font-size: clamp(15px, 2vh, 22px);
+  font-size: clamp(1rem, 2vh, 1.4rem);
+  font-weight: 600;
 }
 
 .item-desc {
-  font-size: clamp(12px, 1.6vh, 18px);
-  opacity: 0.7;
+  font-size: clamp(0.8rem, 1.6vh, 1.1rem);
+  opacity: 0.75;
 }
 
-.price {
-  font-size: clamp(14px, 2vh, 22px);
-  color: #c9a26a;
+.item-price {
+  font-size: clamp(1rem, 2vh, 1.4rem);
+  color: #c8a36b;
+}
+
+/* =========================
+   FX LAYERS
+========================= */
+.runes,
+#embers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.runes-top {
+  top: 0;
+  height: 12%;
+}
+
+.runes-bottom {
+  bottom: 0;
+  height: 12%;
 }
 
 /* =========================
    TV SAFETY
 ========================= */
-@media (min-width: 1400px) {
+@media (min-width: 1200px) {
   .border {
-    width: 80vw;
-    height: 90vh;
+    width: 55vh;
+    height: 92vh;
   }
 }
