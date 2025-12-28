@@ -193,9 +193,8 @@ bottom:2.8%;
 padding: 0 6.5%;
 }
 
-/* Portrait ward */
-.menu-rotate-ward{ display:none; }
-@media (orientation: portrait){
+/* Portrait ward — PHONES ONLY */
+@media (orientation: portrait) and (max-width: 900px) {
 .menu-rotate-ward{
 display:grid;
 place-items:center;
@@ -206,6 +205,7 @@ background:
 radial-gradient(800px 800px at 50% 40%, rgba(255,140,40,.08), transparent 55%),
 linear-gradient(180deg, #050403, #000);
 }
+
 .menu-rotate-ward__text{
 font-family:"Cinzel", serif;
 font-size: clamp(20px, 5vw, 36px);
@@ -214,5 +214,13 @@ text-transform:uppercase;
 color:#f0b35b;
 text-shadow: 0 0 26px rgba(255,140,40,.25);
 }
-.menu-stage{ visibility:hidden; }
+
+.menu-stage{
+visibility:hidden;
+}
+}
+
+/* Default: hide the ward */
+.menu-rotate-ward{
+display:none;
 }
