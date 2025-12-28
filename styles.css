@@ -1,239 +1,120 @@
-:root{
---bg0:#050403;
---bg1:#0b0705;
+const CACHE_VERSION = "2025.12.27.3";
+const CACHE_NAME = `stag-stone-menu-${CACHE_VERSION}`;
 
---c1:#f0b35b;
---c2:#d57a1f;
---c3:#7a3a10;
+// Core files required for offline display
+const CORE_ASSETS = [
+"./",
+"./index.html",
+"./styles.css",
+"./menu.js",
+"./app.js",
+"./manifest.webmanifest"
+// Add icons later if desired:
+// "./icons/icon-192.png",
+// "./icons/icon-512.png"
+];
 
---line: rgba(240,179,91,.35);
+// INSTALL — cache core assets
+self.addEventListener("install", (event) => {
+self.skipWaiting();
+event.waitUntil(
+(async () => {
+const cache = await caches.open(CACHE_NAME);
+await cache.addAll(
+CORE_ASSETS.map(
+(url) => new Request(url, { cache: "reload" })
+)
+);
+})()
+);
+});
+
+// ACTIVATE — delete old caches
+self.addEventListener("activate", (event) => {
+event.waitUntil(
+(async () => {
+const keys = await caches.keys();
+await Promise.all(
+keys.map((key) => {
+if (key.startsWith("stag-stone-menu-") && key !== CACHE_NAME) {
+return caches.delete(key);
+}
+})
+);
+await self.clients.claim();
+})()
+);
+});
+
+// ALLOW IMMEDIATE ACTIVATION
+self.addEventListener("message", (event) => {
+if (event?.data?.type === "SKIP_WAITING") {
+self.skipWaiting();
+}
+});
+
+// FETCH STRATEGY
+self.addEventListener("fetch", (event) => {
+const req = event.request;
+
+if (req.method !== "GET") return;
+
+const url = new URL(req.url);
+
+// Only handle same-origin requests
+if (url.origin !== self.location.origin) return;
+
+const accept = req.headers.get("accept") || "";
+
+// HTML — network first (so updates appear quickly)
+if (accept.includes("text/html")) {
+event.respondWith(networkFirst(req));
+return;
 }
 
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
+// Everything else — stale-while-revalidate
+event.respondWith(staleWhileRevalidate(req));
+});
 
-body.menu-page{
-margin:0;
-color:#eee;
-font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+// ---------- Strategies ----------
 
-background:
-radial-gradient(1200px 900px at 50% 35%, rgba(255,160,70,.06), transparent 60%),
-radial-gradient(900px 900px at 50% 55%, rgba(0,0,0,.85), rgba(0,0,0,.95)),
-linear-gradient(180deg, var(--bg0), var(--bg1));
+async function networkFirst(req) {
+const cache = await caches.open(CACHE_NAME);
+
+try {
+const fresh = await fetch(req);
+if (fresh && fresh.ok) {
+cache.put(req, fresh.clone());
+}
+return fresh;
+} catch (_) {
+const cached = await cache.match(req);
+if (cached) return cached;
+
+const fallback = await cache.match("./index.html");
+return fallback || new Response("Offline", { status: 503 });
+}
 }
 
-/* ---------- Stage ---------- */
-.stage{
-height:100%;
-display:grid;
-place-items:center;
-padding: 1.6vh 2.2vw;
+async function staleWhileRevalidate(req) {
+const cache = await caches.open(CACHE_NAME);
+
+const cached = await cache.match(req);
+
+const fetchPromise = fetch(req)
+.then((fresh) => {
+if (fresh && fresh.ok) {
+cache.put(req, fresh.clone());
 }
+return fresh;
+})
+.catch(() => null);
 
-/* ---------- Plaque ---------- */
-.plaque{
-position:relative;
+if (cached) return cached;
 
-/* Fixed signage footprint (TV-friendly) */
-width:min(96vw, 1600px);
-height:min(92vh, 920px);
-aspect-ratio: 16 / 9;
+const fresh = await fetchPromise;
+if (fresh) return fresh;
 
-border-radius: 12px;
-overflow:hidden;
-
-background:
-radial-gradient(1200px 900px at 50% 45%, rgba(255,160,70,.05), transparent 55%),
-radial-gradient(1600px 1000px at 50% 60%, rgba(0,0,0,.75), rgba(0,0,0,.92)),
-linear-gradient(180deg, #090705, #060403);
-
-box-shadow:
-0 30px 90px rgba(0,0,0,.65),
-inset 0 0 0 1px rgba(255,255,255,.06);
-}
-
-/* soft vignette */
-.plaque::before{
-content:"";
-position:absolute;
-inset:-20%;
-background:
-radial-gradient(1200px 1200px at 50% 50%, transparent 52%, rgba(0,0,0,.65) 76%),
-linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.55));
-pointer-events:none;
-}
-
-/* Frames */
-.frame-outer, .frame-inner{
-position:absolute;
-inset:4.2%;
-border-radius:10px;
-pointer-events:none;
-}
-
-.frame-outer{
-box-shadow:
-inset 0 0 0 2px rgba(40,18,8,.95),
-inset 0 0 0 6px rgba(110,58,18,.35),
-inset 0 0 0 10px rgba(0,0,0,.55);
-}
-
-.frame-inner{
-inset:6.0%;
-box-shadow:
-inset 0 0 0 1px rgba(255,220,160,.10),
-inset 0 0 70px rgba(0,0,0,.78);
-}
-
-/* ---------- Shared Copper Type ---------- */
-.title, .section-title, .item-name{
-font-family:"Cinzel", serif;
-text-transform:uppercase;
-background: linear-gradient(180deg, var(--c1), var(--c2) 55%, var(--c3));
--webkit-background-clip:text;
-background-clip:text;
-color: transparent;
-}
-
-/* ---------- Title Area ---------- */
-.top{
-position:relative;
-padding: 3.1% 6.2% 0.7% 6.2%;
-text-align:center;
-}
-
-.rule{
-height:1px;
-margin-top: 1.1%;
-background: linear-gradient(90deg, transparent, var(--line), transparent);
-opacity:.95;
-}
-
-.title{
-margin:0;
-font-size: clamp(30px, 3.1vw, 62px);
-letter-spacing:.18em;
-text-shadow:
-0 1px 0 rgba(0,0,0,.82),
-0 0 34px rgba(255,140,40,.28);
-}
-
-/* ---------- FIT WRAPPER (THE KEY) ---------- */
-/* The menu content lives inside this box and scales down if needed. */
-.fit{
-position:absolute;
-
-/* Place it inside the inner frame */
-left:6.0%;
-right:6.0%;
-
-/* Start below the title area */
-top: calc(6.0% + 86px);
-
-/* End above the bottom inner frame margin */
-bottom: 6.0%;
-
-overflow:hidden;
-
-/* One controlling knob: change this if you add more items later */
-transform-origin: top center;
-transform: scale(0.92);
-}
-
-/* For very tall/short screens, gently adjust */
-@media (max-height: 740px){
-.fit{ transform: scale(0.88); }
-}
-@media (min-height: 900px){
-.fit{ transform: scale(0.95); }
-}
-
-/* Menu container */
-.menu{
-position:relative;
-height:100%;
-}
-
-/* ---------- Sections ---------- */
-.section{
-margin: 2.2% 0 2.8% 0;
-}
-
-.section-title{
-margin:0 0 1.1% 0;
-text-align:center;
-font-size: clamp(16px, 1.5vw, 26px);
-letter-spacing:.14em;
-text-shadow: 0 1px 0 rgba(0,0,0,.78), 0 0 16px rgba(255,140,40,.14);
-}
-
-/* Two columns per section */
-.grid{
-display:grid;
-grid-template-columns: 1fr 1fr;
-gap: 1.0vh 4.0vw;
-}
-
-.list{
-list-style:none;
-padding:0;
-margin:0;
-}
-
-/* ---------- Item Rows (price close to item) ---------- */
-.item{
-display:grid;
-grid-template-columns: 1fr auto;
-align-items:baseline;
-column-gap: 12px; /* PRICE PROXIMITY CONTROL */
-padding: .50vh 0;
-}
-
-.item-name{
-letter-spacing:.12em;
-font-size: clamp(14px, 1.22vw, 22px);
-text-shadow: 0 1px 0 rgba(0,0,0,.78), 0 0 12px rgba(255,140,40,.12);
-
-/* keep prices from being pushed away */
-min-width:0;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-}
-
-.item-price{
-font-family:"Cinzel", serif;
-font-size: clamp(13px, 1.05vw, 20px);
-letter-spacing:.12em;
-white-space:nowrap;
-color: rgba(240,179,91,.92);
-text-shadow: 0 1px 0 rgba(0,0,0,.84), 0 0 12px rgba(255,140,40,.10);
-}
-
-/* ---------- Phone Portrait Ward ---------- */
-.rotate-ward{ display:none; }
-
-@media (orientation: portrait) and (max-width: 900px){
-.rotate-ward{
-display:grid;
-place-items:center;
-position:fixed;
-inset:0;
-z-index:9999;
-background:
-radial-gradient(800px 800px at 50% 40%, rgba(255,140,40,.08), transparent 55%),
-linear-gradient(180deg, #050403, #000);
-}
-
-.rotate-ward__text{
-font-family:"Cinzel", serif;
-font-size: clamp(20px, 5vw, 36px);
-letter-spacing:.22em;
-text-transform:uppercase;
-color:#f0b35b;
-text-shadow: 0 0 26px rgba(255,140,40,.25);
-}
-
-.stage{ visibility:hidden; }
+const fallback = await cache.match("./index.html");
+return fallback || new Response("Offline", { status: 503 });
 }
