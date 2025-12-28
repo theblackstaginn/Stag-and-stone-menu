@@ -1,39 +1,38 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+<title>Stag & Stone — Drink Menu</title>
+
+<!-- Hints for wrappers (not guaranteed, but harmless) -->
 <meta name="screen-orientation" content="landscape">
 <meta name="orientation" content="landscape">
 
-<title>Stag & Stone — Drink Menu</title>
+<!-- PWA basics -->
+<meta name="theme-color" content="#050403" />
+<link rel="manifest" href="./manifest.webmanifest">
 
 <!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
 
-<!-- IMPORTANT: Use ABSOLUTE path so GitHub Pages / custom domain can't get cute -->
-<link rel="stylesheet" href="/styles.css">
-
-<!-- If CSS is NOT loading, this inline fallback will show (white page).
-If CSS IS loading, you'll see the dark plaque and the probe badge. -->
+<!-- Styles (relative paths for GitHub Pages project sites) -->
+<link rel="stylesheet" href="./styles.css?v=2025.12.27.1">
 </head>
 
 <body class="menu-page">
 
-<!-- Visible probe: if CSS loads, this becomes a green badge in top-right -->
-<div class="css-probe">CSS LOADED</div>
-
-<!-- Portrait ward -->
+<!-- Portrait ward (shown only on small screens in portrait; CSS controls visibility) -->
 <div class="menu-rotate-ward" aria-hidden="true">
 <div class="menu-rotate-ward__text">Rotate Device</div>
 </div>
 
 <main class="menu-stage">
-<section class="menu-plaque" role="img" aria-label="Drink Menu">
+<section class="menu-plaque" aria-label="Drink Menu">
+
 <div class="menu-frame-outer"></div>
 <div class="menu-frame-inner"></div>
 
@@ -42,35 +41,21 @@ If CSS IS loading, you'll see the dark plaque and the probe badge. -->
 <div class="menu-rule"></div>
 </header>
 
+<!-- Menu injected by menu.js -->
 <div id="menu" class="menu-body"></div>
 
 <footer class="menu-bottom">
 <div class="menu-rule"></div>
 </footer>
+
 </section>
 </main>
 
-<!-- Nuclear cache reset: unregister SW + delete caches -->
-<script>
-(async () => {
-try {
-// Unregister ALL service workers (even old ones from prior filenames)
-if ('serviceWorker' in navigator) {
-const regs = await navigator.serviceWorker.getRegistrations();
-await Promise.all(regs.map(r => r.unregister()));
-}
+<!-- App shell + SW registration -->
+<script src="./app.js?v=2025.12.27.1"></script>
 
-// Clear Cache Storage (where SW usually keeps old CSS/JS)
-if (window.caches && caches.keys) {
-const keys = await caches.keys();
-await Promise.all(keys.map(k => caches.delete(k)));
-}
-} catch (e) {
-// silent: this is just a purge
-}
-})();
-</script>
-
-<script src="/menu.js"></script>
+<!-- Menu renderer -->
+<script src="./menu.js?v=2025.12.27.1"></script>
 </body>
 </html>
+
