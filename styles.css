@@ -1,140 +1,179 @@
-(() => {
-"use strict";
-
-const APP_VERSION = "2025.12.27.4";
-const LS_KEY = "stag_stone_menu_version";
-
-function forceOneTimeRefreshOnVersionChange() {
-try {
-const prev = localStorage.getItem(LS_KEY);
-if (prev !== APP_VERSION) {
-localStorage.setItem(LS_KEY, APP_VERSION);
-const url = new URL(window.location.href);
-url.searchParams.set("v", APP_VERSION);
-window.location.replace(url.toString());
-}
-} catch (_) {}
+/* =========================
+RESET & BASE
+========================= */
+*,
+*::before,
+*::after{
+box-sizing:border-box;
 }
 
-async function registerSW() {
-if (!("serviceWorker" in navigator)) return;
-
-try {
-const reg = await navigator.serviceWorker.register("./sw.js", { scope: "./" });
-reg.update?.();
-
-if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" });
-
-reg.addEventListener("updatefound", () => {
-const sw = reg.installing;
-if (!sw) return;
-sw.addEventListener("statechange", () => {
-if (sw.state === "installed" && navigator.serviceWorker.controller) {
-sw.postMessage({ type: "SKIP_WAITING" });
-}
-});
-});
-
-let reloaded = false;
-navigator.serviceWorker.addEventListener("controllerchange", () => {
-if (reloaded) return;
-reloaded = true;
-window.location.reload();
-});
-} catch (err) {
-console.warn("Service worker registration failed:", err);
-}
+html,body{
+margin:0;
+padding:0;
+width:100%;
+height:100%;
+background:#050403;
+color:#e9eef7;
+font-family:"Cinzel", serif;
 }
 
-// Keep screen awake (when supported)
-let wakeLock = null;
-async function requestWakeLock() {
-try {
-if (!("wakeLock" in navigator)) return;
-wakeLock = await navigator.wakeLock.request("screen");
-
-document.addEventListener("visibilitychange", async () => {
-if (document.visibilityState === "visible") {
-try { wakeLock = await navigator.wakeLock.request("screen"); } catch (_) {}
-}
-});
-} catch (_) {}
+body{
+overflow:hidden;
 }
 
-function fullscreenHotkey() {
-window.addEventListener("keydown", (e) => {
-if (e.key.toLowerCase() !== "f") return;
-if (document.fullscreenElement) document.exitFullscreen?.();
-else document.documentElement.requestFullscreen?.();
-}, { passive: true });
+/* =========================
+ROTATE WARD (PHONES)
+========================= */
+.rotate-ward{
+position:fixed;
+inset:0;
+display:none;
+background:#050403;
+z-index:999;
+align-items:center;
+justify-content:center;
 }
 
-// ===== AUTO-FIT (THE FIX) =====
-function autoFit() {
-const fit = document.querySelector(".fit");
-const menu = document.querySelector("#menu");
-if (!fit || !menu) return;
-
-// Reset scale to measure true content size
-fit.style.transform = "scale(1)";
-
-const fitH = fit.clientHeight;
-const fitW = fit.clientWidth;
-
-// menu scroll sizes reflect content size
-const contentH = menu.scrollHeight;
-const contentW = menu.scrollWidth;
-
-if (!fitH || !fitW || !contentH || !contentW) return;
-
-// Scale down to fit BOTH height and width, with a tiny safety margin
-const sH = fitH / contentH;
-const sW = fitW / contentW;
-const scale = Math.min(1, sH, sW) * 0.985;
-
-fit.style.transform = `scale(${scale.toFixed(4)})`;
+.rotate-ward__text{
+color:#d6b37c;
+letter-spacing:.2em;
+font-size:24px;
 }
 
-function scheduleAutoFit() {
-// Run after layout + fonts settle
-requestAnimationFrame(() => {
-autoFit();
-setTimeout(autoFit, 60);
-setTimeout(autoFit, 220);
-});
+@media (orientation:portrait){
+.rotate-ward{display:flex;}
 }
 
-function init() {
-forceOneTimeRefreshOnVersionChange();
-
-window.addEventListener("load", () => {
-registerSW();
-requestWakeLock();
-fullscreenHotkey();
-
-// Auto-fit now and whenever size changes
-scheduleAutoFit();
-window.addEventListener("resize", scheduleAutoFit);
-
-// If fonts load late, refit
-if (document.fonts && document.fonts.ready) {
-document.fonts.ready.then(scheduleAutoFit).catch(() => {});
-}
-}, { once: true });
+/* =========================
+STAGE
+========================= */
+.stage{
+width:100vw;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-init();
+/* =========================
+PLAQUE / FRAME
+========================= */
+.plaque{
+position:relative;
+width:92vw;
+height:88vh;
+background:
+radial-gradient(circle at 30% 20%, rgba(255,255,255,.04), transparent 55%),
+linear-gradient(#0b0f14,#0b0f14);
+padding:4vh 4vw;
+}
 
-// Expose a manual hook if you ever need it
-window.__AUTO_FIT_MENU__ = autoFit;
-})();
+.frame-outer,
+.frame-inner{
+position:absolute;
+inset:1.5%;
+pointer-events:none;
+}
 
-  .item-desc{
-margin: -0.2vh 0 0.8vh 0;
-padding-left: 0.1vw;
-font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-font-size: clamp(11px, 0.95vw, 14px);
-color: rgba(233,238,247,.62);
-line-height: 1.25;
-max-width: 92%;
+.frame-outer{
+border:2px solid rgba(185,139,85,.55);
+}
+
+.frame-inner{
+inset:2.4%;
+border:1px solid rgba(185,139,85,.25);
+}
+
+/* =========================
+HEADER
+========================= */
+.top{
+text-align:center;
+}
+
+.title{
+margin:0;
+font-size:clamp(32px,4vw,56px);
+letter-spacing:.3em;
+color:#b98b55;
+}
+
+.rule{
+margin:1.5vh auto 3vh;
+width:42%;
+height:1px;
+background:linear-gradient(90deg, transparent, rgba(185,139,85,.6), transparent);
+}
+
+/* =========================
+MENU FIT AREA
+========================= */
+.fit{
+width:100%;
+height:calc(100% - 12vh);
+}
+
+/* =========================
+SECTIONS
+========================= */
+.section{
+margin-bottom:2.6vh;
+}
+
+.section-title{
+text-align:center;
+margin:1.2vh 0 1.2vh;
+font-size:clamp(14px,1.4vw,20px);
+letter-spacing:.22em;
+color:#d6b37c;
+}
+
+/* =========================
+GRID
+========================= */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:3vw;
+}
+
+.list{
+list-style:none;
+margin:0;
+padding:0;
+}
+
+/* =========================
+ITEMS
+========================= */
+.item{
+display:flex;
+justify-content:space-between;
+align-items:baseline;
+gap:1vw;
+margin:.6vh 0;
+}
+
+.item-name{
+letter-spacing:.12em;
+font-size:clamp(13px,1.15vw,18px);
+white-space:nowrap;
+}
+
+.item-price{
+font-size:clamp(12px,1vw,16px);
+color:#d6b37c;
+flex-shrink:0;
+}
+
+/* =========================
+DESCRIPTIONS (SANDWICHES)
+========================= */
+.item-desc{
+margin:-0.2vh 0 0.8vh .2vw;
+max-width:90%;
+font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial;
+font-size:clamp(11px,.9vw,14px);
+color:rgba(233,238,247,.65);
+line-height:1.3;
 }
