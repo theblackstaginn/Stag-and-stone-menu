@@ -2,61 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0f14" />
-  <title>Stag & Stone — Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Hints for app/PWA wrappers -->
+  <meta name="screen-orientation" content="landscape">
+  <meta name="orientation" content="landscape">
+
+  <title>Stag & Stone — Drink Menu</title>
+
+  <!-- Cinzel = ceremonial serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- IMPORTANT: cache-bust while you iterate -->
+  <link rel="stylesheet" href="./styles.css?v=menu1">
 </head>
-<body>
-  <main class="stage" aria-label="Stag & Stone digital menu">
-    <div class="bg" aria-hidden="true"></div>
 
-    <!-- ritual FX layers -->
-    <canvas id="steam" aria-hidden="true"></canvas>
-    <canvas id="embers" aria-hidden="true"></canvas>
+<body class="menu-page">
+  <!-- Portrait ward: keep it intentional -->
+  <div class="menu-rotate-ward" aria-hidden="true">
+    <div class="menu-rotate-ward__text">Rotate Device</div>
+  </div>
 
-    <div class="frame" aria-hidden="true">
-      <div class="frame-inner"></div>
+  <main class="menu-stage">
+    <section class="menu-plaque" role="img" aria-label="Drink Menu">
+      <div class="menu-frame-outer"></div>
+      <div class="menu-frame-inner"></div>
 
-      <!-- rune ring -->
-      <div class="rune-ring" aria-hidden="true">
-        <div class="rune r1">ᚠ</div>
-        <div class="rune r2">ᚢ</div>
-        <div class="rune r3">ᚦ</div>
-        <div class="rune r4">ᚨ</div>
-        <div class="rune r5">ᚱ</div>
-        <div class="rune r6">ᚲ</div>
-        <div class="rune r7">ᚷ</div>
-        <div class="rune r8">ᚹ</div>
-        <div class="rune r9">ᚺ</div>
-        <div class="rune r10">ᚾ</div>
-        <div class="rune r11">ᛃ</div>
-        <div class="rune r12">ᛇ</div>
-      </div>
-    </div>
-
-    <!-- content -->
-    <section class="menu" role="region" aria-label="Menu content">
-      <header class="menu-header">
-        <div class="brand">Stag &amp; Stone</div>
-        <div class="subtitle">Coffeehouse Menu</div>
-        <div class="note">Pressed to order • Seasonal rotation • Selection varies</div>
+      <header class="menu-top">
+        <h1 class="menu-title">Drink Menu</h1>
+        <div class="menu-rule"></div>
       </header>
 
-      <div class="grid" id="menuGrid">
-        <!-- JS renders here -->
-      </div>
+      <div id="menu" class="menu-body"></div>
 
-      <footer class="menu-footer">
-        <div class="tiny">
-          Ask about seasonal specials • Hot or iced as available • Prices shown as plain numbers (tax not included if applicable)
-        </div>
+      <footer class="menu-bottom">
+        <div class="menu-rule"></div>
       </footer>
     </section>
   </main>
 
-  <script src="menu.js"></script>
+  <script src="./menu.js?v=menu1"></script>
 </body>
 </html>
