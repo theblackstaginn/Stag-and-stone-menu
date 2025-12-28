@@ -201,3 +201,33 @@ body{
 @media (prefers-reduced-motion: reduce){
   #embers{ display:none; }
 }
+/* Rendered-by-app.js class mapping */
+.section-block{ margin-top: 14px; }
+.section-block:first-child{ margin-top: 0; }
+
+.sect-title{
+  font-size: var(--sec);
+  text-align:center;
+  margin: 14px 0 8px;
+  letter-spacing:.08em;
+}
+
+.item-line{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  font-size: var(--name);
+}
+
+.item-name{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  min-width:0;
+}
+
+.item-price{
+  white-space:nowrap;
+  letter-spacing:.08em;
+  flex:0 0 auto;
+}
