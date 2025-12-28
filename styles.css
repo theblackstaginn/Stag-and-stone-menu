@@ -99,7 +99,7 @@ HEADER
 }
 
 .rule{
-  margin:1.2vh auto 1.8vh; /* tighter bottom gap */
+  margin:1vh auto 1.8vh; /* tighter */
   width:42%;
   height:1px;
   background:linear-gradient(90deg, transparent, rgba(185,139,85,.6), transparent);
@@ -110,10 +110,10 @@ MENU FIT AREA
 ========================= */
 .fit{
   width:100%;
-  height:calc(100% - 10vh);
+  height:calc(100% - 8vh); /* was 10vh */
   position:relative;
   overflow:hidden;
-  transform: scale(1.08);
+  transform: scale(1.12);
   transform-origin: top center;
 }
 
@@ -128,7 +128,11 @@ MENU FIT AREA
 SECTIONS
 ========================= */
 .section{
-  margin-bottom:2.2vh;
+  margin-bottom:2vh;
+}
+
+.section:last-of-type{
+  margin-bottom:0;
 }
 
 .section-title{
