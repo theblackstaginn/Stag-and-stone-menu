@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2025.12.27.3";
+const CACHE_VERSION = "2025.12.27.4";
 const CACHE_NAME = `stag-stone-menu-${CACHE_VERSION}`;
 
 // Core files required for offline display
