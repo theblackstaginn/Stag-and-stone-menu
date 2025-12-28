@@ -4,50 +4,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0b0f14" />
-  <title>Stag &amp; Stone Menu</title>
+  <title>Stag & Stone Menu</title>
 
-  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <!-- FULL VIEWPORT STAGE -->
-  <main class="screen" aria-label="Stag & Stone Menu">
-    <!-- BORDER CONTAINER: background image lives on this element via CSS -->
-    <div class="border" role="presentation">
-      <!-- FX LAYERS (sit ABOVE border image but BELOW text) -->
-      <div class="runes runes-top" aria-hidden="true"></div>
-      <div class="runes runes-bottom" aria-hidden="true"></div>
-      <canvas id="embers" aria-hidden="true"></canvas>
+  <main class="stage" aria-label="Stag & Stone Menu">
+    <!-- Border image (full-screen) -->
+    <div class="border" aria-hidden="true"></div>
 
-      <!-- CONTENT (must fit INSIDE border safe-zone) -->
-      <section class="content" role="document">
-        <header class="masthead">
-          <h1 class="title">STAG &amp; STONE</h1>
-          <div class="rule" aria-hidden="true"></div>
-        </header>
+    <!-- Effects (optional) -->
+    <div class="runes runes-top" aria-hidden="true"></div>
+    <div class="runes runes-bottom" aria-hidden="true"></div>
+    <canvas id="embers" aria-hidden="true"></canvas>
 
-        <!-- VERTICAL LAYOUT BLOCKS -->
-        <section class="stack" aria-label="Menu sections">
-          <div class="row2">
-            <section class="block" id="houseCoffees"></section>
-            <section class="block" id="espressoClassics"></section>
-          </div>
+    <!-- Content lives INSIDE the border and scrolls -->
+    <section class="content" role="document">
+      <header class="masthead">
+        <h1 class="title">STAG &amp; STONE</h1>
+        <div class="rule" aria-hidden="true"></div>
+      </header>
 
-          <div class="row2">
-            <section class="block" id="featuredLattes"></section>
-            <section class="block" id="signatureCoffeehouse"></section>
-          </div>
+      <!-- Scroll container -->
+      <section class="stack" aria-label="Menu">
+        <div class="row2">
+          <section class="block" id="houseCoffees"></section>
+          <section class="block" id="espressoClassics"></section>
+        </div>
 
-          <section class="block center" id="teasHerbals"></section>
+        <div class="row2">
+          <section class="block" id="featuredLattes"></section>
+          <section class="block" id="signatureCoffeehouse"></section>
+        </div>
 
-          <div class="row2">
-            <section class="block" id="sandwiches"></section>
-            <section class="block" id="pastries"></section>
-          </div>
-        </section>
+        <section class="block center" id="teasHerbals"></section>
+
+        <div class="row2">
+          <section class="block" id="sandwiches"></section>
+          <section class="block" id="pastries"></section>
+        </div>
       </section>
-    </div>
+    </section>
   </main>
 
   <script src="menu.js"></script>
