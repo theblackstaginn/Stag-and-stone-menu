@@ -1,15 +1,7 @@
-/* sw.js — Stag & Stone Menu Offline Cache
-Strategy:
-- HTML: network-first (keeps updates snappy)
-- CSS/JS/fonts/images: stale-while-revalidate (fast + updates in background)
-- Versioned cache name to avoid stale asset traps
-*/
-
-const CACHE_VERSION = "2025.12.27.1";
+const CACHE_VERSION = "2025.12.27.3";
 const CACHE_NAME = `stag-stone-menu-${CACHE_VERSION}`;
 
-// Core assets to pre-cache for offline use.
-// IMPORTANT: keep these relative; GitHub Pages project sites live in a subpath.
+// Core files required for offline display
 const CORE_ASSETS = [
 "./",
 "./index.html",
@@ -17,28 +9,27 @@ const CORE_ASSETS = [
 "./menu.js",
 "./app.js",
 "./manifest.webmanifest"
-// Add icons when you have them:
+// Add icons later if desired:
 // "./icons/icon-192.png",
 // "./icons/icon-512.png"
 ];
 
-// ------------------------------
-// Install: pre-cache core assets
-// ------------------------------
+// INSTALL — cache core assets
 self.addEventListener("install", (event) => {
 self.skipWaiting();
 event.waitUntil(
 (async () => {
 const cache = await caches.open(CACHE_NAME);
-// Use {cache: "reload"} to bypass any intermediate caches on install
-await cache.addAll(CORE_ASSETS.map(u => new Request(u, { cache: "reload" })));
+await cache.addAll(
+CORE_ASSETS.map(
+(url) => new Request(url, { cache: "reload" })
+)
+);
 })()
 );
 });
 
-// ------------------------------
-// Activate: purge old caches
-// ------------------------------
+// ACTIVATE — delete old caches
 self.addEventListener("activate", (event) => {
 event.waitUntil(
 (async () => {
@@ -55,67 +46,53 @@ await self.clients.claim();
 );
 });
 
-// ------------------------------
-// Message: allow app.js to trigger immediate activation
-// ------------------------------
+// ALLOW IMMEDIATE ACTIVATION
 self.addEventListener("message", (event) => {
-const msg = event?.data;
-if (!msg || typeof msg !== "object") return;
-
-if (msg.type === "SKIP_WAITING") {
+if (event?.data?.type === "SKIP_WAITING") {
 self.skipWaiting();
 }
 });
 
-// ------------------------------
-// Fetch handlers
-// ------------------------------
+// FETCH STRATEGY
 self.addEventListener("fetch", (event) => {
 const req = event.request;
 
-// Only handle GET
 if (req.method !== "GET") return;
 
 const url = new URL(req.url);
 
-// Ignore non-http(s)
-if (url.protocol !== "http:" && url.protocol !== "https:") return;
-
-// Only same-origin caching (keeps behavior predictable)
+// Only handle same-origin requests
 if (url.origin !== self.location.origin) return;
 
-const dest = req.destination; // "document", "style", "script", "image", "font", etc.
+const accept = req.headers.get("accept") || "";
 
-// 1) HTML/documents: Network-first
-if (dest === "document" || req.headers.get("accept")?.includes("text/html")) {
+// HTML — network first (so updates appear quickly)
+if (accept.includes("text/html")) {
 event.respondWith(networkFirst(req));
 return;
 }
 
-// 2) Everything else: stale-while-revalidate
+// Everything else — stale-while-revalidate
 event.respondWith(staleWhileRevalidate(req));
 });
 
-// ------------------------------
-// Strategies
-// ------------------------------
+// ---------- Strategies ----------
+
 async function networkFirst(req) {
 const cache = await caches.open(CACHE_NAME);
+
 try {
 const fresh = await fetch(req);
-// Cache successful responses
 if (fresh && fresh.ok) {
 cache.put(req, fresh.clone());
 }
 return fresh;
-} catch (err) {
-// Offline: return cached, or fallback to cached index
+} catch (_) {
 const cached = await cache.match(req);
 if (cached) return cached;
 
-// If someone hits a page offline, try returning index as a last resort
 const fallback = await cache.match("./index.html");
-return fallback || new Response("Offline", { status: 503, statusText: "Offline" });
+return fallback || new Response("Offline", { status: 503 });
 }
 }
 
@@ -123,6 +100,7 @@ async function staleWhileRevalidate(req) {
 const cache = await caches.open(CACHE_NAME);
 
 const cached = await cache.match(req);
+
 const fetchPromise = fetch(req)
 .then((fresh) => {
 if (fresh && fresh.ok) {
@@ -132,15 +110,11 @@ return fresh;
 })
 .catch(() => null);
 
-// If cached exists, return immediately; update happens in background.
 if (cached) return cached;
 
-// Otherwise wait for network; if that fails, attempt a core fallback
 const fresh = await fetchPromise;
 if (fresh) return fresh;
 
-// Minimal fallback for offline:
-// try returning index if request is for a known core asset
 const fallback = await cache.match("./index.html");
-return fallback || new Response("Offline", { status: 503, statusText: "Offline" });
+return fallback || new Response("Offline", { status: 503 });
 }
