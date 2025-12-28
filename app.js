@@ -1,8 +1,7 @@
 (() => {
 "use strict";
 
-// IMPORTANT: bump this when you want a guaranteed refresh
-const APP_VERSION = "2025.12.27.3";
+const APP_VERSION = "2025.12.27.4";
 const LS_KEY = "stag_stone_menu_version";
 
 function forceOneTimeRefreshOnVersionChange() {
@@ -10,14 +9,11 @@ try {
 const prev = localStorage.getItem(LS_KEY);
 if (prev !== APP_VERSION) {
 localStorage.setItem(LS_KEY, APP_VERSION);
-
 const url = new URL(window.location.href);
 url.searchParams.set("v", APP_VERSION);
 window.location.replace(url.toString());
 }
-} catch (_) {
-// If storage is blocked, we just skip.
-}
+} catch (_) {}
 }
 
 async function registerSW() {
@@ -25,20 +21,13 @@ if (!("serviceWorker" in navigator)) return;
 
 try {
 const reg = await navigator.serviceWorker.register("./sw.js", { scope: "./" });
-
-// Ask it to update ASAP
 reg.update?.();
 
-// If there's a waiting worker, activate it immediately
-if (reg.waiting) {
-reg.waiting.postMessage({ type: "SKIP_WAITING" });
-}
+if (reg.waiting) reg.waiting.postMessage({ type: "SKIP_WAITING" });
 
-// When a new worker installs, skip waiting
 reg.addEventListener("updatefound", () => {
 const sw = reg.installing;
 if (!sw) return;
-
 sw.addEventListener("statechange", () => {
 if (sw.state === "installed" && navigator.serviceWorker.controller) {
 sw.postMessage({ type: "SKIP_WAITING" });
@@ -46,7 +35,6 @@ sw.postMessage({ type: "SKIP_WAITING" });
 });
 });
 
-// Reload once when the new SW takes control
 let reloaded = false;
 navigator.serviceWorker.addEventListener("controllerchange", () => {
 if (reloaded) return;
@@ -58,7 +46,7 @@ console.warn("Service worker registration failed:", err);
 }
 }
 
-// Keep the menu awake (Chromium signage devices often support this)
+// Keep screen awake (when supported)
 let wakeLock = null;
 async function requestWakeLock() {
 try {
@@ -67,9 +55,7 @@ wakeLock = await navigator.wakeLock.request("screen");
 
 document.addEventListener("visibilitychange", async () => {
 if (document.visibilityState === "visible") {
-try {
-wakeLock = await navigator.wakeLock.request("screen");
-} catch (_) {}
+try { wakeLock = await navigator.wakeLock.request("screen"); } catch (_) {}
 }
 });
 } catch (_) {}
@@ -78,13 +64,44 @@ wakeLock = await navigator.wakeLock.request("screen");
 function fullscreenHotkey() {
 window.addEventListener("keydown", (e) => {
 if (e.key.toLowerCase() !== "f") return;
-
-if (document.fullscreenElement) {
-document.exitFullscreen?.();
-} else {
-document.documentElement.requestFullscreen?.();
-}
+if (document.fullscreenElement) document.exitFullscreen?.();
+else document.documentElement.requestFullscreen?.();
 }, { passive: true });
+}
+
+// ===== AUTO-FIT (THE FIX) =====
+function autoFit() {
+const fit = document.querySelector(".fit");
+const menu = document.querySelector("#menu");
+if (!fit || !menu) return;
+
+// Reset scale to measure true content size
+fit.style.transform = "scale(1)";
+
+const fitH = fit.clientHeight;
+const fitW = fit.clientWidth;
+
+// menu scroll sizes reflect content size
+const contentH = menu.scrollHeight;
+const contentW = menu.scrollWidth;
+
+if (!fitH || !fitW || !contentH || !contentW) return;
+
+// Scale down to fit BOTH height and width, with a tiny safety margin
+const sH = fitH / contentH;
+const sW = fitW / contentW;
+const scale = Math.min(1, sH, sW) * 0.985;
+
+fit.style.transform = `scale(${scale.toFixed(4)})`;
+}
+
+function scheduleAutoFit() {
+// Run after layout + fonts settle
+requestAnimationFrame(() => {
+autoFit();
+setTimeout(autoFit, 60);
+setTimeout(autoFit, 220);
+});
 }
 
 function init() {
@@ -94,8 +111,20 @@ window.addEventListener("load", () => {
 registerSW();
 requestWakeLock();
 fullscreenHotkey();
+
+// Auto-fit now and whenever size changes
+scheduleAutoFit();
+window.addEventListener("resize", scheduleAutoFit);
+
+// If fonts load late, refit
+if (document.fonts && document.fonts.ready) {
+document.fonts.ready.then(scheduleAutoFit).catch(() => {});
+}
 }, { once: true });
 }
 
 init();
+
+// Expose a manual hook if you ever need it
+window.__AUTO_FIT_MENU__ = autoFit;
 })();
