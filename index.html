@@ -3,35 +3,27 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
 <title>Stag & Stone — Drink Menu</title>
 
-<!-- Hints for wrappers (not guaranteed, but harmless) -->
-<meta name="screen-orientation" content="landscape">
-<meta name="orientation" content="landscape">
-
-<!-- PWA basics -->
 <meta name="theme-color" content="#050403" />
-<link rel="manifest" href="./manifest.webmanifest">
+<link rel="manifest" href="./manifest.webmanifest" />
 
-<!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
 
-<!-- Styles (relative paths for GitHub Pages project sites) -->
-<link rel="stylesheet" href="./styles.css?v=2025.12.27.1">
+<link rel="stylesheet" href="./styles.css?v=2025.12.27.2">
 </head>
 
 <body class="menu-page">
 
-<!-- Portrait ward (shown only on small screens in portrait; CSS controls visibility) -->
+<!-- Phone-only portrait ward (CSS decides when to show) -->
 <div class="menu-rotate-ward" aria-hidden="true">
 <div class="menu-rotate-ward__text">Rotate Device</div>
 </div>
 
 <main class="menu-stage">
-<section class="menu-plaque" aria-label="Drink Menu">
+<section class="menu-plaque" aria-label="Menu Board">
 
 <div class="menu-frame-outer"></div>
 <div class="menu-frame-inner"></div>
@@ -41,21 +33,15 @@
 <div class="menu-rule"></div>
 </header>
 
-<!-- Menu injected by menu.js -->
+<!-- FIT WRAPPER prevents clipping inside the frame -->
+<div class="menu-fit">
 <div id="menu" class="menu-body"></div>
-
-<footer class="menu-bottom">
-<div class="menu-rule"></div>
-</footer>
+</div>
 
 </section>
 </main>
 
-<!-- App shell + SW registration -->
-<script src="./app.js?v=2025.12.27.1"></script>
-
-<!-- Menu renderer -->
-<script src="./menu.js?v=2025.12.27.1"></script>
+<script src="./app.js?v=2025.12.27.2"></script>
+<script src="./menu.js?v=2025.12.27.2"></script>
 </body>
 </html>
-
