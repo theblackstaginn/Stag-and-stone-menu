@@ -88,21 +88,19 @@ PLAQUE / FRAME
 HEADER
 ========================= */
 .top{
-  text-align:center;
+  margin-bottom:1.2vh;
 }
 
 .title{
   margin:0;
-  font-size:clamp(34px,4.3vw,60px);
-  letter-spacing:.30em;
+  font-size:clamp(36px,4.2vw,58px);
+  letter-spacing:.28em;
   color:#b98b55;
 }
 
 .rule{
-  margin:1vh auto 1.8vh; /* tighter */
-  width:42%;
-  height:1px;
-  background:linear-gradient(90deg, transparent, rgba(185,139,85,.6), transparent);
+  margin:.8vh auto 1.2vh;
+  width:38%;
 }
 
 /* =========================
