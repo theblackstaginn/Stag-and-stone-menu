@@ -271,3 +271,60 @@ body{
   .pill .title{font-size:20px}
   .price{font-size:18px}
 }
+
+/* ===========================
+   MENU PAGE HARD OVERRIDES
+   Prevent site CSS conflicts
+   =========================== */
+
+.plaque .menu ul{
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.plaque .menu li{
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  padding: .45vh 0 !important;
+}
+
+.plaque .menu .item{
+  display: inline-block !important;
+  font-family: "Cinzel", serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: .10em !important;
+  font-size: clamp(14px, 1.25vw, 22px) !important;
+
+  /* copper */
+  background: linear-gradient(180deg, rgba(240,179,91,.95), rgba(213,122,31,.92) 55%, rgba(122,58,16,.95)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.75), 0 0 12px rgba(255,140,40,.12) !important;
+}
+
+.plaque .menu .price{
+  display: inline-block !important;
+  font-family: "Cinzel", serif !important;
+  font-size: clamp(13px, 1.1vw, 20px) !important;
+  letter-spacing: .10em !important;
+  white-space: nowrap !important;
+
+  color: rgba(240,179,91,.90) !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.80), 0 0 12px rgba(255,140,40,.10) !important;
+}
+
+/* Section headers: force the plaque style */
+.plaque .section h2{
+  color: transparent !important;
+  background: linear-gradient(180deg, #f0b35b, #d57a1f 55%, #7a3a10) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  text-shadow: 0 1px 0 rgba(0,0,0,.70), 0 0 16px rgba(255,140,40,.14) !important;
+  font-family:"Cinzel", serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: .12em !important;
+}
