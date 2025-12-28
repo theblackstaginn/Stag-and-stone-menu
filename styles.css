@@ -1,249 +1,124 @@
 /* =========================
-   Stag & Stone — Vertical TV-safe Menu
-   ========================= */
-
-:root{
-  --bg:#07090c;               /* outside stage */
-  --ink:#e9dcc8;              /* base text */
-  --muted:rgba(233,220,200,.72);
-  --dim:rgba(233,220,200,.55);
-
-  /* copper “lit metal” */
-  --copper1:#f3d7a6;
-  --copper2:#c88b4a;
-  --copper3:#7a4a22;
-
-  --safePad: clamp(18px, 2.2vmin, 34px);
-  --contentW: min(92vw, 980px);
-  --contentH: min(92vh, 1700px);
-
-  /* spacing */
-  --hGap: clamp(18px, 2.3vmin, 34px);
-  --vGap: clamp(12px, 1.8vmin, 26px);
-  --blockPad: clamp(10px, 1.7vmin, 22px);
-
-  --titleSize: clamp(30px, 4.4vmin, 56px);
-  --sectionSize: clamp(18px, 2.0vmin, 26px);
-  --itemSize: clamp(14px, 1.45vmin, 18px);
-  --descSize: clamp(12px, 1.25vmin, 15px);
+   RESET & ROOT
+========================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  background: radial-gradient(1200px 800px at 50% 20%, #101622 0%, var(--bg) 55%, #050607 100%);
-  color:var(--ink);
-  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-  overflow:hidden; /* TV display mode: no scrolling */
-}
-
-/* Stage: centers a portrait-ish board within any screen */
-.stage{
-  position:relative;
-  width:100vw;
-  height:100vh;
-  display:grid;
-  place-items:center;
-}
-
-/* Mossy border image (repo root, case-sensitive) */
-.border{
-  position:absolute;
-  inset:0;
-  background-image:url("moss-border.PNG");
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size: contain;  /* never crop */
-  filter: drop-shadow(0 18px 45px rgba(0,0,0,.65));
-  z-index:0;
-  pointer-events:none;
-}
-
-/* Runes: only in top/bottom “empty space” zones */
-.runes{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  width: min(92vw, 980px);
-  pointer-events:none;
-  opacity:.14;
-  z-index:2;
-  mix-blend-mode: screen;
-  filter: blur(.2px);
-}
-.runes-top{
-  top: max(10px, 2vh);
-  height: 10vh;
-  background:
-    radial-gradient(10px 10px at 10% 60%, rgba(200,140,80,.35), transparent 60%),
-    radial-gradient(9px 9px at 30% 30%, rgba(200,140,80,.28), transparent 60%),
-    radial-gradient(12px 12px at 55% 55%, rgba(200,140,80,.22), transparent 62%),
-    radial-gradient(10px 10px at 80% 35%, rgba(200,140,80,.30), transparent 62%),
-    radial-gradient(9px 9px at 92% 65%, rgba(200,140,80,.24), transparent 62%);
-}
-.runes-bottom{
-  bottom: max(10px, 2vh);
-  height: 12vh;
-  background:
-    radial-gradient(10px 10px at 12% 40%, rgba(200,140,80,.25), transparent 60%),
-    radial-gradient(12px 12px at 28% 70%, rgba(200,140,80,.22), transparent 62%),
-    radial-gradient(10px 10px at 52% 50%, rgba(200,140,80,.20), transparent 62%),
-    radial-gradient(12px 12px at 76% 60%, rgba(200,140,80,.24), transparent 62%),
-    radial-gradient(10px 10px at 90% 35%, rgba(200,140,80,.22), transparent 62%);
-}
-
-/* Embers canvas overlay */
-#embers{
-  position:absolute;
-  inset:0;
-  z-index:3;
-  pointer-events:none;
-}
-
-/* Content sits above border/runes/embers properly */
-.content{
-  position:relative;
-  z-index:1;
-  width: var(--contentW);
-  height: var(--contentH);
-  max-height: 92vh;
-  padding: var(--safePad);
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  gap: var(--vGap);
-}
-
-/* Title */
-.masthead{
-  text-align:center;
-  padding-top: clamp(6px, 1.2vmin, 14px);
-}
-.title{
-  margin:0;
-  font-size: var(--titleSize);
-  letter-spacing: .18em;
-  text-transform: uppercase;
-
-  /* copper “illuminated metal” */
-  background: linear-gradient(180deg, var(--copper1), var(--copper2) 55%, var(--copper3));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-
-  text-shadow:
-    0 1px 0 rgba(0,0,0,.55),
-    0 10px 26px rgba(0,0,0,.55),
-    0 0 10px rgba(226,170,96,.12);
-}
-.rule{
-  margin: clamp(10px, 1.4vmin, 16px) auto 0;
-  width: min(72ch, 90%);
-  height:1px;
-  background: linear-gradient(90deg, transparent, rgba(230,185,120,.35), transparent);
-}
-
-/* Stack layout blocks */
-.stack{
-  display:flex;
-  flex-direction:column;
-  gap: var(--vGap);
-  flex:1;
-  min-height:0;
-}
-
-.row2{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--hGap);
-}
-
-.block{
-  padding: var(--blockPad);
-  border-radius: 16px;
-  background: rgba(0,0,0,.18);
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.06),
-    0 14px 30px rgba(0,0,0,.35);
-}
-
-.block.center{
-  width: min(78ch, 100%);
-  margin: 0 auto;
-}
-
-/* Section heading */
-.section-title{
-  margin:0 0 10px 0;
-  text-align:center;
-  font-size: var(--sectionSize);
-  letter-spacing:.08em;
-  text-transform: uppercase;
-
-  background: linear-gradient(180deg, var(--copper1), var(--copper2) 55%, var(--copper3));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-
-  text-shadow:
-    0 1px 0 rgba(0,0,0,.55),
-    0 10px 22px rgba(0,0,0,.45),
-    0 0 10px rgba(226,170,96,.10);
-}
-.section-rule{
-  height:1px;
+html, body {
+  margin: 0;
   width: 100%;
-  margin: 0 auto 12px;
-  background: linear-gradient(90deg, transparent, rgba(230,185,120,.25), transparent);
+  height: 100%;
+  background: #05070b;
+  font-family: "Cormorant Garamond", serif;
+  color: #e6d8c3;
 }
 
-/* Menu items */
-.item{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap: 16px;
-  padding: 6px 0;
+/* =========================
+   SCREEN (FULL VIEWPORT)
+========================= */
+.screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #05070b;
 }
 
-.name{
-  font-size: var(--itemSize);
-  font-weight: 600;
-  letter-spacing:.02em;
-  color: rgba(245,230,210,.92);
-  text-shadow: 0 1px 0 rgba(0,0,0,.6);
+/* =========================
+   BORDER (FITS SCREEN)
+========================= */
+.border {
+  position: relative;
+  width: min(92vw, 92vh * 9 / 16);
+  height: min(92vh, 92vw * 16 / 9);
+
+  background-image: url("moss-border.PNG");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.price{
-  font-size: var(--itemSize);
-  letter-spacing:.12em;
-  color: rgba(245,230,210,.84);
-  text-shadow: 0 1px 0 rgba(0,0,0,.6);
+/* =========================
+   CONTENT (INSIDE BORDER)
+========================= */
+.content {
+  width: 82%;
+  height: 84%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 2vh 2vw;
 }
 
-/* “longer space than normal” feel: dotted leader line */
-.leader{
-  flex:1;
-  height:1px;
-  margin: 0 10px;
-  align-self:center;
-  background: linear-gradient(90deg, rgba(230,185,120,.0), rgba(230,185,120,.18), rgba(230,185,120,.0));
-  opacity:.55;
+/* =========================
+   TITLE
+========================= */
+.title {
+  font-size: clamp(28px, 4.2vh, 64px);
+  letter-spacing: 0.12em;
+  margin-bottom: 2vh;
+  color: #c9a26a;
+  text-align: center;
 }
 
-/* Description (short) */
-.desc{
-  margin: -2px 0 6px 0;
-  font-size: var(--descSize);
-  color: var(--muted);
-  line-height: 1.25;
+/* =========================
+   SECTIONS
+========================= */
+.section {
+  width: 100%;
+  margin-bottom: 3vh;
 }
 
-/* Keep everything readable on small phones too */
-@media (max-width: 520px){
-  body{ overflow:auto; } /* allow scroll on tiny screens */
-  .content{ height:auto; max-height:none; }
-  .row2{ grid-template-columns: 1fr; }
-  .block.center{ width: 100%; }
+.section h2 {
+  text-align: center;
+  font-size: clamp(18px, 2.6vh, 36px);
+  letter-spacing: 0.08em;
+  margin-bottom: 1.2vh;
+  color: #b89662;
+  border-bottom: 1px solid rgba(200,160,90,0.35);
+  padding-bottom: 0.6vh;
+}
+
+/* =========================
+   MENU ITEMS
+========================= */
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1vw;
+  margin-bottom: 1.2vh;
+}
+
+.item-name {
+  font-size: clamp(15px, 2vh, 22px);
+}
+
+.item-desc {
+  font-size: clamp(12px, 1.6vh, 18px);
+  opacity: 0.7;
+}
+
+.price {
+  font-size: clamp(14px, 2vh, 22px);
+  color: #c9a26a;
+}
+
+/* =========================
+   TV SAFETY
+========================= */
+@media (min-width: 1400px) {
+  .border {
+    width: 80vw;
+    height: 90vh;
+  }
 }
