@@ -1,14 +1,15 @@
 {
-"name": "Stag & Stone Drink Menu",
+"name": "Stag & Stone Menu",
 "short_name": "Stag & Stone",
-"description": "Stag & Stone Coffeehouse — Digital Drink Menu",
+"description": "Stag & Stone Coffeehouse — Digital Menu Board",
 "lang": "en-US",
 
-"start_url": "./index.html",
+"start_url": "./index.html?v=2025.12.27.3",
 "scope": "./",
 
 "display": "standalone",
 "orientation": "landscape",
+
 "background_color": "#050403",
 "theme_color": "#050403",
 
