@@ -128,3 +128,13 @@ init();
 // Expose a manual hook if you ever need it
 window.__AUTO_FIT_MENU__ = autoFit;
 })();
+
+  .item-desc{
+margin: -0.2vh 0 0.8vh 0;
+padding-left: 0.1vw;
+font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+font-size: clamp(11px, 0.95vw, 14px);
+color: rgba(233,238,247,.62);
+line-height: 1.25;
+max-width: 92%;
+}
