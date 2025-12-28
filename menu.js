@@ -61,6 +61,7 @@ columns: [
 ]
 },
 
+// ALWAYS LAST (per your instruction)
 {
 title: "Sandwiches",
 columns: [
@@ -93,28 +94,31 @@ return s.startsWith("$") ? s : `$${s}`;
 function renderMenu() {
 const root = document.getElementById("menu");
 if (!root) return;
+
 root.innerHTML = "";
 
 MENU.forEach((sectionData) => {
-const section = el("section", "menu-section");
-section.appendChild(
-el("h2", "menu-section-title", (sectionData.title || "").trim())
-);
+const section = el("section", "section");
 
-const grid = el("div", "menu-grid");
+const title = el("h2", "section-title", (sectionData.title || "").trim());
+section.appendChild(title);
+
+const grid = el("div", "grid");
+
 const cols = Array.isArray(sectionData.columns) ? sectionData.columns : [];
-
 cols.forEach((col) => {
-const list = el("ul", "menu-list");
-const items = Array.isArray(col) ? col : [];
+const list = el("ul", "list");
 
+const items = Array.isArray(col) ? col : [];
 items.forEach((item) => {
 const name = (item?.name ?? "").toString().trim();
 if (!name) return;
 
-const li = el("li", "menu-item");
-li.appendChild(el("span", "menu-item-name", name));
-li.appendChild(el("span", "menu-item-price", normalizePrice(item?.price)));
+const li = el("li", "item");
+
+li.appendChild(el("span", "item-name", name));
+li.appendChild(el("span", "item-price", normalizePrice(item?.price)));
+
 list.appendChild(li);
 });
 
