@@ -1,3 +1,4 @@
+// Stag & Stone Drink Menu Data
 const MENU = [
   {
     title: "House Coffees",
@@ -56,32 +57,38 @@ const MENU = [
   },
 ];
 
-function el(tag, cls, text){
+function el(tag, className, text){
   const n = document.createElement(tag);
-  if (cls) n.className = cls;
+  if (className) n.className = className;
   if (text != null) n.textContent = text;
   return n;
 }
 
 function renderMenu(){
   const root = document.getElementById("menu");
+  if (!root) return;
+
   root.innerHTML = "";
 
   MENU.forEach(sec => {
-    const section = el("section", "section");
-    section.appendChild(el("h2", "", sec.title));
+    const section = el("section", "menu-section");
 
-    const grid = el("div", "grid");
+    const title = el("h2", "menu-section-title", sec.title);
+    section.appendChild(title);
+
+    const grid = el("div", "menu-grid");
 
     sec.columns.forEach(col => {
-      const ul = el("ul");
+      const ul = el("ul", "menu-list");
 
       col.forEach(item => {
-        const li = el("li");
+        const li = el("li", "menu-item");
 
-        li.appendChild(el("span", "item", item.name));
-        li.appendChild(el("span", "price", item.price ? `$${item.price}` : ""));
+        const name = el("span", "menu-item-name", item.name);
+        const price = el("span", "menu-item-price", item.price ? `$${item.price}` : "");
 
+        li.appendChild(name);
+        li.appendChild(price);
         ul.appendChild(li);
       });
 
