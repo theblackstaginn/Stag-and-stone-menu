@@ -110,11 +110,10 @@ MENU FIT AREA
 ========================= */
 .fit{
   width:100%;
-  height:calc(100% - 8vh); /* was 10vh */
-  position:relative;
-  overflow:hidden;
-  transform: scale(1.12);
-  transform-origin: top center;
+  height:calc(100% - 7vh); /* tighter than before */
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
 }
 
 /* This is what we scale */
