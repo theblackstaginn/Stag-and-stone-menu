@@ -1,185 +1,232 @@
 /* =========================
-   RESET
-========================= */
-*,
-*::before,
-*::after { box-sizing: border-box; }
+   Stag & Stone — Menu CSS
+   Viewport-locked border + scrollable interior
+   ========================= */
 
-html, body{
-  width: 100%;
-  height: 100%;
-  margin: 0;
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
   background: #0b0f14;
-  color: #e9dccb;
-  font-family: "Cormorant Garamond", Garamond, serif;
+  overflow: hidden; /* IMPORTANT: stage handles scrolling */
+  color: #f2e6d2;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
-/* =========================
-   STAGE: FULL SCREEN
-========================= */
-.stage{
-  position: relative;
+/* ---------- Stage (viewport) ---------- */
+.stage {
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
-  background: #0b0f14;
+
+  /* Subtle “charcoal night” — no texture, no vignette */
+  background: radial-gradient(ellipse at 50% 35%, #121a26 0%, #070a0f 72%);
 }
 
-/* =========================
-   BORDER: SNAP TO ANY SCREEN
-   - contain = no cropping
-   - centered
-========================= */
-.border{
-  position: absolute;
+/* ---------- Border image (always fits screen) ---------- */
+.border {
+  position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 10;
   pointer-events: none;
-  background: url("moss-border.PNG") center / contain no-repeat;
+
+  background-image: url("moss-border.PNG");
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  /* Snap to screen */
+  background-size: contain;
+
+  /* If you want it to fully cover edges even on odd ratios,
+     change contain -> cover. Start with contain. */
 }
 
-/* =========================
-   CONTENT SAFE AREA (inside border)
-   This is the ONLY calibration knob.
-========================= */
-.content{
-  position: absolute;
-  z-index: 3;
-
-  /* These create the inner "safe area" */
-  top:    clamp(90px, 8vh, 150px);
-  bottom: clamp(90px, 8vh, 150px);
-  left:   clamp(70px, 6vw, 130px);
-  right:  clamp(70px, 6vw, 130px);
-
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* stack scrolls, not the whole page */
+/* ---------- Runes layers (only in empty space zones) ---------- */
+.runes {
+  position: fixed;
+  left: 0;
+  width: 100vw;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.14; /* subtle */
+  mix-blend-mode: screen;
+  filter: blur(0.2px);
 }
 
-/* =========================
-   HEADER
-========================= */
-.masthead{
-  text-align: center;
-  padding: clamp(6px, 1vh, 14px) 0;
+/* keep runes out of the “main reading zone” */
+.runes-top { top: 0; height: 16vh; }
+.runes-bottom { bottom: 0; height: 18vh; }
+
+/* Minimal rune pattern placeholder (no assets required) */
+.runes-top,
+.runes-bottom {
+  background:
+    radial-gradient(circle at 10% 60%, rgba(200,170,120,.18), transparent 45%),
+    radial-gradient(circle at 40% 35%, rgba(200,170,120,.14), transparent 50%),
+    radial-gradient(circle at 80% 55%, rgba(200,170,120,.16), transparent 48%);
 }
 
-.title{
-  margin: 0;
-  font-size: clamp(34px, 4.2vh, 58px);
-  letter-spacing: .18em;
-  color: #c8a36b;
-  text-shadow: 0 2px 10px rgba(0,0,0,.75);
+/* ---------- Embers canvas ---------- */
+#embers {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0.55;
 }
 
-.rule{
-  margin: clamp(6px, 1vh, 12px) auto 0;
-  width: min(70%, 860px);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,163,107,.55), transparent);
-}
+/* ---------- Content (scrolls inside border) ---------- */
+.content {
+  position: relative;
+  z-index: 30;
 
-/* =========================
-   SCROLL AREA (inside border)
-========================= */
-.stack{
-  flex: 1;
+  height: 100vh;
   overflow-y: auto;
-  padding: clamp(8px, 1.2vh, 18px);
-  scrollbar-width: none;
-}
-.stack::-webkit-scrollbar{ width: 0; height: 0; }
+  overflow-x: hidden;
 
-/* =========================
-   GRID LAYOUT
-========================= */
-.row2{
+  /* Scroll behavior */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
+  /* This padding creates a safe “inner frame” zone */
+  padding-top: clamp(3.0rem, 6vh, 4.5rem);
+  padding-bottom: clamp(3.0rem, 7vh, 5rem);
+  padding-left: clamp(1.4rem, 5vw, 5.5rem);
+  padding-right: clamp(1.4rem, 5vw, 5.5rem);
+
+  /* Center the whole layout */
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(14px, 2vw, 28px);
-  align-items: start;
-  margin-bottom: clamp(10px, 1.8vh, 18px);
+  justify-items: center;
 }
 
-.block{ text-align: left; }
+/* Inner “page” width so lines don’t go too wide on TV */
+.stack {
+  width: min(1100px, 100%);
+}
 
-.block.center{
+/* ---------- Header ---------- */
+.masthead {
   text-align: center;
-  margin: clamp(10px, 1.8vh, 18px) 0;
+  margin-bottom: 1.25rem;
 }
 
-/* Section headings produced by JS */
-.block h2, .block h3{
-  margin: 0 0 10px 0;
+.title {
+  font-family: ui-serif, "Cormorant Garamond", "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  font-size: clamp(2.1rem, 4.5vw, 3.8rem);
+  line-height: 1.05;
+
+  color: #d5b07a; /* copper-gold */
+  text-shadow: 0 1px 0 rgba(0,0,0,.55);
+}
+
+.rule {
+  height: 1px;
+  margin: 0.9rem auto 0;
+  width: min(620px, 80%);
+  background: linear-gradient(90deg, transparent, rgba(213,176,122,.55), transparent);
+}
+
+/* ---------- Blocks / Sections ---------- */
+.block {
+  margin: 1.2rem 0 2.1rem;
+}
+
+.block h2,
+.block .heading {
   text-align: center;
-  font-size: clamp(20px, 2.2vh, 28px);
-  letter-spacing: .08em;
-  color: #c8a36b;
-  text-shadow: 0 2px 10px rgba(0,0,0,.75);
+  font-family: ui-serif, "Cormorant Garamond", "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+
+  font-size: clamp(1.2rem, 2.1vw, 1.65rem);
+  color: #caa56a;
+  margin-bottom: 0.8rem;
 }
 
-/* =========================
-   MENU ITEMS (class hooks your JS likely uses)
-========================= */
-.item{
+/* Section divider line (optional if your JS injects <hr>) */
+.block .divider,
+.block hr {
+  border: none;
+  height: 1px;
+  margin: 0.75rem auto 1rem;
+  width: min(520px, 85%);
+  background: linear-gradient(90deg, transparent, rgba(213,176,122,.28), transparent);
+}
+
+/* ---------- Menu item rows ---------- */
+.item {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 14px;
+  gap: 0.9rem;
+
+  padding: 0.35rem 0;
   align-items: baseline;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
-.item .name{
-  font-size: clamp(16px, 1.9vh, 22px);
-  font-weight: 700;
+.name {
+  font-family: ui-serif, "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: clamp(1.0rem, 1.55vw, 1.25rem);
+  color: #f2e6d2;
 }
 
-.item .price{
-  font-size: clamp(16px, 1.9vh, 22px);
-  color: #d8c9b3;
+.price {
+  font-family: ui-serif, "Cormorant Garamond", serif;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 1.35vw, 1.15rem);
+  color: #d5b07a;
+  letter-spacing: 0.06em;
+  min-width: 2.2rem;
+  text-align: right;
 }
 
-.item .desc{
+.desc {
   grid-column: 1 / -1;
-  margin-top: 2px;
-  font-size: clamp(13px, 1.5vh, 18px);
-  opacity: .78;
+  margin-top: 0.15rem;
+
+  font-family: ui-serif, "Cormorant Garamond", serif;
+  font-weight: 400;
+
+  font-size: clamp(0.95rem, 1.25vw, 1.05rem);
+  color: rgba(242,230,210,.78);
 }
 
-/* =========================
-   EFFECT LAYERS (stay subtle)
-========================= */
-#embers{
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  opacity: .55;
+/* ---------- Layout rows ---------- */
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.1rem, 3vw, 2.2rem);
 }
 
-.runes{
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  pointer-events: none;
-  opacity: .18;
-  mix-blend-mode: screen;
+/* Center block (Teas & Herbals) */
+.center {
+  text-align: center;
 }
 
-.runes-top{ top: 0; height: 18vh; }
-.runes-bottom{ bottom: 0; height: 18vh; }
+/* ---------- Responsive tuning (TV) ---------- */
+@media (min-width: 900px) {
+  .row2 { grid-template-columns: 1fr 1fr; }
 
-/* =========================
-   MOBILE: stack columns vertically
-========================= */
-@media (max-width: 700px){
-  .row2{ grid-template-columns: 1fr; }
-
-  .content{
-    top: 10vh; bottom: 10vh;
-    left: 9vw; right: 9vw;
+  /* more inner padding on wide screens */
+  .content {
+    padding-left: clamp(2.5rem, 6vw, 7rem);
+    padding-right: clamp(2.5rem, 6vw, 7rem);
   }
 }
+
+/* ---------- Very small screens ---------- */
+@media (max-width: 420px) {
+  .title { letter-spacing: 0.18em; }
+  .price { min-width: 1.8rem; }
+}
+
+/* ---------- Optional: hide scrollbars (still scrolls) ---------- */
+.content::-webkit-scrollbar { width: 0px; height: 0px; }
+.content { scrollbar-width: none; }
