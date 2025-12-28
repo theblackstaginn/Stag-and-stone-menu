@@ -2,49 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#050403" />
-
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#c7c2b9" />
   <title>Stag & Stone Menu</title>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.webmanifest" />
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles.css?v=2025.12.28.1" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <!-- Portrait block (phones) -->
-  <div class="rotate-ward" aria-hidden="true">
-    <div class="rotate-ward__text">Rotate Device</div>
-  </div>
+  <main class="stage" aria-label="Stag & Stone Menu">
+    <!-- FRAME (ornate, rustic) -->
+    <div class="frame" role="presentation">
+      <!-- Background layers -->
+      <div class="plaster" aria-hidden="true"></div>
 
-  <!-- Stage -->
-  <main class="stage">
-    <section class="plaque" role="region" aria-label="Stag & Stone Menu Board">
-      <div class="frame-outer"></div>
-      <div class="frame-inner"></div>
+      <!-- Negative-space ritual layers (never behind text) -->
+      <div class="runes runes-top" aria-hidden="true"></div>
+      <div class="runes runes-gutter" aria-hidden="true"></div>
+      <div class="runes runes-bottom" aria-hidden="true"></div>
+      <canvas id="embers" aria-hidden="true"></canvas>
 
-      <header class="top">
-        <h1 class="title">STAG &amp; STONE</h1>
-        <div class="rule"></div>
-      </header>
+      <!-- CONTENT -->
+      <section class="content">
+        <header class="masthead">
+          <h1 class="title">STAG &amp; STONE</h1>
+        </header>
 
-      <!-- This is where menu.js injects content -->
-      <div class="fit">
-        <div id="menu" class="menu"></div>
-      </div>
-    </section>
+        <section class="body-grid">
+          <!-- Two columns -->
+          <div class="col col-left" id="colLeft"></div>
+          <div class="col col-right" id="colRight"></div>
+
+          <!-- Food anchor spans full width at bottom -->
+          <div class="food" id="food"></div>
+        </section>
+      </section>
+    </div>
   </main>
 
-  <!-- Scripts -->
-  <script defer src="menu.js?v=2025.12.28.1"></script>
-  <script defer src="app.js?v=2025.12.28.1"></script>
+  <script src="app.js"></script>
 </body>
 </html>
