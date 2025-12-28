@@ -303,3 +303,24 @@ body{
 @media (prefers-reduced-motion: reduce){
   #embers{ display:none; }
 }
+/* === MOBILE FIX: DO NOT CENTER STAGE VERTICALLY === */
+@media (max-aspect-ratio: 3/4) {
+  body {
+    display: block;
+    place-items: unset;
+    background: #000;
+  }
+
+  .stage {
+    width: 100vw;
+    height: auto;
+    aspect-ratio: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .frame {
+    height: auto;
+    min-height: 100vh;
+  }
+}
