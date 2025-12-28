@@ -3,50 +3,44 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Stag & Stone — Menu</title>
-
 <meta name="theme-color" content="#050403" />
-<link rel="manifest" href="./manifest.webmanifest?v=2025.12.27.3" />
 
-<!-- Typography -->
+<title>Stag & Stone Menu</title>
+
+<link rel="manifest" href="./manifest.webmanifest?v=2025.12.27.4" />
+<link rel="stylesheet" href="./styles.css?v=2025.12.27.4" />
+
+<!-- Optional: Cinzel from Google Fonts (safe if online; offline will fall back) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
 
-<!-- Styles (versioned to bust cache) -->
-<link rel="stylesheet" href="./styles.css?v=2025.12.27.3" />
 </head>
 
 <body class="menu-page">
-
-<!-- Portrait phones: show “Rotate Device” (CSS controls visibility) -->
-<div class="rotate-ward" aria-hidden="true">
+<!-- Portrait phones: rotate prompt -->
+<div class="rotate-ward">
 <div class="rotate-ward__text">Rotate Device</div>
 </div>
 
 <main class="stage">
 <section class="plaque" aria-label="Stag & Stone Menu Board">
-
-<!-- Frame layers -->
 <div class="frame-outer"></div>
 <div class="frame-inner"></div>
 
-<!-- Title -->
 <header class="top">
-<h1 class="title">Drink Menu</h1>
+<h1 class="title">DRINK MENU</h1>
 <div class="rule"></div>
 </header>
 
-<!-- Fit wrapper: content scales to stay inside frame (NO CLIPPING) -->
+<!-- JS will auto-fit this entire menu into the frame -->
 <div class="fit">
 <div id="menu" class="menu"></div>
 </div>
-
 </section>
 </main>
 
-<!-- App + Menu scripts (versioned to bust cache) -->
-<script src="./app.js?v=2025.12.27.3"></script>
-<script src="./menu.js?v=2025.12.27.3"></script>
+<script src="./menu.js?v=2025.12.27.4"></script>
+<script src="./app.js?v=2025.12.27.4"></script>
 </body>
 </html>
