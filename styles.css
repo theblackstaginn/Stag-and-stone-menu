@@ -110,9 +110,11 @@ MENU FIT AREA
 ========================= */
 .fit{
   width:100%;
-  height:calc(100% - 10vh); /* reclaim 2vh */
+  height:calc(100% - 10vh);
   position:relative;
   overflow:hidden;
+  transform: scale(1.08);
+  transform-origin: top center;
 }
 
 /* This is what we scale */
