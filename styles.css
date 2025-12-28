@@ -139,3 +139,65 @@ body{
   border-radius:999px;
   background:rgba(0,0,0,.08);
 }
+/* ===== FX LAYERS (RUNES + EMBERS) ===== */
+.runes{
+  position:absolute;
+  pointer-events:none;
+  opacity:.11;               /* very subtle */
+  mix-blend-mode:screen;
+  filter: drop-shadow(0 0 10px rgba(255,176,96,.25));
+}
+
+/* Top band: safe zone above header */
+.runes-top{
+  top: calc(var(--padOuter) * 0.55);
+  left: calc(var(--padOuter) * 1.1);
+  right: calc(var(--padOuter) * 1.1);
+  height: clamp(16px, 2.0vh, 32px);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 60'%3E%3Cg fill='none' stroke='rgba(255,176,96,0.55)' stroke-width='2'%3E%3Cpath d='M40 30 l14 -18 l14 18 l-14 18 z'/%3E%3Cpath d='M120 12 v36 M120 30 h22'/%3E%3Cpath d='M200 12 l0 36 l18 -18 z'/%3E%3Cpath d='M280 16 q20 14 0 28 q-20 -14 0 -28'/%3E%3Cpath d='M360 12 v36 M360 12 h22 M360 48 h22'/%3E%3Cpath d='M440 12 l22 18 l-22 18 z'/%3E%3Cpath d='M520 12 q26 18 0 36 q-26 -18 0 -36'/%3E%3Cpath d='M600 12 v36 M600 30 h22'/%3E%3Cpath d='M680 12 l0 36 l18 -18 z'/%3E%3Cpath d='M760 16 q20 14 0 28 q-20 -14 0 -28'/%3E%3Cpath d='M840 12 v36 M840 12 h22 M840 48 h22'/%3E%3Cpath d='M920 12 l22 18 l-22 18 z'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position:center;
+}
+
+/* Column gutter: rune safe zone between columns ONLY */
+.runes-gutter{
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(var(--gutter) * 0.75);
+  top: calc(var(--padOuter) + var(--padInner) + clamp(70px, 10vh, 140px));
+  bottom: calc(var(--padOuter) + var(--padInner) + clamp(90px, 16vh, 190px));
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 600'%3E%3Cg fill='none' stroke='rgba(255,176,96,0.55)' stroke-width='2'%3E%3Cpath d='M40 20 v40 l-16 -18 l16 -22 l16 18'/%3E%3Cpath d='M20 120 h40 M40 100 v40'/%3E%3Cpath d='M40 170 l-18 18 l18 18 l18 -18 z'/%3E%3Cpath d='M26 270 q14 -22 28 0 q-14 22 -28 0'/%3E%3Cpath d='M40 320 v44 M28 332 h24'/%3E%3Cpath d='M22 420 l18 -18 l18 18 l-18 18 z'/%3E%3Cpath d='M40 470 q16 16 0 32 q-16 -16 0 -32'/%3E%3Cpath d='M40 520 v50 l-16 -22 l16 -28 l16 22'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  background-position:center;
+}
+
+/* Bottom band: safe zone below food */
+.runes-bottom{
+  bottom: calc(var(--padOuter) * 0.6);
+  left: calc(var(--padOuter) * 1.1);
+  right: calc(var(--padOuter) * 1.1);
+  height: clamp(14px, 1.8vh, 28px);
+  opacity:.09;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 60'%3E%3Cg fill='none' stroke='rgba(255,176,96,0.45)' stroke-width='2'%3E%3Cpath d='M60 18 l18 12 l-18 12 l-18 -12 z'/%3E%3Cpath d='M150 18 v24 M138 30 h24'/%3E%3Cpath d='M240 18 q24 12 0 24 q-24 -12 0 -24'/%3E%3Cpath d='M330 18 v24 M330 18 h20 M330 42 h20'/%3E%3Cpath d='M420 18 l20 12 l-20 12 z'/%3E%3Cpath d='M510 18 q26 12 0 24 q-26 -12 0 -24'/%3E%3Cpath d='M600 18 v24 M588 30 h24'/%3E%3Cpath d='M690 18 l18 12 l-18 12 l-18 -12 z'/%3E%3Cpath d='M780 18 q24 12 0 24 q-24 -12 0 -24'/%3E%3Cpath d='M870 18 v24 M870 18 h20 M870 42 h20'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position:center;
+}
+
+/* Embers canvas: extremely subtle */
+#embers{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.20;
+  mix-blend-mode:screen;
+}
+
+@media (prefers-reduced-motion: reduce){
+  #embers{ display:none; }
+}
