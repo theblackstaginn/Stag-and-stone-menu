@@ -1,9 +1,3 @@
-/* menu.js — Stag & Stone Drink Menu
-- Renders into: <div id="menu" class="menu-body"></div>
-- Uses namespaced classes: menu-section, menu-grid, menu-list, menu-item, etc.
-- Keep edits inside MENU only.
-*/
-
 const MENU = [
 {
 title: "House Coffees",
@@ -65,12 +59,23 @@ columns: [
 { name: "Witchlight Cooler", price: "14" }
 ]
 ]
+},
+
+{
+title: "Sandwiches",
+columns: [
+[
+{ name: "The Stag Melt", price: "14" },
+{ name: "Turkey, Brie & Cranberry", price: "13" }
+],
+[
+{ name: "Wildwood Melt (Limited)", price: "15" },
+{ name: "Tavern Ham & Grilled Cheese", price: "11" }
+]
+]
 }
 ];
 
-// ------------------------------
-// Helpers
-// ------------------------------
 function el(tag, className, text) {
 const node = document.createElement(tag);
 if (className) node.className = className;
@@ -82,41 +87,34 @@ function normalizePrice(p) {
 if (p == null) return "";
 const s = String(p).trim();
 if (!s) return "";
-// Allow "14", "14.00", "$14"
 return s.startsWith("$") ? s : `$${s}`;
 }
 
-// ------------------------------
-// Render
-// ------------------------------
 function renderMenu() {
 const root = document.getElementById("menu");
 if (!root) return;
-
 root.innerHTML = "";
 
 MENU.forEach((sectionData) => {
 const section = el("section", "menu-section");
-
-const title = el("h2", "menu-section-title", sectionData.title || "");
-section.appendChild(title);
+section.appendChild(
+el("h2", "menu-section-title", (sectionData.title || "").trim())
+);
 
 const grid = el("div", "menu-grid");
+const cols = Array.isArray(sectionData.columns) ? sectionData.columns : [];
 
-const columns = Array.isArray(sectionData.columns) ? sectionData.columns : [];
-columns.forEach((col) => {
+cols.forEach((col) => {
 const list = el("ul", "menu-list");
-
 const items = Array.isArray(col) ? col : [];
+
 items.forEach((item) => {
 const name = (item?.name ?? "").toString().trim();
 if (!name) return;
 
 const li = el("li", "menu-item");
-
 li.appendChild(el("span", "menu-item-name", name));
 li.appendChild(el("span", "menu-item-price", normalizePrice(item?.price)));
-
 list.appendChild(li);
 });
 
@@ -128,4 +126,4 @@ root.appendChild(section);
 });
 }
 
-renderMenu()
+renderMenu();
