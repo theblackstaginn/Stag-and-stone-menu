@@ -1,12 +1,6 @@
 (() => {
   "use strict";
 
-  /*
-    Stag & Stone Menu
-    Single source of truth.
-    Edit ONLY this file to update items, prices, or descriptions.
-  */
-
   const MENU = [
     {
       title: "House Coffees",
@@ -17,7 +11,6 @@
         { name: "Nitro Cold Brew", price: "$14" },
       ],
     },
-
     {
       title: "Espresso Drinks",
       items: [
@@ -27,7 +20,6 @@
         { name: "Latte", price: "$14" },
       ],
     },
-
     {
       title: "Sandwiches",
       items: [
@@ -57,7 +49,6 @@
         },
       ],
     },
-
     {
       title: "Pastries",
       subtitle: "Baked fresh daily • Selection varies",
@@ -69,11 +60,19 @@
     },
   ];
 
-  const mount = document.getElementById("menuContent");
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    }[c]));
+  }
 
   function sectionHTML(section) {
     const subtitle = section.subtitle
-      ? `<div class="subnote" style="text-align:center; margin-bottom:1rem;">${escapeHTML(section.subtitle)}</div>`
+      ? `<div class="subnote" style="text-align:center; margin: -0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
       : "";
 
     const items = section.items
@@ -82,17 +81,9 @@
           <div class="item">
             <div>
               <div class="name">${escapeHTML(it.name)}</div>
-              ${
-                it.description
-                  ? `<div class="desc">${escapeHTML(it.description)}</div>`
-                  : ""
-              }
+              ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
             </div>
-            ${
-              it.price
-                ? `<div class="price copper">${escapeHTML(it.price)}</div>`
-                : ""
-            }
+            ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
           </div>
         `
       )
@@ -108,18 +99,35 @@
     `;
   }
 
-  function escapeHTML(s) {
-    return String(s).replace(/[&<>"']/g, (c) => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;",
-    }[c]));
+  function render() {
+    const mount = document.getElementById("menuContent");
+    if (!mount) {
+      // Fail loud on the page so we don't guess.
+      throw new Error('Missing <div id="menuContent"></div> in index.html');
+    }
+
+    mount.innerHTML = MENU
+      .map(sectionHTML)
+      .join("")
+      .replace(/<div class="divider"[^]*<\/div>\s*$/, "");
   }
 
-  mount.innerHTML = MENU
-    .map(sectionHTML)
-    .join("")
-    .replace(/<div class="divider"[^]*<\/div>\s*$/, "");
+  window.addEventListener("DOMContentLoaded", () => {
+    try {
+      render();
+    } catch (err) {
+      // If the mount exists, show the error visibly.
+      const mount = document.getElementById("menuContent");
+      if (mount) {
+        mount.innerHTML = `
+          <div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(185,139,85,.35);border-radius:12px;background:rgba(0,0,0,.35);">
+            <div style="font-weight:700;letter-spacing:.08em;margin-bottom:.5rem;">Menu Render Error</div>
+            <div style="opacity:.85;white-space:pre-wrap;">${escapeHTML(err.message)}</div>
+            <div style="opacity:.75;margin-top:.75rem;">Fix: ensure index.html contains <code>&lt;div id="menuContent"&gt;&lt;/div&gt;</code> and loads <code>app.js</code>.</div>
+          </div>
+        `;
+      }
+      console.error(err);
+    }
+  });
 })();
