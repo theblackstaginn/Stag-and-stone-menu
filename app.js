@@ -1,8 +1,7 @@
 (() => {
   "use strict";
 
-  const DATA_VERSION = "reset3";
-
+  // DATA: reset3 • sections: 10
   const MENU = [
     {
       title: "House Coffees",
@@ -11,6 +10,7 @@
         { name: "Dawnwood Medium Roast (drip)" },
       ],
     },
+
     {
       title: "Espresso Classics",
       items: [
@@ -20,51 +20,54 @@
         { name: "Latte" },
       ],
     },
+
     {
       title: "Featured Lattes",
       items: [
-        { name: "Black Spell Mocha (dark chocolate mocha)" },
-        { name: "Caramel Draught Latte (caramel latte)" },
+        { name: "Black Spell Mocha", description: "(dark chocolate mocha)" },
+        { name: "Caramel Draught Latte", description: "(caramel latte)" },
       ],
     },
+
     {
       title: "Signature Coffeehouse",
       items: [
-        { name: "Stag King Brew (signature sweet-cream coffee)" },
-        { name: "Dragonfire Mocha (spiced mocha)" },
-        { name: "Siren Salted Cold Foam (cold foam topper — add-on)" },
+        { name: "Stag King Brew", description: "(signature sweet-cream coffee)" },
+        { name: "Dragonfire Mocha", description: "(spiced mocha)" },
+        { name: "Siren Salted Cold Foam", description: "(cold foam topper — add-on)" },
       ],
     },
+
     {
       title: "Iced Coffeehouse",
-      items: [
-        { name: "Any espresso classic available iced" },
-      ],
+      items: [{ name: "Any espresso classic available iced" }],
     },
+
     {
       title: "Teas & Herbals",
       items: [
-        { name: "Orchard Chai (chai)" },
-        { name: "Forest Mint (mint herbal)" },
-        { name: "Lavender Fields (lavender herbal)" },
-        { name: "Siren Blue (butterfly pea herbal)" },
+        { name: "Orchard Chai", description: "(chai)" },
+        { name: "Forest Mint", description: "(mint herbal)" },
+        { name: "Lavender Fields", description: "(lavender herbal)" },
+        { name: "Siren Blue", description: "(butterfly pea herbal)" },
       ],
     },
+
     {
       title: "Matcha",
-      items: [
-        { name: "Matcha Green Elixir (matcha latte)" },
-      ],
+      items: [{ name: "Matcha Green Elixir", description: "(matcha latte)" }],
     },
+
     {
       title: "Iced & Refreshers",
       items: [
         { name: "Iced Chai" },
         { name: "Iced Matcha" },
         { name: "Stormborn Lemonade" },
-        { name: "Witchlight Cooler (seasonal refresher)" },
+        { name: "Witchlight Cooler", description: "(seasonal refresher)" },
       ],
     },
+
     {
       title: "Sandwiches",
       subtitle: "Pressed to order • Limited selection",
@@ -78,8 +81,7 @@
         {
           name: "Turkey, Brie & Cranberry",
           price: "$13",
-          description:
-            "Roasted turkey, brie, and cranberry on house sourdough",
+          description: "Roasted turkey, brie, and cranberry on house sourdough",
         },
         {
           name: "Wildwood Melt (limited)",
@@ -90,11 +92,11 @@
         {
           name: "Tavern Ham & Grilled Cheese",
           price: "$11",
-          description:
-            "Tavern ham and melted cheese on house sourdough",
+          description: "Tavern ham and melted cheese on house sourdough",
         },
       ],
     },
+
     {
       title: "Pastries",
       subtitle: "Baked fresh daily • Selection varies",
@@ -105,6 +107,8 @@
       ],
     },
   ];
+
+  const mount = document.getElementById("menuContent");
 
   function escapeHTML(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({
@@ -118,7 +122,7 @@
 
   function sectionHTML(section) {
     const subtitle = section.subtitle
-      ? `<div class="subnote" style="text-align:center; margin:-0.4rem 0 1.2rem;">${escapeHTML(section.subtitle)}</div>`
+      ? `<div class="subnote" style="text-align:center; margin: -0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
       : "";
 
     const items = section.items
@@ -144,31 +148,18 @@
   }
 
   function render() {
-    const mount = document.getElementById("menuContent");
     if (!mount) throw new Error('Missing <div id="menuContent"></div> in index.html');
-
-    const dataEl = document.getElementById("dataVersion");
-    if (dataEl) dataEl.textContent = `DATA: ${DATA_VERSION} • sections: ${MENU.length}`;
-
-    mount.innerHTML = MENU
-      .map(sectionHTML)
-      .join("")
-      .replace(/<div class="divider"[\s\S]*<\/div>\s*$/, "");
+    mount.innerHTML = MENU.map(sectionHTML).join("").replace(/<div class="divider"[^]*<\/div>\s*$/, "");
   }
 
   window.addEventListener("DOMContentLoaded", () => {
     try { render(); }
-    catch (e) {
-      const mount = document.getElementById("menuContent");
-      if (mount) {
-        mount.innerHTML = `
-          <div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(198,104,74,.35);border-radius:12px;background:rgba(0,0,0,.35);">
-            <div style="font-weight:700;margin-bottom:.5rem;">Menu Render Error</div>
-            <div style="opacity:.85;white-space:pre-wrap;">${escapeHTML(e.message)}</div>
-          </div>
-        `;
-      }
-      console.error(e);
+    catch (err) {
+      if (mount) mount.innerHTML = `<div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(198,104,74,.35);border-radius:12px;background:rgba(0,0,0,.35);">
+        <div style="font-weight:700;letter-spacing:.08em;margin-bottom:.5rem;">Menu Render Error</div>
+        <div style="opacity:.85;white-space:pre-wrap;">${escapeHTML(err.message)}</div>
+      </div>`;
+      console.error(err);
     }
   });
 })();
