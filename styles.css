@@ -1,11 +1,11 @@
+/* styles.css */
+
 /* =========================
    CORE VARIABLES
    ========================= */
 
 :root{
   --charcoal:#0b0f14;
-  --copper:#b98b55;
-  --copper-soft: rgba(185,139,85,.75);
 
   --text:#e9edf5;
   --muted: rgba(233,237,245,.65);
@@ -30,18 +30,41 @@ html, body{
 body{
   color:var(--text);
 
+  /* Roman charcoal plaster texture you uploaded */
   background:
-    linear-gradient(
-      rgba(0,0,0,.55),
-      rgba(0,0,0,.55)
-    ),
+    linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
     url("Assets/charcoal-bg.PNG");
 
   background-repeat: repeat;
-  background-size: 650px 650px;
+  background-size: 650px 650px;     /* adjust 480–900 to taste */
   background-attachment: fixed;
 
   font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+}
+
+/* =========================
+   COPPER METAL EFFECT
+   ========================= */
+
+.copper{
+  /* fallback if background-clip unsupported */
+  color:#b98b55;
+
+  background: linear-gradient(
+    180deg,
+    #e6c28a 0%,
+    #c79a5a 30%,
+    #9f6e3c 55%,
+    #d2a46b 75%,
+    #8b5a2b 100%
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.12),  /* top edge catch */
+    0 -1px 0 rgba(0,0,0,.25),       /* bottom depth */
+    0 2px 4px rgba(0,0,0,.45);      /* weight */
 }
 
 /* =========================
@@ -60,6 +83,7 @@ body{
     calc(28px + env(safe-area-inset-left));
 
   overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* =========================
@@ -82,7 +106,6 @@ h1{
   margin:.4rem 0 .3rem;
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   letter-spacing:.1em;
-  color:var(--copper);
 }
 
 .subnote{
@@ -104,7 +127,6 @@ h2{
   font-size: clamp(1.2rem, 3vw, 1.7rem);
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:var(--copper-soft);
 }
 
 /* =========================
@@ -121,10 +143,13 @@ h2{
   font-size: clamp(1.05rem, 2.3vw, 1.35rem);
 
   border-bottom: 1px solid rgba(255,255,255,.06);
+
+  /* anchors the “inscription” into the wall */
+  text-shadow: 0 1px 1px rgba(0,0,0,.55);
 }
 
 .item span:last-child{
-  color:var(--copper-soft);
+  font-weight:600;
   letter-spacing:.06em;
 }
 
