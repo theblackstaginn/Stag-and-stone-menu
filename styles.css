@@ -152,3 +152,28 @@ h1{
   letter-spacing:.08em;
   color: rgba(216,210,199,.55);
 }
+/* ===== SCREEN LOCK (no scrolling) ===== */
+html, body { height:100%; }
+body { overflow:hidden; }
+
+.screen{
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* The thing we scale */
+.fit-target{
+  transform-origin: top center;
+  will-change: transform;
+}
+
+/* Minor: build line styling */
+.build{
+  opacity:.28;
+  font-size:12px;
+  margin-top:10px;
+}
