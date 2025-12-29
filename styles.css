@@ -5,29 +5,34 @@
   --dim: rgba(216,210,199,.55);
   --rule: rgba(255,255,255,.08);
 
-  /* Charcoal + texture */
---charcoalTex: url("assets/charcoal-bg.png");
+  /* Charcoal base colors */
+  --bg0:#07090c;
+  --bg1:#0a0d12;
+
+  /* Film grain strength */
+  --grainOpacity:.14;
+
+  /* Charcoal texture image (your renamed file) */
+  --charcoalTex: url("assets/charcoal-bg.png");
 
   /* Copper palette (multi-stop for “metal”) */
-  --c1:#f3d2b6;   /* highlight */
-  --c2:#d79a73;   /* warm mid */
-  --c3:#b56a46;   /* copper core */
-  --c4:#7a3b24;   /* shadow edge */
-  --c5:#3a170f;   /* deep */
+  --c1:#f3d2b6;
+  --c2:#d79a73;
+  --c3:#b56a46;
+  --c4:#7a3b24;
+  --c5:#3a170f;
 
-  --panelTop: rgba(6,8,10,.30);
-  --panelBottom: rgba(6,8,10,.14);
+  /* Panel glass */
+  --panelTop: rgba(6,8,10,.32);
+  --panelBottom: rgba(6,8,10,.18);
 
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
 
-  /* Border image path */
+  /* Border */
   --borderUrl: url("border.png");
-
-  /* Optional charcoal texture image (put in repo as assets/charcoal.png)
-     If you don’t have one, leave it; the gradients still work. */
-  --charcoalTex: url("assets/charcoal.png");
 }
+  
 
 *{ box-sizing:border-box; }
 
