@@ -1,20 +1,34 @@
-/* styles.css */
+/* styles.css — charcoal background + copper lettering (keeps the scroll fix) */
 :root{
-  --bg:#0b0f14;
   --text:#d8d2c7;
   --muted: rgba(216,210,199,.70);
   --dim: rgba(216,210,199,.55);
-
   --rule: rgba(255,255,255,.08);
 
-  --panelTop: rgba(10,14,18,.72);
-  --panelBottom: rgba(10,14,18,.42);
+  /* Charcoal + texture */
+  --bg0:#07090c;
+  --bg1:#0a0d12;
+  --grainOpacity:.14;
+
+  /* Copper palette (multi-stop for “metal”) */
+  --c1:#f3d2b6;   /* highlight */
+  --c2:#d79a73;   /* warm mid */
+  --c3:#b56a46;   /* copper core */
+  --c4:#7a3b24;   /* shadow edge */
+  --c5:#3a170f;   /* deep */
+
+  --panelTop: rgba(6,8,10,.30);
+  --panelBottom: rgba(6,8,10,.14);
 
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
 
-  /* Put border.png in repo root, or change to url("assets/border.png") */
+  /* Border image path */
   --borderUrl: url("border.png");
+
+  /* Optional charcoal texture image (put in repo as assets/charcoal.png)
+     If you don’t have one, leave it; the gradients still work. */
+  --charcoalTex: url("assets/charcoal.png");
 }
 
 *{ box-sizing:border-box; }
@@ -22,20 +36,53 @@
 html, body{
   height:100%;
   margin:0;
-  overflow:hidden; /* page never scrolls */
+  overflow:hidden;
 }
 
 body{
-  background: var(--bg);
   color: var(--text);
   font-family: ui-serif, Georgia, "Times New Roman", serif;
+
+  /* Charcoal background (multi-layer) */
+  background:
+    radial-gradient(120% 90% at 50% 12%, rgba(255,255,255,.06), transparent 60%),
+    radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.72) 100%),
+    linear-gradient(180deg, var(--bg1), var(--bg0));
 }
 
-/* Border snaps to the screen and never blocks touch */
+/* Film grain overlay (pure CSS) */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity: var(--grainOpacity);
+  mix-blend-mode: overlay;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, rgba(0,0,0,.04) 1px 2px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.03) 1px 3px);
+}
+
+/* Optional real texture image layer (if you have assets/charcoal.png) */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.22;
+  background-image: var(--charcoalTex);
+  background-size: 900px 900px;
+  background-repeat: repeat;
+  mix-blend-mode: soft-light;
+}
+
+/* Border snaps to screen */
 .frame{
   position:fixed;
   inset:0;
-  z-index:0;
+  z-index:1;
   background-image: var(--borderUrl);
   background-repeat:no-repeat;
   background-position:center;
@@ -44,10 +91,10 @@ body{
   opacity:.98;
 }
 
-/* Main panel fills the viewport and allocates a real scroll area */
+/* Panel (transparent, keeps charcoal visible) */
 .panel{
   position:relative;
-  z-index:1;
+  z-index:2;
 
   height: 100svh;
   height: 100vh;
@@ -61,10 +108,12 @@ body{
   border-radius: var(--radius);
   overflow:hidden;
 
+  /* subtle glass, not opaque */
   background: linear-gradient(180deg, var(--panelTop), var(--panelBottom));
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  box-shadow: 0 18px 70px rgba(0,0,0,.62);
 
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -83,11 +132,55 @@ body{
   color: var(--muted);
 }
 
+/* Realistic copper “metal” for the main title */
 .title{
   margin: 10px 0 6px;
-  font-size: clamp(42px, 6vw, 66px);
+  font-size: clamp(44px, 6.4vw, 70px);
   line-height: 1;
-  text-shadow: 0 10px 22px rgba(0,0,0,.55);
+  letter-spacing: 1px;
+
+  /* the trick: gradient clipped into text */
+  background: linear-gradient(
+    180deg,
+    var(--c1) 0%,
+    var(--c2) 18%,
+    var(--c3) 45%,
+    var(--c2) 64%,
+    var(--c4) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* depth + edge */
+  text-shadow:
+    0 2px 0 rgba(0,0,0,.35),
+    0 10px 22px rgba(0,0,0,.65);
+  filter: saturate(1.08) contrast(1.05);
+}
+
+/* Copper-ish section headers too */
+.section h2{
+  margin: 0 0 10px;
+  text-align:center;
+  font-size: clamp(18px, 2.4vw, 28px);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+
+  background: linear-gradient(
+    180deg,
+    var(--c1) 0%,
+    var(--c2) 22%,
+    var(--c3) 52%,
+    var(--c4) 100%
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
+
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.35),
+    0 8px 18px rgba(0,0,0,.55);
 }
 
 .sub{
@@ -103,14 +196,13 @@ body{
   color: var(--dim);
 }
 
-/* THE magic: Safari needs min-height:0 inside flex to allow overflow scrolling */
+/* Scroll container (Safari fix included) */
 .menuScroll{
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-
   padding: 16px var(--pad) 18px;
 }
 
@@ -127,25 +219,8 @@ body{
   letter-spacing: 2px;
 }
 
-.loading{
-  color: var(--muted);
-  text-align:center;
-  padding: 24px 0;
-}
-
-/* Generic menu styling (compatible with most renderers) */
-.section{
-  margin: 18px 0 20px;
-}
-
-.section h2{
-  margin: 0 0 10px;
-  text-align:center;
-  font-size: clamp(18px, 2.4vw, 28px);
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  text-shadow: 0 10px 22px rgba(0,0,0,.55);
-}
+/* Items */
+.section{ margin: 18px 0 20px; }
 
 .item{
   display:flex;
@@ -154,12 +229,14 @@ body{
   padding: 10px 0;
   border-bottom: 1px solid rgba(255,255,255,.10);
 }
-
 .item:last-child{ border-bottom:none; }
+
+.item .left{ flex:1; min-width:0; }
 
 .name{
   font-size: clamp(18px, 2.2vw, 28px);
   font-weight: 600;
+  color: var(--text);
 }
 
 .price{
@@ -167,11 +244,10 @@ body{
   color: var(--muted);
   white-space: nowrap;
 }
-.item .left{ flex: 1; min-width: 0; }
+
 .desc{
   margin-top: 6px;
   font-size: clamp(13px, 1.6vw, 18px);
   color: var(--muted);
-  font-weight: 400;
   line-height: 1.25;
 }
