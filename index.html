@@ -3,37 +3,35 @@
 <head>
   <meta charset="utf-8">
   <title>Stag & Stone</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0f14">
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.webmanifest?v=1">
-
-  <!-- Styles -->
- <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <main class="menu" aria-label="Stag & Stone Menu">
+  <!-- VIEWPORT LOCK -->
+  <div class="screen" aria-label="Stag & Stone Menu Screen">
+    <!-- THIS GETS SCALED DOWN TO FIT -->
+    <main class="menu fit-target" aria-label="Stag & Stone Menu">
 
-    <header class="header">
-      <div class="kicker">Stag &amp; Stone Coffeehouse</div>
-      <h1 class="copper">Menu</h1>
-      <div class="subnote">Seasonal • Prices as listed</div>
-      <div class="build">BUILD 1.0</div>
-    </header>
+      <header class="header">
+        <div class="kicker">Stag &amp; Stone Coffeehouse</div>
+        <h1 class="copper">Menu</h1>
+        <div class="subnote">Seasonal • Prices as listed</div>
+        <div class="build">BUILD: 2025-12-29-1108</div>
+      </header>
 
-    <!-- JS injects all menu content here -->
-    <div id="menuContent"></div>
+      <div id="menuContent"></div>
 
-    <footer class="footer">
-      <div class="small">Dahlonega, Georgia</div>
-    </footer>
+      <footer class="footer">
+        <div class="small">Dahlonega, Georgia</div>
+      </footer>
 
-  </main>
+    </main>
+  </div>
 
-  <!-- JS (hard cache-busted) -->
-  <script src="app.js?v=TEA1" defer></script>
+  <script src="app.js"></script>
 </body>
 </html>
