@@ -1,11 +1,9 @@
 (() => {
   "use strict";
 
-  // Change this whenever you want phones/Chromecast to visibly confirm the update.
-  const BUILD_TAG = "2025-12-29-reset5";
-  const DATA_TAG  = "reset5 • sections: 10";
+  // DATA: RESET7 • sections: 10
+  const DATA_TAG = "RESET7 • sections: 10";
 
-  // Menu data (your “actual menu”)
   const MENU = [
     {
       title: "House Coffees",
@@ -44,9 +42,7 @@
 
     {
       title: "Iced Coffeehouse",
-      items: [
-        { name: "Any espresso classic available iced" },
-      ],
+      items: [{ name: "Any espresso classic available iced" }],
     },
 
     {
@@ -61,9 +57,7 @@
 
     {
       title: "Matcha",
-      items: [
-        { name: "Matcha Green Elixir", description: "(matcha latte)" },
-      ],
+      items: [{ name: "Matcha Green Elixir", description: "(matcha latte)" }],
     },
 
     {
@@ -89,8 +83,7 @@
         {
           name: "Turkey, Brie & Cranberry",
           price: "$13",
-          description:
-            "Roasted turkey, brie, and cranberry on house sourdough",
+          description: "Roasted turkey, brie, and cranberry on house sourdough",
         },
         {
           name: "Wildwood Melt (limited)",
@@ -101,8 +94,7 @@
         {
           name: "Tavern Ham & Grilled Cheese",
           price: "$11",
-          description:
-            "Tavern ham and melted cheese on house sourdough",
+          description: "Tavern ham and melted cheese on house sourdough",
         },
       ],
     },
@@ -118,30 +110,31 @@
     },
   ];
 
-  function escapeHTML(s) {
-    return String(s).replace(/[&<>"']/g, (c) => ({
+  const escapeHTML = (s) =>
+    String(s).replace(/[&<>"']/g, (c) => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;",
     }[c]));
-  }
 
   function sectionHTML(section) {
     const subtitle = section.subtitle
-      ? `<div class="subnote" style="text-align:center; margin:-0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
+      ? `<div class="subnote" style="text-align:center;margin:-0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
       : "";
 
-    const items = section.items.map((it) => `
-      <div class="item">
-        <div class="left">
-          <div class="name">${escapeHTML(it.name)}</div>
-          ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
+    const items = section.items
+      .map((it) => `
+        <div class="item">
+          <div>
+            <div class="name">${escapeHTML(it.name)}</div>
+            ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
+          </div>
+          ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
         </div>
-        ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
-      </div>
-    `).join("");
+      `)
+      .join("");
 
     return `
       <section class="section">
@@ -155,23 +148,16 @@
 
   function render() {
     const mount = document.getElementById("menuContent");
-    if (!mount) throw new Error('Missing <div id="menuContent"></div> in index.html');
+    if (!mount) throw new Error('Missing <div id="menuContent"></div>');
 
-    // Render menu
-    mount.innerHTML = MENU
-      .map(sectionHTML)
-      .join("")
-      .replace(/<div class="divider"[^]*<\/div>\s*$/, "");
-
-    // Update header tags (visible proof it updated)
-    const bt = document.getElementById("buildTag");
-    if (bt) bt.textContent = `BUILD: ${BUILD_TAG}`;
+    mount.innerHTML = MENU.map(sectionHTML).join("")
+      .replace(/<div class="divider"[\s\S]*<\/div>\s*$/, "");
 
     const dv = document.getElementById("dataVersion");
     if (dv) dv.textContent = `DATA: ${DATA_TAG}`;
-
-    console.log("[Stag&Stone] rendered:", BUILD_TAG, DATA_TAG);
   }
+
+  console.log("[Stag&Stone] app.js loaded:", DATA_TAG);
 
   window.addEventListener("DOMContentLoaded", () => {
     try {
