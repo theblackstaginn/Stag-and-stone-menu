@@ -1,6 +1,7 @@
 (() => {
   "use strict";
 
+  // This is the ACTUAL menu list you showed (includes Teas).
   const MENU = [
     {
       title: "House Coffees",
@@ -9,6 +10,7 @@
         { name: "Dawnwood Medium Roast (drip)" },
       ],
     },
+
     {
       title: "Espresso Classics",
       items: [
@@ -18,6 +20,7 @@
         { name: "Latte" },
       ],
     },
+
     {
       title: "Featured Lattes",
       items: [
@@ -25,6 +28,7 @@
         { name: "Caramel Draught Latte (caramel latte)" },
       ],
     },
+
     {
       title: "Signature Coffeehouse",
       items: [
@@ -33,10 +37,14 @@
         { name: "Siren Salted Cold Foam (cold foam topper — add-on)" },
       ],
     },
+
     {
       title: "Iced Coffeehouse",
-      items: [{ name: "Any espresso classic available iced" }],
+      items: [
+        { name: "Any espresso classic available iced" },
+      ],
     },
+
     {
       title: "Teas & Herbals",
       items: [
@@ -46,10 +54,14 @@
         { name: "Siren Blue (butterfly pea herbal)" },
       ],
     },
+
     {
       title: "Matcha",
-      items: [{ name: "Matcha Green Elixir (matcha latte)" }],
+      items: [
+        { name: "Matcha Green Elixir (matcha latte)" },
+      ],
     },
+
     {
       title: "Iced & Refreshers",
       items: [
@@ -59,6 +71,7 @@
         { name: "Witchlight Cooler (seasonal refresher)" },
       ],
     },
+
     {
       title: "Sandwiches",
       subtitle: "Pressed to order • Limited selection",
@@ -72,7 +85,8 @@
         {
           name: "Turkey, Brie & Cranberry",
           price: "$13",
-          description: "Roasted turkey, brie, and cranberry on house sourdough",
+          description:
+            "Roasted turkey, brie, and cranberry on house sourdough",
         },
         {
           name: "Wildwood Melt (limited)",
@@ -83,10 +97,12 @@
         {
           name: "Tavern Ham & Grilled Cheese",
           price: "$11",
-          description: "Tavern ham and melted cheese on house sourdough",
+          description:
+            "Tavern ham and melted cheese on house sourdough",
         },
       ],
     },
+
     {
       title: "Pastries",
       subtitle: "Baked fresh daily • Selection varies",
@@ -97,10 +113,6 @@
       ],
     },
   ];
-
-  const mount = () => document.getElementById("menuContent");
-  const fitTarget = () => document.querySelector(".fit-target");
-  const screen = () => document.querySelector(".screen");
 
   function escapeHTML(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({
@@ -114,19 +126,21 @@
 
   function sectionHTML(section) {
     const subtitle = section.subtitle
-      ? `<div class="subnote" style="text-align:center; margin: -0.4rem 0 0.9rem;">${escapeHTML(section.subtitle)}</div>`
+      ? `<div class="subnote" style="text-align:center; margin: -0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
       : "";
 
     const items = section.items
-      .map((it) => `
-        <div class="item">
-          <div>
-            <div class="name">${escapeHTML(it.name)}</div>
-            ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
+      .map(
+        (it) => `
+          <div class="item">
+            <div>
+              <div class="name">${escapeHTML(it.name)}</div>
+              ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
+            </div>
+            ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
           </div>
-          ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
-        </div>
-      `)
+        `
+      )
       .join("");
 
     return `
@@ -139,47 +153,15 @@
     `;
   }
 
-  function renderMenu() {
-    const el = mount();
-    if (!el) throw new Error('Missing <div id="menuContent"></div> in index.html');
+  function render() {
+    const mount = document.getElementById("menuContent");
+    if (!mount) throw new Error('Missing <div id="menuContent"></div> in index.html');
 
-    el.innerHTML = MENU
+    mount.innerHTML = MENU
       .map(sectionHTML)
       .join("")
       .replace(/<div class="divider"[^]*<\/div>\s*$/, "");
   }
 
-  // Scale menu down until it fits the screen height/width (no scroll)
-  function fitToScreen() {
-    const tgt = fitTarget();
-    const host = screen();
-    if (!tgt || !host) return;
-
-    // Reset first to measure natural size
-    tgt.style.transform = "scale(1)";
-
-    // Give layout a beat
-    requestAnimationFrame(() => {
-      const padding = 8; // breathing room to avoid clipping
-      const hostW = host.clientWidth - padding * 2;
-      const hostH = host.clientHeight - padding * 2;
-
-      const rect = tgt.getBoundingClientRect();
-      const scaleW = hostW / rect.width;
-      const scaleH = hostH / rect.height;
-
-      // We only scale DOWN, never up
-      const scale = Math.min(1, scaleW, scaleH);
-
-      tgt.style.transform = `scale(${scale})`;
-    });
-  }
-
-  function boot() {
-    renderMenu();
-    fitToScreen();
-  }
-
-  window.addEventListener("DOMContentLoaded", boot);
-  window.addEventListener("resize", fitToScreen);
+  window.addEventListener("DOMContentLoaded", render);
 })();
