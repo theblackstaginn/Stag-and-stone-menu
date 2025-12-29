@@ -165,7 +165,7 @@ try {
 
     mount.innerHTML = MENU.map(sectionHTML).join("")
       .replace(/<div class="divider"[\s\S]*<\/div>\s*$/, "");
-
+console.log("[Stag&Stone] sections rendered:", MENU.length);
     const dv = document.getElementById("dataVersion");
     if (dv) dv.textContent = `DATA: ${DATA_TAG}`;
   }
