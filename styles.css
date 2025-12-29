@@ -1,27 +1,21 @@
 :root{
+  /* Softer parchment-white text (not bright white) */
   --text:#d8d2c7;
   --muted: rgba(216,210,199,.68);
+
   --rule: rgba(255,255,255,.06);
-  --copperLine: rgba(198, 104, 74, .55);
+
+  /* Warmer, redder copper line for dividers */
+  --copperLine: rgba(198, 104, 74, .28);
 
   --textureSize: 820px;
   --wallDim: .60;
 }
 
 *{ box-sizing:border-box; }
-
-/* IMPORTANT: do NOT force height:100% here */
-html, body{
-  margin:0;
-  padding:0;
-  width:100%;
-}
+html, body{ margin:0; height:100%; }
 
 body{
-  min-height:100vh;            /* allow page to grow */
-  overflow-y: auto !important; /* force scrolling */
-  -webkit-overflow-scrolling: touch;
-
   color:var(--text);
   background:
     radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.04), transparent 60%),
@@ -30,33 +24,25 @@ body{
     url("Assets/charcoal-bg.PNG");
   background-repeat: repeat;
   background-size: var(--textureSize) var(--textureSize);
-  background-attachment: scroll; /* fixed can be janky on iOS */
+
+  /* IMPORTANT for iPhone scrolling stability: */
+  background-attachment: scroll;
 
   font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* make sure the main container DOES NOT clip */
 .menu{
-  width:100%;
+  min-height:100vh;
   max-width: 1100px;
   margin: 0 auto;
-
-  /* safe-area padding */
   padding:
     calc(28px + env(safe-area-inset-top))
     calc(28px + env(safe-area-inset-right))
     calc(28px + env(safe-area-inset-bottom))
     calc(28px + env(safe-area-inset-left));
-
-  overflow: visible;   /* critical */
 }
 
-.header{
-  text-align:center;
-  margin-bottom: 2.4rem;
-}
+.header{ text-align:center; margin-bottom: 2rem; }
 
 .kicker{
   font-size:.9rem;
@@ -66,59 +52,56 @@ body{
 }
 
 h1{
-  margin:.4rem 0 .35rem;
+  margin:.4rem 0 .3rem;
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   letter-spacing:.1em;
 }
 
-.subnote{
-  font-size:1rem;
-  color:var(--muted);
-}
+.subnote{ font-size:1rem; color:var(--muted); }
 
 .build{
-  opacity:.35;
+  opacity:.45;
   font-size:12px;
   margin-top:10px;
-  letter-spacing:.08em;
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
 
 .copper{
+  /* warmer copper (less bronze) */
   background: linear-gradient(
     180deg,
-    #ffd6c1 0%,
-    #e39a73 18%,
-    #c96b46 38%,
-    #ffb89a 52%,
-    #b85c3b 68%,
-    #8f3f26 86%,
-    #ffd1bb 100%
+    #ffd7b6 0%,
+    #e7a56d 18%,
+    #c66a44 40%,
+    #ffcca8 52%,
+    #d07a4d 68%,
+    #8e3f22 88%,
+    #ffd0ad 100%
   );
   -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
   -webkit-text-fill-color: transparent;
+
   text-shadow:
     0 1px 0 rgba(255,255,255,.10),
     0 -1px 0 rgba(0,0,0,.35),
-    0 3px 6px rgba(0,0,0,.60);
+    0 2px 4px rgba(0,0,0,.60);
 }
 
-.section{
-  margin-top: 3.5rem;
-}
-.section:first-of-type{
-  margin-top: 2.5rem;
-}
+.section{ margin-top: 2.4rem; }
 
 .section h2{
   text-align:center;
-  margin: 0 0 1.6rem;
-  font-size: clamp(1.2rem, 3vw, 1.75rem);
+  margin: 0 0 1.2rem;
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
   letter-spacing:.18em;
   text-transform:uppercase;
 }
 
 .items{
-  max-width: 900px;
+  max-width: 980px;
   margin: 0 auto;
 }
 
@@ -127,45 +110,35 @@ h1{
   justify-content:space-between;
   align-items:baseline;
   gap:1.2rem;
-
-  padding:.7rem .15rem;
+  padding:.55rem .2rem;
   font-size: clamp(1.05rem, 2.3vw, 1.35rem);
-
   border-bottom: 1px solid var(--rule);
   text-shadow: 0 1px 1px rgba(0,0,0,.55);
-  line-height: 1.25;
 }
 
-.item .name{
-  font-weight:600;
-  color:#e2dccf;
+.item .name{ font-weight:600; }
+
+.desc{
+  margin-top:.28rem;
+  font-size: clamp(.92rem, 2.1vw, 1.05rem);
+  color: rgba(216,210,199,.78);
+  line-height: 1.35;
 }
 
 .item .price{
   font-weight:700;
   letter-spacing:.06em;
-  white-space:nowrap;
-}
-
-.desc{
-  margin-top:.25rem;
-  max-width: 48ch;
-  color: rgba(216,210,199,.75);
-  font-size: .95em;
-  line-height: 1.3;
+  white-space: nowrap;
 }
 
 .divider{
-  height:2px;
-  margin:3.5rem auto;
+  height:1px;
+  margin:2.4rem auto;
   max-width: 900px;
   background: linear-gradient(to right, transparent, var(--copperLine), transparent);
 }
 
-.footer{
-  margin-top: 3.5rem;
-  text-align:center;
-}
+.footer{ margin-top: 3rem; text-align:center; }
 
 .small{
   font-size:.95rem;
