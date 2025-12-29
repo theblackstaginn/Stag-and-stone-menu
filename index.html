@@ -1,182 +1,219 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Stag & Stone Menu</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0f14">
+  <meta charset="utf-8" />
+  <title>Stag & Stone Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f14" />
 
-<style>
-:root{
-  --text:#d8d2c7;
-  --muted:rgba(216,210,199,.65);
-  --rule:rgba(255,255,255,.08);
-  --copperLine:rgba(198,104,74,.35);
-}
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css?v=RESET-HTML-01" />
 
-*{box-sizing:border-box}
-
-html,body{
-  margin:0;
-  min-height:100%;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-}
-
-body{
-  font-family: ui-serif, Georgia, serif;
-  color:var(--text);
-  background:
-    radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.05), transparent 60%),
-    radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.65) 100%),
-    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65));
-}
-
-.menu{
-  max-width:900px;
-  margin:0 auto;
-  padding:28px;
-}
-
-.header, .footer{text-align:center}
-
-.kicker{
-  font-size:.8rem;
-  letter-spacing:.25em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-
-h1{
-  margin:.4rem 0;
-  font-size:3rem;
-  letter-spacing:.1em;
-}
-
-.subnote{color:var(--muted)}
-
-.build{
-  margin-top:.5rem;
-  font-size:.7rem;
-  letter-spacing:.15em;
-  opacity:.45;
-}
-
-.copper{
-  background:linear-gradient(
-    180deg,
-    #ffe2c6 0%,
-    #f1b387 20%,
-    #d07a4f 40%,
-    #c96744 70%,
-    #ffd7bf 100%
-  );
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.section{margin-top:3rem}
-
-.section h2{
-  text-align:center;
-  letter-spacing:.2em;
-  font-size:1.4rem;
-}
-
-.item{
-  display:flex;
-  justify-content:space-between;
-  gap:1rem;
-  padding:.7rem 0;
-  border-bottom:1px solid var(--rule);
-}
-
-.name{font-weight:600}
-
-.desc{
-  font-size:.95rem;
-  color:var(--muted);
-}
-
-.price{white-space:nowrap}
-
-.divider{
-  height:1px;
-  margin:2.5rem auto;
-  background:linear-gradient(to right, transparent, var(--copperLine), transparent);
-}
-</style>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </head>
 
 <body>
-<main class="menu">
+  <main class="menu" aria-label="Stag & Stone Menu">
+    <header class="header">
+      <div class="kicker">Stag &amp; Stone Coffeehouse</div>
+      <h1 class="title copper">Menu</h1>
+      <div class="subnote">Seasonal • Prices as listed</div>
+      <div class="build">BUILD: 2025-12-29 • HTML-RESET</div>
+    </header>
 
-<header class="header">
-  <div class="kicker">Stag &amp; Stone Coffeehouse</div>
-  <h1 class="copper">Menu</h1>
-  <div class="subnote">Seasonal • Prices as listed</div>
-  <div class="build">BUILD: 2025-12-29 • ONEFILE</div>
-</header>
+    <!-- HOUSE COFFEES -->
+    <section class="section">
+      <h2 class="copper">House Coffees</h2>
+      <div class="items">
+        <div class="item">
+          <div class="left">
+            <div class="name">Stag’s Dark Roast (drip)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="left">
+            <div class="name">Dawnwood Medium Roast (drip)</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="section">
-<h2 class="copper">House Coffees</h2>
-<div class="item"><div class="name">Stag’s Dark Roast (drip)</div></div>
-<div class="item"><div class="name">Dawnwood Medium Roast (drip)</div></div>
-</section>
+    <div class="divider" aria-hidden="true"></div>
 
-<div class="divider"></div>
+    <!-- ESPRESSO CLASSICS -->
+    <section class="section">
+      <h2 class="copper">Espresso Classics</h2>
+      <div class="items">
+        <div class="item"><div class="left"><div class="name">Espresso</div></div></div>
+        <div class="item"><div class="left"><div class="name">Americano</div></div></div>
+        <div class="item"><div class="left"><div class="name">Cappuccino</div></div></div>
+        <div class="item"><div class="left"><div class="name">Latte</div></div></div>
+      </div>
+    </section>
 
-<section class="section">
-<h2 class="copper">Espresso Classics</h2>
-<div class="item"><div class="name">Espresso</div></div>
-<div class="item"><div class="name">Americano</div></div>
-<div class="item"><div class="name">Cappuccino</div></div>
-<div class="item"><div class="name">Latte</div></div>
-</section>
+    <div class="divider" aria-hidden="true"></div>
 
-<div class="divider"></div>
+    <!-- FEATURED LATTES -->
+    <section class="section">
+      <h2 class="copper">Featured Lattes</h2>
+      <div class="items">
+        <div class="item">
+          <div class="left">
+            <div class="name">Black Spell Mocha</div>
+            <div class="desc">(dark chocolate mocha)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="left">
+            <div class="name">Caramel Draught Latte</div>
+            <div class="desc">(caramel latte)</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="section">
-<h2 class="copper">Featured Lattes</h2>
-<div class="item">
-  <div>
-    <div class="name">Black Spell Mocha</div>
-    <div class="desc">Dark chocolate mocha</div>
-  </div>
-</div>
-<div class="item">
-  <div>
-    <div class="name">Caramel Draught Latte</div>
-    <div class="desc">Caramel latte</div>
-  </div>
-</div>
-</section>
+    <div class="divider" aria-hidden="true"></div>
 
-<div class="divider"></div>
+    <!-- SIGNATURE COFFEEHOUSE -->
+    <section class="section">
+      <h2 class="copper">Signature Coffeehouse</h2>
+      <div class="items">
+        <div class="item">
+          <div class="left">
+            <div class="name">Stag King Brew</div>
+            <div class="desc">(signature sweet-cream coffee)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="left">
+            <div class="name">Dragonfire Mocha</div>
+            <div class="desc">(spiced mocha)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="left">
+            <div class="name">Siren Salted Cold Foam</div>
+            <div class="desc">(cold foam topper — add-on)</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="section">
-<h2 class="copper">Sandwiches</h2>
-<div class="item">
-  <div>
-    <div class="name">The Stag Melt</div>
-    <div class="desc">Ham, bacon, egg, melted cheese on sourdough</div>
-  </div>
-  <div class="price">$14</div>
-</div>
-<div class="item">
-  <div>
-    <div class="name">Turkey, Brie &amp; Cranberry</div>
-    <div class="desc">Roasted turkey, brie, cranberry</div>
-  </div>
-  <div class="price">$13</div>
-</div>
-</section>
+    <div class="divider" aria-hidden="true"></div>
 
-<footer class="footer">
-  <div class="subnote" style="margin-top:3rem">Dahlonega, Georgia</div>
-</footer>
+    <!-- ICED COFFEEHOUSE -->
+    <section class="section">
+      <h2 class="copper">Iced Coffeehouse</h2>
+      <div class="items">
+        <div class="item">
+          <div class="left">
+            <div class="name">Any espresso classic available iced</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-</main>
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- TEAS & HERBALS -->
+    <section class="section">
+      <h2 class="copper">Teas &amp; Herbals</h2>
+      <div class="items">
+        <div class="item"><div class="left"><div class="name">Orchard Chai</div><div class="desc">(chai)</div></div></div>
+        <div class="item"><div class="left"><div class="name">Forest Mint</div><div class="desc">(mint herbal)</div></div></div>
+        <div class="item"><div class="left"><div class="name">Lavender Fields</div><div class="desc">(lavender herbal)</div></div></div>
+        <div class="item"><div class="left"><div class="name">Siren Blue</div><div class="desc">(butterfly pea herbal)</div></div></div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- MATCHA -->
+    <section class="section">
+      <h2 class="copper">Matcha</h2>
+      <div class="items">
+        <div class="item">
+          <div class="left">
+            <div class="name">Matcha Green Elixir</div>
+            <div class="desc">(matcha latte)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- ICED & REFRESHERS -->
+    <section class="section">
+      <h2 class="copper">Iced &amp; Refreshers</h2>
+      <div class="items">
+        <div class="item"><div class="left"><div class="name">Iced Chai</div></div></div>
+        <div class="item"><div class="left"><div class="name">Iced Matcha</div></div></div>
+        <div class="item"><div class="left"><div class="name">Stormborn Lemonade</div></div></div>
+        <div class="item"><div class="left"><div class="name">Witchlight Cooler</div><div class="desc">(seasonal refresher)</div></div></div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- SANDWICHES -->
+    <section class="section">
+      <h2 class="copper">Sandwiches</h2>
+      <div class="section-sub">Pressed to order • Limited selection</div>
+
+      <div class="items">
+        <div class="item">
+          <div class="left">
+            <div class="name">The Stag Melt</div>
+            <div class="desc">Tavern ham, bacon, egg &amp; melted cheese with thyme and parsley on house sourdough</div>
+          </div>
+          <div class="price copper">$14</div>
+        </div>
+
+        <div class="item">
+          <div class="left">
+            <div class="name">Turkey, Brie &amp; Cranberry</div>
+            <div class="desc">Roasted turkey, brie, and cranberry on house sourdough</div>
+          </div>
+          <div class="price copper">$13</div>
+        </div>
+
+        <div class="item">
+          <div class="left">
+            <div class="name">Wildwood Melt (limited)</div>
+            <div class="desc">Chanterelle, beech, maitake, and cremini mushrooms with bacon jam, thyme and parsley on house sourdough</div>
+          </div>
+          <div class="price copper">$15</div>
+        </div>
+
+        <div class="item">
+          <div class="left">
+            <div class="name">Tavern Ham &amp; Grilled Cheese</div>
+            <div class="desc">Tavern ham and melted cheese on house sourdough</div>
+          </div>
+          <div class="price copper">$11</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <!-- PASTRIES -->
+    <section class="section">
+      <h2 class="copper">Pastries</h2>
+      <div class="section-sub">Baked fresh daily • Selection varies</div>
+
+      <div class="items">
+        <div class="item"><div class="left"><div class="name">Fresh pastry (rotating)</div></div></div>
+        <div class="item"><div class="left"><div class="name">Savory hand pie or scone</div></div></div>
+        <div class="item"><div class="left"><div class="name">Biscotti or shortbread</div></div></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="small">Dahlonega, Georgia</div>
+    </footer>
+  </main>
 </body>
 </html>
