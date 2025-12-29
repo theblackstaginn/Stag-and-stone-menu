@@ -1,279 +1,197 @@
+/* styles.css */
 :root{
-  --bg:#07090c;
+  /* Palette */
+  --bg:#0b0f14;
   --text:#d8d2c7;
-  --muted:rgba(216,210,199,.68);
-  --rule:rgba(255,255,255,.07);
+  --muted: rgba(216,210,199,.70);
+  --dim: rgba(216,210,199,.55);
 
-  /* warm copper divider */
-  --copperLine:rgba(198,104,74,.34);
+  /* Copper-ish highlights */
+  --copper: rgba(198, 104, 74, .85);
+  --copperSoft: rgba(198, 104, 74, .28);
 
-  /* background texture controls */
-  --textureSize: 820px;
-  --wallDim: .42; /* LOWER = less haze */
+  /* Surfaces */
+  --panelTop: rgba(10,14,18,.70);
+  --panelBottom: rgba(10,14,18,.42);
 
-  /* rune + ember overlay controls */
-  --runesOpacity: .18;
-  --runesGlow: 14px;
-  --embersOpacity: .22;
+  --rule: rgba(255,255,255,.08);
+
+  /* Layout */
+  --pad: clamp(14px, 2.2vw, 22px);
+  --radius: 18px;
+
+  /* Border image path:
+     Put border.png in repo root, OR change to url("assets/border.png") */
+  --borderUrl: url("border.png");
 }
 
 *{ box-sizing:border-box; }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden; /* page itself never scrolls */
+html, body{
+  height:100%;
+  margin:0;
+  overflow:hidden; /* page itself never scrolls */
 }
 
 body{
   color:var(--text);
-  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-
-  background:
-    radial-gradient(140% 110% at 50% 8%, rgba(255,255,255,.035), transparent 55%),
-    radial-gradient(120% 130% at 50% 55%, transparent 62%, rgba(0,0,0,.72) 100%),
-    linear-gradient(rgba(0,0,0,var(--wallDim)), rgba(0,0,0,var(--wallDim))),
-    url("Assets/charcoal-bg.PNG");
-
-  background-repeat: repeat;
-  background-size: var(--textureSize) var(--textureSize);
-  background-attachment: fixed;
+  background: var(--bg);
+  font-family: ui-serif, Georgia, "Times New Roman", serif;
 }
 
-/* Keep all content above overlays */
-.menu{
+/* Fullscreen decorative frame */
+.frame{
+  position:fixed;
+  inset:0;
+  background-image: var(--borderUrl);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size: 100% 100%; /* snap to screen */
+  pointer-events:none;        /* CRITICAL: never block scroll */
+  opacity: .98;
+  z-index: 0;
+}
+
+/* Panel inside the frame */
+.panel{
   position:relative;
-  z-index:1;
+  z-index: 1;
 
-  min-height:100vh;
-  max-width: 1100px;
+  /* iOS-safe full height */
+  height: 100svh;
+  height: 100vh;
+
+  /* Keep content comfortably inside frame */
+  width: min(980px, 92vw);
   margin: 0 auto;
-  padding:
-    calc(26px + env(safe-area-inset-top))
-    calc(26px + env(safe-area-inset-right))
-    calc(26px + env(safe-area-inset-bottom))
-    calc(26px + env(safe-area-inset-left));
-}
-.menu-scroll {
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+
+  /* If your border has thick edges, give breathing room */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+
+  display:flex;
+  flex-direction:column;
+
+  border-radius: var(--radius);
+
+  /* subtle readable glass */
+  background: linear-gradient(180deg, var(--panelTop), var(--panelBottom));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  overflow:hidden; /* keep scroll inside */
 }
 
 /* Header */
-.header{
+.top{
+  padding: var(--pad) var(--pad) 10px;
+  border-bottom: 1px solid var(--rule);
   text-align:center;
-  margin-bottom: 2.1rem;
 }
 
 .kicker{
-  font-size:.9rem;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:var(--muted);
+  font-size: 14px;
+  letter-spacing: 5px;
+  color: var(--muted);
 }
 
 .title{
-  margin:.45rem 0 .25rem;
-  font-size: clamp(2.6rem, 5.5vw, 3.8rem);
-  letter-spacing:.12em;
+  margin: 10px 0 6px;
+  font-size: clamp(42px, 6vw, 66px);
+  letter-spacing: 1px;
+  line-height: 1;
+  text-transform:none;
+  /* quiet copper “metal” vibe without heavy effects */
+  text-shadow: 0 10px 22px rgba(0,0,0,.55);
 }
 
-.subnote{
-  font-size:1rem;
-  color:var(--muted);
+.sub{
+  margin-top: 6px;
+  font-size: clamp(14px, 2.0vw, 18px);
+  color: var(--muted);
 }
 
-.build{
-  margin-top:.6rem;
-  opacity:.35;
-  font-size:12px;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+.meta{
+  margin-top: 10px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--dim);
 }
 
-/* Sections */
-.section{
-  margin-top: 2.5rem;
-}
+/* The ONLY scroll container */
+.menuScroll{
+  flex: 1;                      /* CRITICAL: gives it height */
+  overflow-y: auto;             /* CRITICAL: enables scroll */
+  -webkit-overflow-scrolling: touch;
+  padding: 16px var(--pad) 18px;
 
-.section h2{
-  text-align:center;
-  margin: 0 0 1.1rem;
-  font-size: clamp(1.15rem, 3vw, 1.65rem);
-  letter-spacing:.18em;
-  text-transform:uppercase;
-}
-
-.section-sub{
-  text-align:center;
-  margin: -0.45rem 0 1.2rem;
-  color:var(--muted);
-  font-size: .98rem;
-}
-
-.items{
-  max-width: 980px;
-  margin: 0 auto;
-}
-
-/* Menu items */
-.item{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:1.2rem;
-  padding:.7rem .2rem;
-  border-bottom: 1px solid var(--rule);
-  text-shadow: 0 1px 1px rgba(0,0,0,.55);
-}
-
-.left{ min-width: 0; }
-
-.name{
-  font-weight:600;
-  font-size: clamp(1.05rem, 2.3vw, 1.35rem);
-  line-height: 1.25;
-}
-
-.desc{
-  margin-top:.25rem;
-  font-size: clamp(.95rem, 2vw, 1.08rem);
-  line-height: 1.35;
-  color: rgba(216,210,199,.78);
-}
-
-.price{
-  font-weight:700;
-  letter-spacing:.06em;
-  font-size: clamp(1.0rem, 2.2vw, 1.25rem);
-  white-space:nowrap;
-  padding-left:.5rem;
-}
-
-/* Dividers */
-.divider{
-  height:1px;
-  margin:2.2rem auto;
-  max-width: 900px;
-  background: linear-gradient(to right, transparent, var(--copperLine), transparent);
+  /* Prevent weird iOS “bounce” from exposing body */
+  overscroll-behavior: contain;
 }
 
 /* Footer */
-.footer{
-  margin-top: 2.8rem;
+.bottom{
+  padding: 10px var(--pad) var(--pad);
+  border-top: 1px solid var(--rule);
   text-align:center;
 }
 
-.small{
-  font-size:.95rem;
-  letter-spacing:.08em;
-  color: rgba(216,210,199,.55);
+.location{
+  color: var(--muted);
+  font-size: 16px;
+  letter-spacing: 2px;
 }
 
-/* ---- REALISTIC 3D COPPER TEXT ---- */
-.copper{
-  background:
-    linear-gradient(180deg,
-      #fff2e6 0%,
-      #f9cfb2 10%,
-      #d67a4f 24%,
-      #ffdec9 36%,
-      #b45536 52%,
-      #8b3b25 70%,
-      #ffd9c6 86%,
-      #a24a2f 100%
-    ),
-    radial-gradient(120% 80% at 30% 15%,
-      rgba(255,255,255,.55), transparent 55%
-    );
-
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-
-  text-shadow:
-    0 -1px 0 rgba(255,255,255,.18),
-    0 -2px 0 rgba(255,255,255,.08),
-    0  1px 0 rgba(0,0,0,.30),
-    0  2px 0 rgba(0,0,0,.22),
-    0  6px 16px rgba(0,0,0,.50),
-    0 14px 36px rgba(0,0,0,.35);
-
-  filter: saturate(1.08) contrast(1.08);
+/* Menu content styling (works with most JS renderers) */
+.loading{
+  color: var(--muted);
+  text-align:center;
+  padding: 24px 0;
 }
 
-/* subtle “living” sheen */
-@media (prefers-reduced-motion: no-preference){
-  .copper{
-    background-size: 140% 140%;
-    animation: copperSheen 10s ease-in-out infinite;
-  }
-  @keyframes copperSheen{
-    0%   { background-position: 0% 0%, 0% 0%; }
-    50%  { background-position: 100% 40%, 70% 10%; }
-    100% { background-position: 0% 0%, 0% 0%; }
-  }
+/* Generic section + item styles (safe defaults) */
+.section{
+  margin: 18px 0 20px;
 }
 
-/* ---- GLOWING PROTECTION RUNES (overlay) ---- */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-
-  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(198,104,74,.06) 0 1px,
-      transparent 1px 80px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(198,104,74,.04) 0 1px,
-      transparent 1px 96px
-    );
-
-  opacity:var(--runesOpacity);
-  mix-blend-mode: screen;
-  filter:
-    drop-shadow(0 0 var(--runesGlow) rgba(198,104,74,.45))
-    drop-shadow(0 0 calc(var(--runesGlow) * 2) rgba(198,104,74,.22));
+.section h2{
+  margin: 0 0 10px;
+  text-align:center;
+  font-size: clamp(18px, 2.4vw, 28px);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--text);
+  text-shadow: 0 10px 22px rgba(0,0,0,.55);
 }
 
-/* gentle pulse */
-@media (prefers-reduced-motion: no-preference){
-  body::before{
-    animation: runePulse 6.5s ease-in-out infinite;
-  }
-  @keyframes runePulse{
-    0%,100% { opacity: calc(var(--runesOpacity) * .85); }
-    50%     { opacity: calc(var(--runesOpacity) * 1.15); }
-  }
+/* item rows */
+.item{
+  display:flex;
+  justify-content:space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.10);
 }
 
-/* ---- RISING EMBERS (overlay) ---- */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-
-  background:
-    radial-gradient(circle at 20% 110%, rgba(255,120,40,.35), transparent 60%),
-    radial-gradient(circle at 60% 115%, rgba(255,90,20,.28), transparent 65%),
-    radial-gradient(circle at 85% 108%, rgba(255,140,60,.25), transparent 60%);
-
-  opacity: var(--embersOpacity);
-  animation: embers 18s linear infinite;
+.item:last-child{
+  border-bottom:none;
 }
 
-@keyframes embers{
-  0%   { background-position: 0% 120%, 0% 130%, 0% 125%; }
-  100% { background-position: 0% -20%, 0% -30%, 0% -25%; }
+.name{
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 600;
+}
+
+.price{
+  font-size: clamp(16px, 2.0vw, 24px);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* small divider helper if your JS injects hr/dividers */
+.hr{
+  height: 1px;
+  background: var(--copperSoft);
+  margin: 10px 0;
 }
