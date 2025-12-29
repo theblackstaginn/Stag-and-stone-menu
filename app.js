@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const DATA_VERSION = "reset3";
+  const DATA_VERSION = "reset-full-10";
 
   const MENU = [
     {
@@ -121,20 +121,20 @@
 
   function sectionHTML(section) {
     const subtitle = section.subtitle
-      ? `<div class="subnote section-sub" style="text-align:center;">${escapeHTML(section.subtitle)}</div>`
+      ? `<div class="subnote" style="text-align:center; margin:-0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
       : "";
 
     const items = section.items
       .map(
         (it) => `
-        <div class="item">
-          <div class="left">
-            <div class="name">${escapeHTML(it.name)}</div>
-            ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
+          <div class="item">
+            <div class="left">
+              <div class="name">${escapeHTML(it.name)}</div>
+              ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
+            </div>
+            ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
           </div>
-          ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
-        </div>
-      `
+        `
       )
       .join("");
 
@@ -152,7 +152,6 @@
     const mount = document.getElementById("menuContent");
     if (!mount) throw new Error('Missing <div id="menuContent"></div> in index.html');
 
-    // Update DATA line in header (if present)
     const dv = document.getElementById("dataVersion");
     if (dv) dv.textContent = `DATA: ${DATA_VERSION} • sections: ${MENU.length}`;
 
@@ -167,6 +166,9 @@
       render();
     } catch (err) {
       const mount = document.getElementById("menuContent");
+      const dv = document.getElementById("dataVersion");
+      if (dv) dv.textContent = `DATA: ERROR`;
+
       if (mount) {
         mount.innerHTML = `
           <div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(198,104,74,.35);border-radius:12px;background:rgba(0,0,0,.35);">
