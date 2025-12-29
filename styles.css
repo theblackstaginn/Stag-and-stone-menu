@@ -1,33 +1,35 @@
-/* styles.css — charcoal background + copper lettering + reliable texture (iOS-safe) */
+/* styles.css — FINAL full rewrite: charcoal background + subtle texture + realistic copper + scroll-safe panel */
+
 :root{
+  /* Text */
   --text:#d8d2c7;
   --muted: rgba(216,210,199,.70);
   --dim: rgba(216,210,199,.55);
   --rule: rgba(255,255,255,.08);
 
-  /* Charcoal base colors */
+  /* Charcoal base */
   --bg0:#07090c;
   --bg1:#0a0d12;
 
-  /* Film grain strength */
+  /* Grain + texture */
   --grainOpacity:.14;
+  --charcoalTex: url("Assets/charcoal-bg.png"); /* NOTE: capital A */
 
-  /* Texture image (MUST exist at: /assets/charcoal-bg.png ) */
-  --charcoalTex: url("Assets/charcoal-bg.png");
+  /* Copper (metal illusion) */
+  --c1:#f3d2b6;  /* highlight */
+  --c2:#d79a73;  /* warm mid */
+  --c3:#b56a46;  /* core */
+  --c4:#7a3b24;  /* edge/shadow */
 
-  /* Copper palette */
-  --c1:#f3d2b6;
-  --c2:#d79a73;
-  --c3:#b56a46;
-  --c4:#7a3b24;
+  /* Panel */
+  --panelTop: rgba(6,8,10,.62);
+  --panelBottom: rgba(6,8,10,.40);
 
-  /* Panel glass (a bit darker so text stays readable) */
-  --panelTop: rgba(6,8,10,.58);
-  --panelBottom: rgba(6,8,10,.36);
-
+  /* Layout */
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
 
+  /* Border */
   --borderUrl: url("border.png");
 }
 
@@ -43,28 +45,29 @@ body{
   color: var(--text);
   font-family: ui-serif, Georgia, "Times New Roman", serif;
 
-  /* Charcoal base */
   background:
     radial-gradient(120% 90% at 50% 12%, rgba(255,255,255,.06), transparent 60%),
     radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.72) 100%),
     linear-gradient(180deg, var(--bg1), var(--bg0));
 }
 
-/* Film grain overlay (pure CSS) */
+/* Grain (very subtle) */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
   z-index:0;
+
   opacity: var(--grainOpacity);
   mix-blend-mode: overlay;
+
   background-image:
     repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, rgba(0,0,0,.04) 1px 2px),
     repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.03) 1px 3px);
 }
 
-/* Charcoal texture layer (hardened: visible even on iOS) */
+/* Charcoal texture image (kept behind the panel) */
 body::after{
   content:"";
   position:fixed;
@@ -72,33 +75,31 @@ body::after{
   pointer-events:none;
   z-index:0;
 
-  /* Key changes:
-     - higher opacity (still tasteful)
-     - blend mode 'multiply' is more consistent than soft-light on iOS
-     - add a fallback subtle noise gradient so you ALWAYS see texture */
-  opacity:.34;
-  background-image:
-    var(--charcoalTex),
-    radial-gradient(120% 100% at 50% 35%, rgba(255,255,255,.035), transparent 60%);
-  background-size: 900px 900px, 100% 100%;
-  background-repeat: repeat, no-repeat;
-  mix-blend-mode: multiply;
+  opacity:.18;
+  background-image: var(--charcoalTex);
+  background-size: 1100px 1100px;
+  background-repeat: repeat;
+
+  /* subtle + consistent */
+  mix-blend-mode: soft-light;
 }
 
-/* Border snaps to screen */
+/* Border frame snaps to viewport */
 .frame{
   position:fixed;
   inset:0;
   z-index:1;
+
   background-image: var(--borderUrl);
   background-repeat:no-repeat;
   background-position:center;
   background-size: 100% 100%;
+
   pointer-events:none;
   opacity:.98;
 }
 
-/* Panel (scroll architecture preserved) */
+/* Main panel inside border */
 .panel{
   position:relative;
   z-index:2;
@@ -138,7 +139,6 @@ body::after{
   color: var(--muted);
 }
 
-/* Copper “metal” title */
 .title{
   margin: 10px 0 6px;
   font-size: clamp(44px, 6.4vw, 70px);
@@ -158,12 +158,32 @@ body::after{
   color: transparent;
 
   text-shadow:
-    0 2px 0 rgba(0,0,0,.45),
-    0 12px 26px rgba(0,0,0,.70);
-  filter: saturate(1.10) contrast(1.10);
+    0 2px 0 rgba(0,0,0,.55),
+    0 12px 26px rgba(0,0,0,.75);
+
+  filter: saturate(1.18) contrast(1.15);
 }
 
-/* Section headers copper */
+.sub{
+  margin-top: 6px;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--muted);
+}
+
+/* Scroll container (Safari + flex fix) */
+.menuScroll{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  padding: 16px var(--pad) 18px;
+}
+
+/* Sections + items */
+.section{ margin: 18px 0 20px; }
+
 .section h2{
   margin: 0 0 10px;
   text-align:center;
@@ -183,41 +203,11 @@ body::after{
   color: transparent;
 
   text-shadow:
-    0 1px 0 rgba(0,0,0,.40),
-    0 10px 22px rgba(0,0,0,.60);
-}
+    0 1px 0 rgba(0,0,0,.45),
+    0 10px 22px rgba(0,0,0,.65);
 
-.sub{
-  margin-top: 6px;
-  font-size: clamp(14px, 2vw, 18px);
-  color: var(--muted);
+  filter: saturate(1.12) contrast(1.10);
 }
-
-/* Scroll container (Safari fix included) */
-.menuScroll{
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding: 16px var(--pad) 18px;
-}
-
-/* Footer */
-.bottom{
-  padding: 10px var(--pad) var(--pad);
-  border-top: 1px solid var(--rule);
-  text-align:center;
-}
-
-.location{
-  color: var(--muted);
-  font-size: 16px;
-  letter-spacing: 2px;
-}
-
-/* Items */
-.section{ margin: 18px 0 20px; }
 
 .item{
   display:flex;
@@ -247,4 +237,17 @@ body::after{
   font-size: clamp(13px, 1.6vw, 18px);
   color: var(--muted);
   line-height: 1.25;
+}
+
+/* Footer */
+.bottom{
+  padding: 10px var(--pad) var(--pad);
+  border-top: 1px solid var(--rule);
+  text-align:center;
+}
+
+.location{
+  color: var(--muted);
+  font-size: 16px;
+  letter-spacing: 2px;
 }
