@@ -1,27 +1,19 @@
 /* styles.css */
 :root{
-  /* Palette */
   --bg:#0b0f14;
   --text:#d8d2c7;
   --muted: rgba(216,210,199,.70);
   --dim: rgba(216,210,199,.55);
 
-  /* Copper-ish highlights */
-  --copper: rgba(198, 104, 74, .85);
-  --copperSoft: rgba(198, 104, 74, .28);
-
-  /* Surfaces */
-  --panelTop: rgba(10,14,18,.70);
-  --panelBottom: rgba(10,14,18,.42);
-
   --rule: rgba(255,255,255,.08);
 
-  /* Layout */
+  --panelTop: rgba(10,14,18,.72);
+  --panelBottom: rgba(10,14,18,.42);
+
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
 
-  /* Border image path:
-     Put border.png in repo root, OR change to url("assets/border.png") */
+  /* Put border.png in repo root, or change to url("assets/border.png") */
   --borderUrl: url("border.png");
 }
 
@@ -30,57 +22,52 @@
 html, body{
   height:100%;
   margin:0;
-  overflow:hidden; /* page itself never scrolls */
+  overflow:hidden; /* page never scrolls */
 }
 
 body{
-  color:var(--text);
   background: var(--bg);
+  color: var(--text);
   font-family: ui-serif, Georgia, "Times New Roman", serif;
 }
 
-/* Fullscreen decorative frame */
+/* Border snaps to the screen and never blocks touch */
 .frame{
   position:fixed;
   inset:0;
+  z-index:0;
   background-image: var(--borderUrl);
   background-repeat:no-repeat;
   background-position:center;
-  background-size: 100% 100%; /* snap to screen */
-  pointer-events:none;        /* CRITICAL: never block scroll */
-  opacity: .98;
-  z-index: 0;
+  background-size: 100% 100%;
+  pointer-events:none;
+  opacity:.98;
 }
 
-/* Panel inside the frame */
+/* Main panel fills the viewport and allocates a real scroll area */
 .panel{
   position:relative;
-  z-index: 1;
+  z-index:1;
 
-  /* iOS-safe full height */
   height: 100svh;
   height: 100vh;
 
-  /* Keep content comfortably inside frame */
   width: min(980px, 92vw);
   margin: 0 auto;
-
-  /* If your border has thick edges, give breathing room */
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-           env(safe-area-inset-bottom) env(safe-area-inset-left);
 
   display:flex;
   flex-direction:column;
 
   border-radius: var(--radius);
+  overflow:hidden;
 
-  /* subtle readable glass */
   background: linear-gradient(180deg, var(--panelTop), var(--panelBottom));
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-
   box-shadow: 0 18px 60px rgba(0,0,0,.55);
-  overflow:hidden; /* keep scroll inside */
+
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 /* Header */
@@ -99,16 +86,13 @@ body{
 .title{
   margin: 10px 0 6px;
   font-size: clamp(42px, 6vw, 66px);
-  letter-spacing: 1px;
   line-height: 1;
-  text-transform:none;
-  /* quiet copper “metal” vibe without heavy effects */
   text-shadow: 0 10px 22px rgba(0,0,0,.55);
 }
 
 .sub{
   margin-top: 6px;
-  font-size: clamp(14px, 2.0vw, 18px);
+  font-size: clamp(14px, 2vw, 18px);
   color: var(--muted);
 }
 
@@ -119,15 +103,15 @@ body{
   color: var(--dim);
 }
 
-/* The ONLY scroll container */
+/* THE magic: Safari needs min-height:0 inside flex to allow overflow scrolling */
 .menuScroll{
-  flex: 1;                      /* CRITICAL: gives it height */
-  overflow-y: auto;             /* CRITICAL: enables scroll */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 16px var(--pad) 18px;
-
-  /* Prevent weird iOS “bounce” from exposing body */
   overscroll-behavior: contain;
+
+  padding: 16px var(--pad) 18px;
 }
 
 /* Footer */
@@ -143,14 +127,13 @@ body{
   letter-spacing: 2px;
 }
 
-/* Menu content styling (works with most JS renderers) */
 .loading{
   color: var(--muted);
   text-align:center;
   padding: 24px 0;
 }
 
-/* Generic section + item styles (safe defaults) */
+/* Generic menu styling (compatible with most renderers) */
 .section{
   margin: 18px 0 20px;
 }
@@ -161,11 +144,9 @@ body{
   font-size: clamp(18px, 2.4vw, 28px);
   letter-spacing: 6px;
   text-transform: uppercase;
-  color: var(--text);
   text-shadow: 0 10px 22px rgba(0,0,0,.55);
 }
 
-/* item rows */
 .item{
   display:flex;
   justify-content:space-between;
@@ -174,9 +155,7 @@ body{
   border-bottom: 1px solid rgba(255,255,255,.10);
 }
 
-.item:last-child{
-  border-bottom:none;
-}
+.item:last-child{ border-bottom:none; }
 
 .name{
   font-size: clamp(18px, 2.2vw, 28px);
@@ -184,14 +163,7 @@ body{
 }
 
 .price{
-  font-size: clamp(16px, 2.0vw, 24px);
+  font-size: clamp(16px, 2vw, 24px);
   color: var(--muted);
   white-space: nowrap;
-}
-
-/* small divider helper if your JS injects hr/dividers */
-.hr{
-  height: 1px;
-  background: var(--copperSoft);
-  margin: 10px 0;
 }
