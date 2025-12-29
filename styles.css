@@ -1,46 +1,58 @@
 :root{
-  --text:#d8d2c7;
-  --muted: rgba(216,210,199,.68);
-  --rule: rgba(255,255,255,.06);
-  --copperLine: rgba(198, 104, 74, .28);
+  --bg:#07090c;
+  --text:#d8d2c7;                 /* softer than white */
+  --muted:rgba(216,210,199,.68);
+  --rule:rgba(255,255,255,.07);
+
+  /* warmer, redder copper vibe */
+  --copperLine:rgba(198,104,74,.34);
+
   --textureSize: 820px;
-  --wallDim: .60;
+  --wallDim: .42;                 /* LOWER = less haze */
 }
 
 *{ box-sizing:border-box; }
 
-html, body{
+html,body{
   margin:0;
-  height:100%;
+  height:auto;
+  min-height:100%;
 }
 
 body{
   color:var(--text);
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+
+  /* Less “fog”: keep vignette subtle and remove heavy mid overlay */
   background:
-    radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.04), transparent 60%),
-    radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.62) 100%),
+    radial-gradient(140% 110% at 50% 8%, rgba(255,255,255,.035), transparent 55%),
+    radial-gradient(120% 130% at 50% 55%, transparent 62%, rgba(0,0,0,.72) 100%),
     linear-gradient(rgba(0,0,0,var(--wallDim)), rgba(0,0,0,var(--wallDim))),
     url("Assets/charcoal-bg.PNG");
+
   background-repeat: repeat;
   background-size: var(--textureSize) var(--textureSize);
   background-attachment: fixed;
-  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
 }
 
-.shell{
-  height:100vh;
+/* Layout */
+.menu{
+  min-height:100vh;
   max-width: 1100px;
   margin: 0 auto;
   padding:
-    calc(22px + env(safe-area-inset-top))
-    calc(22px + env(safe-area-inset-right))
-    calc(22px + env(safe-area-inset-bottom))
-    calc(22px + env(safe-area-inset-left));
-  display:flex;
-  flex-direction:column;
+    calc(26px + env(safe-area-inset-top))
+    calc(26px + env(safe-area-inset-right))
+    calc(26px + env(safe-area-inset-bottom))
+    calc(26px + env(safe-area-inset-left));
 }
 
-.header{ text-align:center; padding-bottom: 14px; }
+.header{
+  text-align:center;
+  margin-bottom: 2.1rem;
+}
 
 .kicker{
   font-size:.9rem;
@@ -49,53 +61,28 @@ body{
   color:var(--muted);
 }
 
-h1{
-  margin:.4rem 0 .3rem;
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  letter-spacing:.1em;
+.title{
+  margin:.45rem 0 .25rem;
+  font-size: clamp(2.6rem, 5.5vw, 3.8rem);
+  letter-spacing:.12em;
 }
 
-.subnote{ font-size:1rem; color:var(--muted); }
+.subnote{
+  font-size:1rem;
+  color:var(--muted);
+}
 
 .build{
-  margin-top:.55rem;
+  margin-top:.6rem;
   opacity:.35;
   font-size:12px;
   letter-spacing:.12em;
   text-transform:uppercase;
 }
 
-/* Warmer copper (reddish, less bronze) */
-.copper{
-  background: linear-gradient(
-    180deg,
-    #ffe2c6 0%,
-    #f1b387 12%,
-    #d07a4f 30%,
-    #ffcfac 46%,
-    #c96744 62%,
-    #8e3f27 84%,
-    #ffd7bf 100%
-  );
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.10),
-    0 -1px 0 rgba(0,0,0,.35),
-    0 2px 5px rgba(0,0,0,.55);
+.section{
+  margin-top: 2.5rem;
 }
-
-/* The ONLY scroll area */
-.scroll{
-  flex:1;
-  overflow-y:auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding-top: 10px;
-}
-
-.section{ margin-top: 2.2rem; }
 
 .section h2{
   text-align:center;
@@ -105,35 +92,45 @@ h1{
   text-transform:uppercase;
 }
 
+.section-sub{
+  text-align:center;
+  margin: -0.45rem 0 1.2rem;
+  color:var(--muted);
+  font-size: .98rem;
+}
+
 .items{
   max-width: 980px;
   margin: 0 auto;
 }
 
+/* Items */
 .item{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
   gap:1.2rem;
-  padding:.65rem .2rem;
+  padding:.7rem .2rem;
   border-bottom: 1px solid var(--rule);
   text-shadow: 0 1px 1px rgba(0,0,0,.55);
 }
 
-.item .name{
+.left{ min-width: 0; }
+
+.name{
   font-weight:600;
   font-size: clamp(1.05rem, 2.3vw, 1.35rem);
   line-height: 1.25;
 }
 
-.item .desc{
+.desc{
   margin-top:.25rem;
   font-size: clamp(.95rem, 2vw, 1.08rem);
   line-height: 1.35;
   color: rgba(216,210,199,.78);
 }
 
-.item .price{
+.price{
   font-weight:700;
   letter-spacing:.06em;
   font-size: clamp(1.0rem, 2.2vw, 1.25rem);
@@ -141,17 +138,43 @@ h1{
   padding-left:.5rem;
 }
 
+/* Dividers */
 .divider{
   height:1px;
-  margin:2.0rem auto;
+  margin:2.2rem auto;
   max-width: 900px;
   background: linear-gradient(to right, transparent, var(--copperLine), transparent);
 }
 
-.footer{ margin: 2.2rem 0 1.2rem; text-align:center; }
+/* Footer */
+.footer{
+  margin-top: 2.8rem;
+  text-align:center;
+}
 
 .small{
   font-size:.95rem;
   letter-spacing:.08em;
   color: rgba(216,210,199,.55);
+}
+
+/* Copper gradient text */
+.copper{
+  background: linear-gradient(
+    180deg,
+    #ffe4cd 0%,
+    #f3b892 14%,
+    #d47952 34%,
+    #ffcfad 50%,
+    #c86543 66%,
+    #8b3b25 86%,
+    #ffd6bf 100%
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.10),
+    0 -1px 0 rgba(0,0,0,.35),
+    0 2px 5px rgba(0,0,0,.55);
 }
