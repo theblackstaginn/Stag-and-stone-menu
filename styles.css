@@ -1,27 +1,21 @@
 :root{
-  /* Softer parchment text */
   --text:#d8d2c7;
   --muted: rgba(216,210,199,.68);
-
   --rule: rgba(255,255,255,.06);
-
-  /* Warm copper divider line */
-  --copperLine: rgba(198,104,74,.28);
-
+  --copperLine: rgba(198, 104, 74, .28);
   --textureSize: 820px;
   --wallDim: .60;
 }
 
 *{ box-sizing:border-box; }
-html, body{ margin:0; height:100%; }
+
+html, body{
+  margin:0;
+  height:100%;
+}
 
 body{
-  overflow-y:auto;
-  -webkit-overflow-scrolling: touch;
-
   color:var(--text);
-  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-
   background:
     radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.04), transparent 60%),
     radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.62) 100%),
@@ -29,22 +23,24 @@ body{
     url("Assets/charcoal-bg.PNG");
   background-repeat: repeat;
   background-size: var(--textureSize) var(--textureSize);
-  /* iOS/Chromecast friendly */
-  background-attachment: scroll;
+  background-attachment: fixed;
+  font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
 }
 
-.menu{
-  min-height:100vh;
+.shell{
+  height:100vh;
   max-width: 1100px;
   margin: 0 auto;
   padding:
-    calc(28px + env(safe-area-inset-top))
-    calc(28px + env(safe-area-inset-right))
-    calc(28px + env(safe-area-inset-bottom))
-    calc(28px + env(safe-area-inset-left));
+    calc(22px + env(safe-area-inset-top))
+    calc(22px + env(safe-area-inset-right))
+    calc(22px + env(safe-area-inset-bottom))
+    calc(22px + env(safe-area-inset-left));
+  display:flex;
+  flex-direction:column;
 }
 
-.header{ text-align:center; margin-bottom: 2rem; }
+.header{ text-align:center; padding-bottom: 14px; }
 
 .kicker{
   font-size:.9rem;
@@ -69,7 +65,7 @@ h1{
   text-transform:uppercase;
 }
 
-/* Warmer copper (reddish, not bronze) */
+/* Warmer copper (reddish, less bronze) */
 .copper{
   background: linear-gradient(
     180deg,
@@ -90,7 +86,16 @@ h1{
     0 2px 5px rgba(0,0,0,.55);
 }
 
-.section{ margin-top: 2.6rem; }
+/* The ONLY scroll area */
+.scroll{
+  flex:1;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-top: 10px;
+}
+
+.section{ margin-top: 2.2rem; }
 
 .section h2{
   text-align:center;
@@ -138,12 +143,12 @@ h1{
 
 .divider{
   height:1px;
-  margin:2.2rem auto;
+  margin:2.0rem auto;
   max-width: 900px;
   background: linear-gradient(to right, transparent, var(--copperLine), transparent);
 }
 
-.footer{ margin-top: 2.8rem; text-align:center; }
+.footer{ margin: 2.2rem 0 1.2rem; text-align:center; }
 
 .small{
   font-size:.95rem;
