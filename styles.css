@@ -28,11 +28,10 @@ body{
   font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
 }
 
-/* page wrapper */
 .menu{
   min-height:100vh;
-  max-width:1100px;
-  margin:0 auto;
+  max-width: 1100px;
+  margin: 0 auto;
   padding:
     calc(28px + env(safe-area-inset-top))
     calc(28px + env(safe-area-inset-right))
@@ -55,46 +54,36 @@ h1{
   letter-spacing:.1em;
 }
 
-.subnote{
-  font-size:1rem;
-  color:var(--muted);
-}
-
-/* used by JS for section subtitles */
-.section-sub{
-  text-align:center;
-  margin:-.35rem 0 1.1rem;
-}
+.subnote{ font-size:1rem; color:var(--muted); }
 
 .build{
-  margin-top:8px;
+  opacity:.28;
   font-size:12px;
-  opacity:.32;
-  color:var(--muted);
+  margin-top:10px;
 }
 
-/* ✅ Warm, reddish copper (headers + prices) */
+/* Warmer/reddish copper */
 .copper{
-  color:#c07a4a;
+  color:#c06a4b;
   background: linear-gradient(
     180deg,
-    #ffd1b0 0%,
-    #e39a66 18%,
-    #b8653a 38%,
-    #f0b083 52%,
-    #a85832 68%,
-    #7a3f23 86%,
-    #ffd0a6 100%
+    #ffd8b8 0%,
+    #e8a679 14%,
+    #c06a4b 36%,
+    #ffd1b0 50%,
+    #bf6f4c 66%,
+    #8e3f2a 86%,
+    #ffd1a8 100%
   );
   -webkit-background-clip:text;
   -webkit-text-fill-color: transparent;
   text-shadow:
     0 1px 0 rgba(255,255,255,.10),
     0 -1px 0 rgba(0,0,0,.35),
-    0 3px 6px rgba(0,0,0,.65);
+    0 2px 4px rgba(0,0,0,.55);
 }
 
-.section{ margin-top: 2.6rem; }
+.section{ margin-top: 2.4rem; }
 
 .section h2{
   text-align:center;
@@ -112,16 +101,16 @@ h1{
 .item{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:1.4rem;
-  padding:.7rem .2rem;
+  align-items:baseline;
+  gap:1.2rem;
+  padding:.55rem .2rem;
+  font-size: clamp(1.05rem, 2.3vw, 1.35rem);
   border-bottom: 1px solid var(--rule);
+  text-shadow: 0 1px 1px rgba(0,0,0,.55);
 }
 
 .item .name{
   font-weight:600;
-  font-size: clamp(1.05rem, 2.3vw, 1.35rem);
-  color:var(--text);
 }
 
 .item .price{
@@ -130,50 +119,26 @@ h1{
   white-space:nowrap;
 }
 
-/* sandwich descriptions */
+/* Descriptions for food */
 .desc{
-  margin-top:.35rem;
-  font-size:.95rem;
-  line-height:1.4;
-  color: rgba(216,210,199,.72);
+  margin-top:.25rem;
+  font-size: clamp(.95rem, 2vw, 1.05rem);
+  line-height: 1.25;
+  color: rgba(216,210,199,.78);
+  max-width: 54ch;
 }
 
 .divider{
   height:1px;
-  margin:2.8rem auto;
+  margin:2.4rem auto;
   max-width: 900px;
   background: linear-gradient(to right, transparent, var(--copperLine), transparent);
 }
 
-.footer{ margin-top: 3.2rem; text-align:center; }
+.footer{ margin-top: 3rem; text-align:center; }
 
 .small{
   font-size:.95rem;
   letter-spacing:.08em;
   color: rgba(216,210,199,.55);
-}
-/* ===== SCREEN LOCK (no scrolling) ===== */
-html, body { height:100%; }
-body { overflow:hidden; }
-
-.screen{
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* The thing we scale */
-.fit-target{
-  transform-origin: top center;
-  will-change: transform;
-}
-
-/* Minor: build line styling */
-.build{
-  opacity:.28;
-  font-size:12px;
-  margin-top:10px;
 }
