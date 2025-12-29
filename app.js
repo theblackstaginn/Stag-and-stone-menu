@@ -1,5 +1,18 @@
 (() => {
   "use strict";
+  // --- HARD NUKE: stop stale cached site madness ---
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.getRegistrations()
+    .then((regs) => regs.forEach((r) => r.unregister()))
+    .catch(() => {});
+}
+
+try {
+  // Clear Cache Storage (best effort)
+  if (window.caches) {
+    caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+  }
+} catch (_) {}
 
   // DATA: RESET7 • sections: 10
   const DATA_TAG = "RESET7 • sections: 10";
