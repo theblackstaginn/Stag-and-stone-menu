@@ -1,7 +1,8 @@
 (() => {
   "use strict";
 
-  // DATA: reset3 • sections: 10
+  const DATA_VERSION = "reset3";
+
   const MENU = [
     {
       title: "House Coffees",
@@ -108,8 +109,6 @@
     },
   ];
 
-  const mount = document.getElementById("menuContent");
-
   function escapeHTML(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({
       "&": "&amp;",
@@ -122,19 +121,21 @@
 
   function sectionHTML(section) {
     const subtitle = section.subtitle
-      ? `<div class="subnote" style="text-align:center; margin: -0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
+      ? `<div class="subnote section-sub" style="text-align:center;">${escapeHTML(section.subtitle)}</div>`
       : "";
 
     const items = section.items
-      .map((it) => `
+      .map(
+        (it) => `
         <div class="item">
-          <div>
+          <div class="left">
             <div class="name">${escapeHTML(it.name)}</div>
             ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
           </div>
           ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
         </div>
-      `)
+      `
+      )
       .join("");
 
     return `
@@ -148,19 +149,32 @@
   }
 
   function render() {
+    const mount = document.getElementById("menuContent");
     if (!mount) throw new Error('Missing <div id="menuContent"></div> in index.html');
-    mount.innerHTML = MENU.map(sectionHTML).join("").replace(/<div class="divider"[^]*<\/div>\s*$/, "");
+
+    // Update DATA line in header (if present)
+    const dv = document.getElementById("dataVersion");
+    if (dv) dv.textContent = `DATA: ${DATA_VERSION} • sections: ${MENU.length}`;
+
+    mount.innerHTML = MENU
+      .map(sectionHTML)
+      .join("")
+      .replace(/<div class="divider"[^]*<\/div>\s*$/, "");
   }
 
   window.addEventListener("DOMContentLoaded", () => {
-    try { render(); }
-    const dv = document.getElementById("dataVersion");
-if (dv) dv.textContent = "DATA: reset3 • sections: 10";
-    catch (err) {
-      if (mount) mount.innerHTML = `<div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(198,104,74,.35);border-radius:12px;background:rgba(0,0,0,.35);">
-        <div style="font-weight:700;letter-spacing:.08em;margin-bottom:.5rem;">Menu Render Error</div>
-        <div style="opacity:.85;white-space:pre-wrap;">${escapeHTML(err.message)}</div>
-      </div>`;
+    try {
+      render();
+    } catch (err) {
+      const mount = document.getElementById("menuContent");
+      if (mount) {
+        mount.innerHTML = `
+          <div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(198,104,74,.35);border-radius:12px;background:rgba(0,0,0,.35);">
+            <div style="font-weight:700;letter-spacing:.08em;margin-bottom:.5rem;">Menu Render Error</div>
+            <div style="opacity:.85;white-space:pre-wrap;">${escapeHTML(err.message)}</div>
+          </div>
+        `;
+      }
       console.error(err);
     }
   });
