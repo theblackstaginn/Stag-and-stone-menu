@@ -1,4 +1,4 @@
-/* styles.css — charcoal background + copper lettering (keeps the scroll fix) */
+/* styles.css — charcoal background + copper lettering + reliable texture (iOS-safe) */
 :root{
   --text:#d8d2c7;
   --muted: rgba(216,210,199,.70);
@@ -12,27 +12,24 @@
   /* Film grain strength */
   --grainOpacity:.14;
 
-  /* Charcoal texture image (your renamed file) */
+  /* Texture image (MUST exist at: /assets/charcoal-bg.png ) */
   --charcoalTex: url("assets/charcoal-bg.png");
 
-  /* Copper palette (multi-stop for “metal”) */
+  /* Copper palette */
   --c1:#f3d2b6;
   --c2:#d79a73;
   --c3:#b56a46;
   --c4:#7a3b24;
-  --c5:#3a170f;
 
-  /* Panel glass */
-  --panelTop: rgba(6,8,10,.32);
-  --panelBottom: rgba(6,8,10,.18);
+  /* Panel glass (a bit darker so text stays readable) */
+  --panelTop: rgba(6,8,10,.58);
+  --panelBottom: rgba(6,8,10,.36);
 
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
 
-  /* Border */
   --borderUrl: url("border.png");
 }
-  
 
 *{ box-sizing:border-box; }
 
@@ -46,7 +43,7 @@ body{
   color: var(--text);
   font-family: ui-serif, Georgia, "Times New Roman", serif;
 
-  /* Charcoal background (multi-layer) */
+  /* Charcoal base */
   background:
     radial-gradient(120% 90% at 50% 12%, rgba(255,255,255,.06), transparent 60%),
     radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.72) 100%),
@@ -67,18 +64,25 @@ body::before{
     repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.03) 1px 3px);
 }
 
-/* Optional real texture image layer (if you have assets/charcoal.png) */
+/* Charcoal texture layer (hardened: visible even on iOS) */
 body::after{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
   z-index:0;
-  opacity:.22;
-  background-image: var(--charcoalTex);
-  background-size: 900px 900px;
-  background-repeat: repeat;
-  mix-blend-mode: soft-light;
+
+  /* Key changes:
+     - higher opacity (still tasteful)
+     - blend mode 'multiply' is more consistent than soft-light on iOS
+     - add a fallback subtle noise gradient so you ALWAYS see texture */
+  opacity:.34;
+  background-image:
+    var(--charcoalTex),
+    radial-gradient(120% 100% at 50% 35%, rgba(255,255,255,.035), transparent 60%);
+  background-size: 900px 900px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+  mix-blend-mode: multiply;
 }
 
 /* Border snaps to screen */
@@ -94,7 +98,7 @@ body::after{
   opacity:.98;
 }
 
-/* Panel (transparent, keeps charcoal visible) */
+/* Panel (scroll architecture preserved) */
 .panel{
   position:relative;
   z-index:2;
@@ -111,7 +115,6 @@ body::after{
   border-radius: var(--radius);
   overflow:hidden;
 
-  /* subtle glass, not opaque */
   background: linear-gradient(180deg, var(--panelTop), var(--panelBottom));
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
@@ -135,14 +138,13 @@ body::after{
   color: var(--muted);
 }
 
-/* Realistic copper “metal” for the main title */
+/* Copper “metal” title */
 .title{
   margin: 10px 0 6px;
   font-size: clamp(44px, 6.4vw, 70px);
   line-height: 1;
   letter-spacing: 1px;
 
-  /* the trick: gradient clipped into text */
   background: linear-gradient(
     180deg,
     var(--c1) 0%,
@@ -155,14 +157,13 @@ body::after{
   background-clip: text;
   color: transparent;
 
-  /* depth + edge */
   text-shadow:
-    0 2px 0 rgba(0,0,0,.35),
-    0 10px 22px rgba(0,0,0,.65);
-  filter: saturate(1.08) contrast(1.05);
+    0 2px 0 rgba(0,0,0,.45),
+    0 12px 26px rgba(0,0,0,.70);
+  filter: saturate(1.10) contrast(1.10);
 }
 
-/* Copper-ish section headers too */
+/* Section headers copper */
 .section h2{
   margin: 0 0 10px;
   text-align:center;
@@ -182,21 +183,14 @@ body::after{
   color: transparent;
 
   text-shadow:
-    0 1px 0 rgba(0,0,0,.35),
-    0 8px 18px rgba(0,0,0,.55);
+    0 1px 0 rgba(0,0,0,.40),
+    0 10px 22px rgba(0,0,0,.60);
 }
 
 .sub{
   margin-top: 6px;
   font-size: clamp(14px, 2vw, 18px);
   color: var(--muted);
-}
-
-.meta{
-  margin-top: 10px;
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: var(--dim);
 }
 
 /* Scroll container (Safari fix included) */
