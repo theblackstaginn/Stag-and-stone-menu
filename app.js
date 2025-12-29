@@ -1,7 +1,8 @@
 (() => {
   "use strict";
 
-  // This is the ACTUAL menu list you showed (includes Teas).
+  const DATA_VERSION = "reset2";
+
   const MENU = [
     {
       title: "House Coffees",
@@ -10,7 +11,6 @@
         { name: "Dawnwood Medium Roast (drip)" },
       ],
     },
-
     {
       title: "Espresso Classics",
       items: [
@@ -20,7 +20,6 @@
         { name: "Latte" },
       ],
     },
-
     {
       title: "Featured Lattes",
       items: [
@@ -28,7 +27,6 @@
         { name: "Caramel Draught Latte (caramel latte)" },
       ],
     },
-
     {
       title: "Signature Coffeehouse",
       items: [
@@ -37,14 +35,12 @@
         { name: "Siren Salted Cold Foam (cold foam topper — add-on)" },
       ],
     },
-
     {
       title: "Iced Coffeehouse",
       items: [
         { name: "Any espresso classic available iced" },
       ],
     },
-
     {
       title: "Teas & Herbals",
       items: [
@@ -54,14 +50,12 @@
         { name: "Siren Blue (butterfly pea herbal)" },
       ],
     },
-
     {
       title: "Matcha",
       items: [
         { name: "Matcha Green Elixir (matcha latte)" },
       ],
     },
-
     {
       title: "Iced & Refreshers",
       items: [
@@ -71,7 +65,6 @@
         { name: "Witchlight Cooler (seasonal refresher)" },
       ],
     },
-
     {
       title: "Sandwiches",
       subtitle: "Pressed to order • Limited selection",
@@ -102,7 +95,6 @@
         },
       ],
     },
-
     {
       title: "Pastries",
       subtitle: "Baked fresh daily • Selection varies",
@@ -157,11 +149,27 @@
     const mount = document.getElementById("menuContent");
     if (!mount) throw new Error('Missing <div id="menuContent"></div> in index.html');
 
+    const dataEl = document.getElementById("dataVersion");
+    if (dataEl) dataEl.textContent = `DATA: ${DATA_VERSION} • sections: ${MENU.length}`;
+
     mount.innerHTML = MENU
       .map(sectionHTML)
       .join("")
-      .replace(/<div class="divider"[^]*<\/div>\s*$/, "");
+      .replace(/<div class="divider"[\s\S]*<\/div>\s*$/, "");
   }
 
-  window.addEventListener("DOMContentLoaded", render);
+  window.addEventListener("DOMContentLoaded", () => {
+    try {
+      render();
+    } catch (e) {
+      const mount = document.getElementById("menuContent");
+      if (mount) {
+        mount.innerHTML = `<div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(198,104,74,.35);border-radius:12px;background:rgba(0,0,0,.35);">
+          <div style="font-weight:700;margin-bottom:.5rem;">Menu Render Error</div>
+          <div style="opacity:.85;white-space:pre-wrap;">${escapeHTML(e.message)}</div>
+        </div>`;
+      }
+      console.error(e);
+    }
+  });
 })();
