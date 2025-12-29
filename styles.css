@@ -56,6 +56,11 @@ body{
     calc(26px + env(safe-area-inset-bottom))
     calc(26px + env(safe-area-inset-left));
 }
+.menu-scroll {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
 /* Header */
 .header{
