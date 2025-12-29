@@ -1,99 +1,41 @@
-/* styles.css */
-
-/* =========================
-   CORE VARIABLES
-   ========================= */
-
 :root{
-  --charcoal:#0b0f14;
-
   --text:#e9edf5;
   --muted: rgba(233,237,245,.65);
-  --line: rgba(185,139,85,.22);
-}
+  --rule: rgba(255,255,255,.06);
+  --copperLine: rgba(185,139,85,.22);
 
-/* =========================
-   RESET
-   ========================= */
+  --textureSize: 820px;
+  --wallDim: .58;
+}
 
 *{ box-sizing:border-box; }
-
-html, body{
-  margin:0;
-  height:100%;
-}
-
-/* =========================
-   BODY / WALL
-   ========================= */
+html, body{ margin:0; height:100%; }
 
 body{
   color:var(--text);
-
-  /* Roman charcoal plaster texture you uploaded */
   background:
-    linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.05), transparent 60%),
+    radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.60) 100%),
+    linear-gradient(rgba(0,0,0,var(--wallDim)), rgba(0,0,0,var(--wallDim))),
     url("Assets/charcoal-bg.PNG");
-
   background-repeat: repeat;
-  background-size: 650px 650px;     /* adjust 480–900 to taste */
+  background-size: var(--textureSize) var(--textureSize);
   background-attachment: fixed;
-
   font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
 }
-
-/* =========================
-   COPPER METAL EFFECT
-   ========================= */
-
-.copper{
-  /* fallback if background-clip unsupported */
-  color:#b98b55;
-
-  background: linear-gradient(
-    180deg,
-    #e6c28a 0%,
-    #c79a5a 30%,
-    #9f6e3c 55%,
-    #d2a46b 75%,
-    #8b5a2b 100%
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color: transparent;
-
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.12),  /* top edge catch */
-    0 -1px 0 rgba(0,0,0,.25),       /* bottom depth */
-    0 2px 4px rgba(0,0,0,.45);      /* weight */
-}
-
-/* =========================
-   MENU CONTAINER
-   ========================= */
 
 .menu{
   min-height:100vh;
   max-width: 1100px;
   margin: 0 auto;
-
   padding:
     calc(28px + env(safe-area-inset-top))
     calc(28px + env(safe-area-inset-right))
     calc(28px + env(safe-area-inset-bottom))
     calc(28px + env(safe-area-inset-left));
-
-  overflow-y:auto;
-  -webkit-overflow-scrolling: touch;
 }
 
-/* =========================
-   HEADER
-   ========================= */
-
-.header{
-  text-align:center;
-  margin-bottom: 2rem;
-}
+.header{ text-align:center; margin-bottom: 2rem; }
 
 .kicker{
   font-size:.9rem;
@@ -108,75 +50,71 @@ h1{
   letter-spacing:.1em;
 }
 
-.subnote{
-  font-size:1rem;
-  color:var(--muted);
+.subnote{ font-size:1rem; color:var(--muted); }
+
+.copper{
+  color:#b98b55;
+  background: linear-gradient(
+    180deg,
+    #f6e0b3 0%,
+    #d9b073 14%,
+    #a8743d 36%,
+    #ffd9a1 48%,
+    #b88248 62%,
+    #8b562a 84%,
+    #f0d09a 100%
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.14),
+    0 -1px 0 rgba(0,0,0,.30),
+    0 2px 4px rgba(0,0,0,.55);
 }
 
-/* =========================
-   SECTIONS
-   ========================= */
+.section{ margin-top: 2.4rem; }
 
-.section{
-  margin-top: 2.4rem;
-}
-
-h2{
+.section h2{
   text-align:center;
-  margin-bottom: 1.2rem;
+  margin: 0 0 1.2rem;
   font-size: clamp(1.2rem, 3vw, 1.7rem);
   letter-spacing:.18em;
   text-transform:uppercase;
 }
 
-/* =========================
-   MENU ITEMS
-   ========================= */
+.items{
+  max-width: 980px;
+  margin: 0 auto;
+}
 
 .item{
   display:flex;
   justify-content:space-between;
   align-items:baseline;
   gap:1.2rem;
-
   padding:.55rem .2rem;
   font-size: clamp(1.05rem, 2.3vw, 1.35rem);
-
-  border-bottom: 1px solid rgba(255,255,255,.06);
-
-  /* anchors the “inscription” into the wall */
+  border-bottom: 1px solid var(--rule);
   text-shadow: 0 1px 1px rgba(0,0,0,.55);
 }
 
-.item span:last-child{
+.item .name{
   font-weight:600;
-  letter-spacing:.06em;
 }
 
-/* =========================
-   DIVIDER
-   ========================= */
+.item .price{
+  font-weight:700;
+  letter-spacing:.06em;
+}
 
 .divider{
   height:1px;
   margin:2.4rem auto;
   max-width: 900px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--line),
-    transparent
-  );
+  background: linear-gradient(to right, transparent, var(--copperLine), transparent);
 }
 
-/* =========================
-   FOOTER
-   ========================= */
-
-.footer{
-  margin-top: 3rem;
-  text-align:center;
-}
+.footer{ margin-top: 3rem; text-align:center; }
 
 .small{
   font-size:.95rem;
