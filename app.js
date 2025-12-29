@@ -4,19 +4,62 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       title: "House Coffees",
       items: [
-        { name: "Stag’s Dark Roast", price: "$14" },
-        { name: "Dawnwood Medium Roast", price: "$14" },
-        { name: "Cold Brew", price: "$14" },
-        { name: "Nitro Cold Brew", price: "$14" }
+        { name: "Stag’s Dark Roast (drip)" },
+        { name: "Dawnwood Medium Roast (drip)" }
       ]
     },
     {
-      title: "Espresso Drinks",
+      title: "Espresso Classics",
       items: [
-        { name: "Espresso", price: "$14" },
-        { name: "Americano", price: "$14" },
-        { name: "Cappuccino", price: "$14" },
-        { name: "Latte", price: "$14" }
+        { name: "Espresso" },
+        { name: "Americano" },
+        { name: "Cappuccino" },
+        { name: "Latte" }
+      ]
+    },
+    {
+      title: "Featured Lattes",
+      items: [
+        { name: "Black Spell Mocha (dark chocolate mocha)" },
+        { name: "Caramel Draught Latte (caramel latte)" }
+      ]
+    },
+    {
+      title: "Signature Coffeehouse",
+      items: [
+        { name: "Stag King Brew (signature sweet-cream coffee)" },
+        { name: "Dragonfire Mocha (spiced mocha)" },
+        { name: "Siren Salted Cold Foam (cold foam topper — add-on)" }
+      ]
+    },
+    {
+      title: "Iced Coffeehouse",
+      items: [
+        { name: "Any espresso classic available iced" }
+      ]
+    },
+    {
+      title: "Teas & Herbals",
+      items: [
+        { name: "Orchard Chai (chai)" },
+        { name: "Forest Mint (mint herbal)" },
+        { name: "Lavender Fields (lavender herbal)" },
+        { name: "Siren Blue (butterfly pea herbal)" }
+      ]
+    },
+    {
+      title: "Matcha",
+      items: [
+        { name: "Matcha Green Elixir (matcha latte)" }
+      ]
+    },
+    {
+      title: "Iced & Refreshers",
+      items: [
+        { name: "Iced Chai" },
+        { name: "Iced Matcha" },
+        { name: "Stormborn Lemonade" },
+        { name: "Witchlight Cooler (seasonal refresher)" }
       ]
     },
     {
@@ -60,10 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const mount = document.getElementById("menuContent");
-  if (!mount) {
-    mount.innerHTML = "<p style='color:red'>menuContent missing</p>";
-    return;
-  }
+  if (!mount) return;
 
   const escapeHTML = (s) =>
     String(s).replace(/[&<>"']/g, (c) => ({
@@ -82,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <h2 class="copper">${escapeHTML(section.title)}</h2>
       ${
         section.subtitle
-          ? `<div class="subnote" style="text-align:center;margin:-.3rem 0 1.1rem;">${escapeHTML(section.subtitle)}</div>`
+          ? `<div class="subnote section-sub">${escapeHTML(section.subtitle)}</div>`
           : ""
       }
       <div class="items">
