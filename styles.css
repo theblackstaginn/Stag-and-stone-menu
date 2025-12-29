@@ -13,7 +13,7 @@
   --grainOpacity:.14;
 
   /* Texture image (MUST exist at: /assets/charcoal-bg.png ) */
-  --charcoalTex: url("assets/charcoal-bg.png");
+  --charcoalTex: url("Assets/charcoal-bg.png");
 
   /* Copper palette */
   --c1:#f3d2b6;
