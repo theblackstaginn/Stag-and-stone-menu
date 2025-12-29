@@ -7,14 +7,14 @@
   <meta name="theme-color" content="#0b0f14" />
   <title>Stag & Stone Coffeehouse — Menu</title>
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20251229" />
 </head>
 
 <body>
-  <!-- Decorative frame/border that always fits the screen -->
+  <!-- Decorative border that snaps to the screen -->
   <div class="frame" aria-hidden="true"></div>
 
-  <!-- Content panel that sits inside the frame -->
+  <!-- Panel content inside the frame -->
   <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
     <header class="top">
       <div class="kicker">STAG &amp; STONE COFFEEHOUSE</div>
@@ -23,9 +23,8 @@
       <div class="meta" id="buildMeta">BUILD: —</div>
     </header>
 
-    <!-- THIS is the only scroll container -->
+    <!-- Only scroll container -->
     <section class="menuScroll" id="menu" role="region" aria-label="Menu items" tabindex="0">
-      <!-- Your JS should inject menu sections/items into #menu -->
       <div class="loading">Loading menu…</div>
     </section>
 
@@ -34,6 +33,6 @@
     </footer>
   </main>
 
-  <script src="app.js" defer></script>
+  <script src="app.js?v=20251229" defer></script>
 </body>
 </html>
