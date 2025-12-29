@@ -15,7 +15,6 @@
 
 html,body{
   margin:0;
-  height:auto;
   min-height:100%;
 }
 
@@ -25,7 +24,6 @@ body{
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
 
-  /* Less “fog”: keep vignette subtle and remove heavy mid overlay */
   background:
     radial-gradient(140% 110% at 50% 8%, rgba(255,255,255,.035), transparent 55%),
     radial-gradient(120% 130% at 50% 55%, transparent 62%, rgba(0,0,0,.72) 100%),
@@ -158,41 +156,47 @@ body{
   color: rgba(216,210,199,.55);
 }
 
-/* Copper gradient text */
-(() => {
-  "use strict";
+/* Realistic-ish 3D copper text */
+.copper{
+  background:
+    linear-gradient(180deg,
+      #fff2e6 0%,
+      #f9cfb2 10%,
+      #d67a4f 24%,
+      #ffdec9 36%,
+      #b45536 52%,
+      #8b3b25 70%,
+      #ffd9c6 86%,
+      #a24a2f 100%
+    ),
+    radial-gradient(120% 80% at 30% 15%,
+      rgba(255,255,255,.55), transparent 55%
+    );
 
-  // Subtle embers overlay (tiny, rising, low opacity)
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d", { alpha: true });
-
-  canvas.id = "embers";
-  Object.assign(canvas.style, {
-    position: "fixed",
-    inset: "0",
-    width: "100%",
-    height: "100%",
-    pointerEvents: "none",
-    zIndex: "30",
-    mixBlendMode: "screen"
-  });
-
-  document.body.appendChild(canvas);
-
-  let w = 0, h = 0, dpr = 1;
-
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = Math.floor(window.innerWidth);
-    h = Math.floor(window.innerHeight);
-    canvas.width = Math.floor(w * dpr);
-    canvas.height = Math.floor(h * dpr);
-    ctx
-  -webkit-background-clip:text;
-  background-clip:text;
+  -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
+
   text-shadow:
-    0 1px 0 rgba(255,255,255,.10),
-    0 -1px 0 rgba(0,0,0,.35),
-    0 2px 5px rgba(0,0,0,.55);
+    0 -1px 0 rgba(255,255,255,.18),
+    0 -2px 0 rgba(255,255,255,.08),
+    0 1px 0 rgba(0,0,0,.30),
+    0 2px 0 rgba(0,0,0,.22),
+    0 6px 16px rgba(0,0,0,.50),
+    0 14px 36px rgba(0,0,0,.35);
+
+  filter: saturate(1.08) contrast(1.08);
+}
+
+/* Optional: subtle highlight drift (safe) */
+@media (prefers-reduced-motion: no-preference){
+  .copper{
+    background-size: 140% 140%;
+    animation: copperSheen 10s ease-in-out infinite;
+  }
+  @keyframes copperSheen{
+    0%   { background-position: 0% 0%, 0% 0%; }
+    50%  { background-position: 100% 40%, 70% 10%; }
+    100% { background-position: 0% 0%, 0% 0%; }
+  }
 }
