@@ -154,6 +154,8 @@
 
   window.addEventListener("DOMContentLoaded", () => {
     try { render(); }
+    const dv = document.getElementById("dataVersion");
+if (dv) dv.textContent = "DATA: reset3 • sections: 10";
     catch (err) {
       if (mount) mount.innerHTML = `<div style="max-width:900px;margin:2rem auto;padding:1rem;border:1px solid rgba(198,104,74,.35);border-radius:12px;background:rgba(0,0,0,.35);">
         <div style="font-weight:700;letter-spacing:.08em;margin-bottom:.5rem;">Menu Render Error</div>
