@@ -1,294 +1,182 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Stag & Stone Menu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0f14" />
-  <style>
-    :root{
-      --text:#d8d2c7;
-      --muted: rgba(216,210,199,.68);
-      --rule: rgba(255,255,255,.06);
-      --copperLine: rgba(198, 104, 74, .28);
-      --textureSize: 820px;
-      --wallDim: .60;
-    }
+<meta charset="utf-8">
+<title>Stag & Stone Menu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f14">
 
-    *{ box-sizing:border-box; }
-    html, body{ margin:0; height:100%; }
+<style>
+:root{
+  --text:#d8d2c7;
+  --muted:rgba(216,210,199,.65);
+  --rule:rgba(255,255,255,.08);
+  --copperLine:rgba(198,104,74,.35);
+}
 
-    body{
-      color:var(--text);
-      background:
-        radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.04), transparent 60%),
-        radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.62) 100%),
-        linear-gradient(rgba(0,0,0,var(--wallDim)), rgba(0,0,0,var(--wallDim))),
-        url("Assets/charcoal-bg.PNG");
-      background-repeat: repeat;
-      background-size: var(--textureSize) var(--textureSize);
-      background-attachment: fixed;
-      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
-    }
+*{box-sizing:border-box}
 
-    .shell{
-      height:100vh;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding:
-        calc(22px + env(safe-area-inset-top))
-        calc(22px + env(safe-area-inset-right))
-        calc(22px + env(safe-area-inset-bottom))
-        calc(22px + env(safe-area-inset-left));
-      display:flex;
-      flex-direction:column;
-    }
+html,body{
+  margin:0;
+  min-height:100%;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
 
-    .header{ text-align:center; padding-bottom: 14px; }
+body{
+  font-family: ui-serif, Georgia, serif;
+  color:var(--text);
+  background:
+    radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.05), transparent 60%),
+    radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.65) 100%),
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65));
+}
 
-    .kicker{
-      font-size:.9rem;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
+.menu{
+  max-width:900px;
+  margin:0 auto;
+  padding:28px;
+}
 
-    h1{
-      margin:.4rem 0 .3rem;
-      font-size: clamp(2.4rem, 5vw, 3.6rem);
-      letter-spacing:.1em;
-    }
+.header, .footer{text-align:center}
 
-    .subnote{ font-size:1rem; color:var(--muted); }
+.kicker{
+  font-size:.8rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
 
-    .build{
-      margin-top:.55rem;
-      opacity:.35;
-      font-size:12px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-    }
+h1{
+  margin:.4rem 0;
+  font-size:3rem;
+  letter-spacing:.1em;
+}
 
-    .copper{
-      background: linear-gradient(
-        180deg,
-        #ffe2c6 0%,
-        #f1b387 12%,
-        #d07a4f 30%,
-        #ffcfac 46%,
-        #c96744 62%,
-        #8e3f27 84%,
-        #ffd7bf 100%
-      );
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.10),
-        0 -1px 0 rgba(0,0,0,.35),
-        0 2px 5px rgba(0,0,0,.55);
-    }
+.subnote{color:var(--muted)}
 
-    /* the only scroll area */
-    .scroll{
-      flex:1;
-      overflow-y:auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      padding-top: 10px;
-    }
+.build{
+  margin-top:.5rem;
+  font-size:.7rem;
+  letter-spacing:.15em;
+  opacity:.45;
+}
 
-    .section{ margin-top: 2.2rem; }
+.copper{
+  background:linear-gradient(
+    180deg,
+    #ffe2c6 0%,
+    #f1b387 20%,
+    #d07a4f 40%,
+    #c96744 70%,
+    #ffd7bf 100%
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
 
-    .section h2{
-      text-align:center;
-      margin: 0 0 1.1rem;
-      font-size: clamp(1.15rem, 3vw, 1.65rem);
-      letter-spacing:.18em;
-      text-transform:uppercase;
-    }
+.section{margin-top:3rem}
 
-    .items{
-      max-width: 980px;
-      margin: 0 auto;
-    }
+.section h2{
+  text-align:center;
+  letter-spacing:.2em;
+  font-size:1.4rem;
+}
 
-    .item{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:1.2rem;
-      padding:.65rem .2rem;
-      border-bottom: 1px solid var(--rule);
-      text-shadow: 0 1px 1px rgba(0,0,0,.55);
-    }
+.item{
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  padding:.7rem 0;
+  border-bottom:1px solid var(--rule);
+}
 
-    .item .name{
-      font-weight:600;
-      font-size: clamp(1.05rem, 2.3vw, 1.35rem);
-      line-height: 1.25;
-    }
+.name{font-weight:600}
 
-    .item .desc{
-      margin-top:.25rem;
-      font-size: clamp(.95rem, 2vw, 1.08rem);
-      line-height: 1.35;
-      color: rgba(216,210,199,.78);
-    }
+.desc{
+  font-size:.95rem;
+  color:var(--muted);
+}
 
-    .item .price{
-      font-weight:700;
-      letter-spacing:.06em;
-      font-size: clamp(1.0rem, 2.2vw, 1.25rem);
-      white-space:nowrap;
-      padding-left:.5rem;
-    }
+.price{white-space:nowrap}
 
-    .divider{
-      height:1px;
-      margin:2.0rem auto;
-      max-width: 900px;
-      background: linear-gradient(to right, transparent, var(--copperLine), transparent);
-    }
-
-    .footer{ margin: 2.2rem 0 1.2rem; text-align:center; }
-    .small{
-      font-size:.95rem;
-      letter-spacing:.08em;
-      color: rgba(216,210,199,.55);
-    }
-  </style>
+.divider{
+  height:1px;
+  margin:2.5rem auto;
+  background:linear-gradient(to right, transparent, var(--copperLine), transparent);
+}
+</style>
 </head>
 
 <body>
-  <main class="shell">
-    <header class="header">
-      <div class="kicker">Stag &amp; Stone Coffeehouse</div>
-      <h1 class="copper">Menu</h1>
-      <div class="subnote">Seasonal • Prices as listed</div>
-      <div class="build">BUILD: 2025-12-29-ONEFILE</div>
-      <div class="build" id="dataVersion">DATA: (loading…)</div>
-    </header>
+<main class="menu">
 
-    <section class="scroll" aria-label="Menu items">
-      <div id="menuContent"></div>
+<header class="header">
+  <div class="kicker">Stag &amp; Stone Coffeehouse</div>
+  <h1 class="copper">Menu</h1>
+  <div class="subnote">Seasonal • Prices as listed</div>
+  <div class="build">BUILD: 2025-12-29 • ONEFILE</div>
+</header>
 
-      <footer class="footer">
-        <div class="small">Dahlonega, Georgia</div>
-      </footer>
-    </section>
-  </main>
+<section class="section">
+<h2 class="copper">House Coffees</h2>
+<div class="item"><div class="name">Stag’s Dark Roast (drip)</div></div>
+<div class="item"><div class="name">Dawnwood Medium Roast (drip)</div></div>
+</section>
 
-  <script>
-    // If this line DOES NOT update, your JS is not running.
-    const DATA_TAG = "ONEFILE • sections: 10";
+<div class="divider"></div>
 
-    const MENU = [
-      { title: "House Coffees", items: [
-        { name: "Stag’s Dark Roast (drip)" },
-        { name: "Dawnwood Medium Roast (drip)" },
-      ]},
+<section class="section">
+<h2 class="copper">Espresso Classics</h2>
+<div class="item"><div class="name">Espresso</div></div>
+<div class="item"><div class="name">Americano</div></div>
+<div class="item"><div class="name">Cappuccino</div></div>
+<div class="item"><div class="name">Latte</div></div>
+</section>
 
-      { title: "Espresso Classics", items: [
-        { name: "Espresso" },
-        { name: "Americano" },
-        { name: "Cappuccino" },
-        { name: "Latte" },
-      ]},
+<div class="divider"></div>
 
-      { title: "Featured Lattes", items: [
-        { name: "Black Spell Mocha", description: "(dark chocolate mocha)" },
-        { name: "Caramel Draught Latte", description: "(caramel latte)" },
-      ]},
+<section class="section">
+<h2 class="copper">Featured Lattes</h2>
+<div class="item">
+  <div>
+    <div class="name">Black Spell Mocha</div>
+    <div class="desc">Dark chocolate mocha</div>
+  </div>
+</div>
+<div class="item">
+  <div>
+    <div class="name">Caramel Draught Latte</div>
+    <div class="desc">Caramel latte</div>
+  </div>
+</div>
+</section>
 
-      { title: "Signature Coffeehouse", items: [
-        { name: "Stag King Brew", description: "(signature sweet-cream coffee)" },
-        { name: "Dragonfire Mocha", description: "(spiced mocha)" },
-        { name: "Siren Salted Cold Foam", description: "(cold foam topper — add-on)" },
-      ]},
+<div class="divider"></div>
 
-      { title: "Iced Coffeehouse", items: [
-        { name: "Any espresso classic available iced" },
-      ]},
+<section class="section">
+<h2 class="copper">Sandwiches</h2>
+<div class="item">
+  <div>
+    <div class="name">The Stag Melt</div>
+    <div class="desc">Ham, bacon, egg, melted cheese on sourdough</div>
+  </div>
+  <div class="price">$14</div>
+</div>
+<div class="item">
+  <div>
+    <div class="name">Turkey, Brie &amp; Cranberry</div>
+    <div class="desc">Roasted turkey, brie, cranberry</div>
+  </div>
+  <div class="price">$13</div>
+</div>
+</section>
 
-      { title: "Teas & Herbals", items: [
-        { name: "Orchard Chai", description: "(chai)" },
-        { name: "Forest Mint", description: "(mint herbal)" },
-        { name: "Lavender Fields", description: "(lavender herbal)" },
-        { name: "Siren Blue", description: "(butterfly pea herbal)" },
-      ]},
+<footer class="footer">
+  <div class="subnote" style="margin-top:3rem">Dahlonega, Georgia</div>
+</footer>
 
-      { title: "Matcha", items: [
-        { name: "Matcha Green Elixir", description: "(matcha latte)" },
-      ]},
-
-      { title: "Iced & Refreshers", items: [
-        { name: "Iced Chai" },
-        { name: "Iced Matcha" },
-        { name: "Stormborn Lemonade" },
-        { name: "Witchlight Cooler", description: "(seasonal refresher)" },
-      ]},
-
-      { title: "Sandwiches", subtitle: "Pressed to order • Limited selection", items: [
-        { name: "The Stag Melt", price: "$14",
-          description: "Tavern ham, bacon, egg & melted cheese with thyme and parsley on house sourdough" },
-        { name: "Turkey, Brie & Cranberry", price: "$13",
-          description: "Roasted turkey, brie, and cranberry on house sourdough" },
-        { name: "Wildwood Melt (limited)", price: "$15",
-          description: "Chanterelle, beech, maitake, and cremini mushrooms with bacon jam, thyme and parsley on house sourdough" },
-        { name: "Tavern Ham & Grilled Cheese", price: "$11",
-          description: "Tavern ham and melted cheese on house sourdough" },
-      ]},
-
-      { title: "Pastries", subtitle: "Baked fresh daily • Selection varies", items: [
-        { name: "Fresh pastry (rotating)" },
-        { name: "Savory hand pie or scone" },
-        { name: "Biscotti or shortbread" },
-      ]},
-    ];
-
-    const escapeHTML = (s) =>
-      String(s).replace(/[&<>"']/g, (c) => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-      }[c]));
-
-    function sectionHTML(section){
-      const subtitle = section.subtitle
-        ? `<div class="subnote" style="text-align:center;margin:-0.4rem 0 1rem;">${escapeHTML(section.subtitle)}</div>`
-        : "";
-
-      const items = section.items.map((it) => `
-        <div class="item">
-          <div>
-            <div class="name">${escapeHTML(it.name)}</div>
-            ${it.description ? `<div class="desc">${escapeHTML(it.description)}</div>` : ""}
-          </div>
-          ${it.price ? `<div class="price copper">${escapeHTML(it.price)}</div>` : ""}
-        </div>
-      `).join("");
-
-      return `
-        <section class="section">
-          <h2 class="copper">${escapeHTML(section.title)}</h2>
-          ${subtitle}
-          <div class="items">${items}</div>
-        </section>
-        <div class="divider" aria-hidden="true"></div>
-      `;
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const dv = document.getElementById("dataVersion");
-      if (dv) dv.textContent = "DATA: " + DATA_TAG;
-
-      const mount = document.getElementById("menuContent");
-      if (!mount) return;
-
-      mount.innerHTML = MENU.map(sectionHTML).join("")
-        .replace(/<div class="divider"[\\s\\S]*<\\/div>\\s*$/, "");
-
-      console.log("[Stag&Stone] ONEFILE render OK:", DATA_TAG);
-    });
-  </script>
+</main>
 </body>
 </html>
