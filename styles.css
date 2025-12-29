@@ -1,20 +1,27 @@
 :root{
   --bg:#07090c;
-  --text:#d8d2c7;                 /* softer than white */
+  --text:#d8d2c7;
   --muted:rgba(216,210,199,.68);
   --rule:rgba(255,255,255,.07);
 
-  /* warmer, redder copper vibe */
+  /* warm copper divider */
   --copperLine:rgba(198,104,74,.34);
 
+  /* background texture controls */
   --textureSize: 820px;
-  --wallDim: .42;                 /* LOWER = less haze */
+  --wallDim: .42; /* LOWER = less haze */
+
+  /* rune + ember overlay controls */
+  --runesOpacity: .18;
+  --runesGlow: 14px;
+  --embersOpacity: .22;
 }
 
 *{ box-sizing:border-box; }
 
 html,body{
   margin:0;
+  height:auto;
   min-height:100%;
 }
 
@@ -35,8 +42,11 @@ body{
   background-attachment: fixed;
 }
 
-/* Layout */
+/* Keep all content above overlays */
 .menu{
+  position:relative;
+  z-index:1;
+
   min-height:100vh;
   max-width: 1100px;
   margin: 0 auto;
@@ -47,6 +57,7 @@ body{
     calc(26px + env(safe-area-inset-left));
 }
 
+/* Header */
 .header{
   text-align:center;
   margin-bottom: 2.1rem;
@@ -78,6 +89,7 @@ body{
   text-transform:uppercase;
 }
 
+/* Sections */
 .section{
   margin-top: 2.5rem;
 }
@@ -102,7 +114,7 @@ body{
   margin: 0 auto;
 }
 
-/* Items */
+/* Menu items */
 .item{
   display:flex;
   justify-content:space-between;
@@ -156,7 +168,7 @@ body{
   color: rgba(216,210,199,.55);
 }
 
-/* Realistic-ish 3D copper text */
+/* ---- REALISTIC 3D COPPER TEXT ---- */
 .copper{
   background:
     linear-gradient(180deg,
@@ -173,22 +185,22 @@ body{
       rgba(255,255,255,.55), transparent 55%
     );
 
-  -webkit-background-clip: text;
-  background-clip: text;
+  -webkit-background-clip:text;
+  background-clip:text;
   color: transparent;
 
   text-shadow:
     0 -1px 0 rgba(255,255,255,.18),
     0 -2px 0 rgba(255,255,255,.08),
-    0 1px 0 rgba(0,0,0,.30),
-    0 2px 0 rgba(0,0,0,.22),
-    0 6px 16px rgba(0,0,0,.50),
+    0  1px 0 rgba(0,0,0,.30),
+    0  2px 0 rgba(0,0,0,.22),
+    0  6px 16px rgba(0,0,0,.50),
     0 14px 36px rgba(0,0,0,.35);
 
   filter: saturate(1.08) contrast(1.08);
 }
 
-/* Optional: subtle highlight drift (safe) */
+/* subtle “living” sheen */
 @media (prefers-reduced-motion: no-preference){
   .copper{
     background-size: 140% 140%;
@@ -199,4 +211,64 @@ body{
     50%  { background-position: 100% 40%, 70% 10%; }
     100% { background-position: 0% 0%, 0% 0%; }
   }
+}
+
+/* ---- GLOWING PROTECTION RUNES (overlay) ---- */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(198,104,74,.06) 0 1px,
+      transparent 1px 80px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(198,104,74,.04) 0 1px,
+      transparent 1px 96px
+    );
+
+  opacity:var(--runesOpacity);
+  mix-blend-mode: screen;
+  filter:
+    drop-shadow(0 0 var(--runesGlow) rgba(198,104,74,.45))
+    drop-shadow(0 0 calc(var(--runesGlow) * 2) rgba(198,104,74,.22));
+}
+
+/* gentle pulse */
+@media (prefers-reduced-motion: no-preference){
+  body::before{
+    animation: runePulse 6.5s ease-in-out infinite;
+  }
+  @keyframes runePulse{
+    0%,100% { opacity: calc(var(--runesOpacity) * .85); }
+    50%     { opacity: calc(var(--runesOpacity) * 1.15); }
+  }
+}
+
+/* ---- RISING EMBERS (overlay) ---- */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+
+  background:
+    radial-gradient(circle at 20% 110%, rgba(255,120,40,.35), transparent 60%),
+    radial-gradient(circle at 60% 115%, rgba(255,90,20,.28), transparent 65%),
+    radial-gradient(circle at 85% 108%, rgba(255,140,60,.25), transparent 60%);
+
+  opacity: var(--embersOpacity);
+  animation: embers 18s linear infinite;
+}
+
+@keyframes embers{
+  0%   { background-position: 0% 120%, 0% 130%, 0% 125%; }
+  100% { background-position: 0% -20%, 0% -30%, 0% -25%; }
 }
