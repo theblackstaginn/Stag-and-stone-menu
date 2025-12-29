@@ -1,11 +1,7 @@
 :root{
-  /* Softer parchment-white text (not bright white) */
   --text:#d8d2c7;
   --muted: rgba(216,210,199,.68);
-
   --rule: rgba(255,255,255,.06);
-
-  /* Warm red-copper divider line */
   --copperLine: rgba(198, 104, 74, .55);
 
   --textureSize: 820px;
@@ -13,9 +9,19 @@
 }
 
 *{ box-sizing:border-box; }
-html, body{ margin:0; height:100%; }
+
+/* IMPORTANT: do NOT force height:100% here */
+html, body{
+  margin:0;
+  padding:0;
+  width:100%;
+}
 
 body{
+  min-height:100vh;            /* allow page to grow */
+  overflow-y: auto !important; /* force scrolling */
+  -webkit-overflow-scrolling: touch;
+
   color:var(--text);
   background:
     radial-gradient(120% 90% at 50% 15%, rgba(255,255,255,.04), transparent 60%),
@@ -24,23 +30,27 @@ body{
     url("Assets/charcoal-bg.PNG");
   background-repeat: repeat;
   background-size: var(--textureSize) var(--textureSize);
-  background-attachment: fixed;
+  background-attachment: scroll; /* fixed can be janky on iOS */
 
   font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
-  overflow-y:auto;
 }
 
+/* make sure the main container DOES NOT clip */
 .menu{
-  min-height:100vh;
+  width:100%;
   max-width: 1100px;
   margin: 0 auto;
+
+  /* safe-area padding */
   padding:
     calc(28px + env(safe-area-inset-top))
     calc(28px + env(safe-area-inset-right))
     calc(28px + env(safe-area-inset-bottom))
     calc(28px + env(safe-area-inset-left));
+
+  overflow: visible;   /* critical */
 }
 
 .header{
@@ -73,7 +83,6 @@ h1{
   letter-spacing:.08em;
 }
 
-/* Warm red copper (less bronze, more ember) */
 .copper{
   background: linear-gradient(
     180deg,
@@ -94,9 +103,8 @@ h1{
 }
 
 .section{
-  margin-top: 3.5rem; /* bigger spacing so it can't "look like it ends" */
+  margin-top: 3.5rem;
 }
-
 .section:first-of-type{
   margin-top: 2.5rem;
 }
@@ -130,7 +138,7 @@ h1{
 
 .item .name{
   font-weight:600;
-  color:#e2dccf; /* slightly lifted */
+  color:#e2dccf;
 }
 
 .item .price{
