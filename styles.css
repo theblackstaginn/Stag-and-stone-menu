@@ -6,9 +6,7 @@
   --rule: rgba(255,255,255,.08);
 
   /* Charcoal + texture */
-  --bg0:#07090c;
-  --bg1:#0a0d12;
-  --grainOpacity:.14;
+--charcoalTex: url("assets/charcoal-bg.png");
 
   /* Copper palette (multi-stop for “metal”) */
   --c1:#f3d2b6;   /* highlight */
