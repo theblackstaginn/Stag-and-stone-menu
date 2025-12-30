@@ -14,7 +14,7 @@
   }
 
   // ---------------------------
-  // MENU DATA (keep all items)
+  // MENU DATA
   // ---------------------------
   const MENU = [
     {
@@ -133,33 +133,23 @@
 
     for (const section of MENU) {
       const s = el("div", "section");
-
-      const h = el("h2", "sectionTitle copper", section.title);
-      s.appendChild(h);
+      s.appendChild(el("h2", "sectionTitle copper", section.title));
 
       for (const it of section.items) {
         const row = el("div", "item");
 
         const left = el("div", "left");
-        const name = el("div", "name copper", it.name);
-        left.appendChild(name);
+        left.appendChild(el("div", "name copper", it.name));
+        if (it.desc) left.appendChild(el("div", "desc", it.desc));
 
-        if (it.desc) {
-          const desc = el("div", "desc", it.desc);
-          left.appendChild(desc);
-        }
-
-        const price = el("div", "price copper", it.price || "");
         row.appendChild(left);
-        row.appendChild(price);
-
+        row.appendChild(el("div", "price copper", it.price || ""));
         s.appendChild(row);
       }
 
       menuEl.appendChild(s);
     }
   }
-
   renderMenu();
 
   // ---------------------------
@@ -193,15 +183,15 @@
   function rand(a, b) { return a + Math.random() * (b - a); }
 
   // ---------------------------
-  // EMBERS (brighter, slow rising)
+  // EMBERS (brighter)
   // ---------------------------
-  const EMBER_COUNT = 150;
+  const EMBER_COUNT = 160;
   const embers = Array.from({ length: EMBER_COUNT }, () => ({
     x: rand(0, emb ? emb.w : 1000),
     y: rand(0, emb ? emb.h : 1000),
-    r: rand(0.9, 2.8),
-    vy: rand(0.10, 0.45),
-    vx: rand(-0.09, 0.09),
+    r: rand(0.9, 3.0),
+    vy: rand(0.10, 0.48),
+    vx: rand(-0.10, 0.10),
     life: rand(0.35, 1.0),
     tw: rand(0, Math.PI * 2)
   }));
@@ -209,10 +199,10 @@
   function resetEmber(p) {
     if (!emb) return;
     p.x = rand(0, emb.w);
-    p.y = emb.h + rand(10, 120);
-    p.r = rand(0.9, 2.8);
-    p.vy = rand(0.10, 0.45);
-    p.vx = rand(-0.09, 0.09);
+    p.y = emb.h + rand(10, 140);
+    p.r = rand(0.9, 3.0);
+    p.vy = rand(0.10, 0.48);
+    p.vx = rand(-0.10, 0.10);
     p.life = rand(0.35, 1.0);
     p.tw = rand(0, Math.PI * 2);
   }
@@ -225,33 +215,30 @@
 
     for (const p of embers) {
       p.y -= p.vy;
-      p.x += p.vx + Math.sin(t * 0.001 + p.tw) * 0.06;
-      p.life -= 0.0007 + p.vy * 0.00030;
+      p.x += p.vx + Math.sin(t * 0.001 + p.tw) * 0.07;
+      p.life -= 0.0007 + p.vy * 0.00028;
 
-      if (p.y < -50 || p.life <= 0) resetEmber(p);
+      if (p.y < -60 || p.life <= 0) resetEmber(p);
 
-      const twinkle = 0.70 + 0.40 * Math.sin(t * 0.0022 + p.tw);
+      const twinkle = 0.70 + 0.42 * Math.sin(t * 0.0024 + p.tw);
       const a = Math.max(0, Math.min(1, p.life)) * twinkle;
 
-      const coreA = a * 0.85;   // brighter
-      const haloA = a * 0.34;
+      const coreA = a * 0.95;  // brighter
+      const haloA = a * 0.40;
 
-      // core
       ctx.beginPath();
       ctx.fillStyle = `rgba(198,121,83,${coreA})`;
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fill();
 
-      // halo
       ctx.beginPath();
       ctx.fillStyle = `rgba(255,170,115,${haloA})`;
-      ctx.arc(p.x, p.y, p.r * 3.8, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, p.r * 4.2, 0, Math.PI * 2);
       ctx.fill();
 
-      // tiny hot spark
       ctx.beginPath();
-      ctx.fillStyle = `rgba(255,235,210,${a * 0.12})`;
-      ctx.arc(p.x + 0.4, p.y - 0.4, Math.max(0.6, p.r * 0.55), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,235,210,${a * 0.14})`;
+      ctx.arc(p.x + 0.5, p.y - 0.5, Math.max(0.6, p.r * 0.55), 0, Math.PI * 2);
       ctx.fill();
     }
 
@@ -259,7 +246,7 @@
   }
 
   // ---------------------------
-  // PROTECTIVE RUNES (wrap PANEL)
+  // PROTECTIVE RUNES (wrap panel, never fall into edges)
   // ---------------------------
   const RUNES = ["ᛉ","ᛟ","ᛇ","ᛏ","ᚦ","ᛒ","ᛞ","ᚱ","ᛜ","ᚺ","ᛁ","ᛊ"];
 
@@ -274,7 +261,7 @@
     const bottom = Math.min(window.innerHeight, r.bottom);
     const w = Math.max(0, right - x);
     const h = Math.max(0, bottom - y);
-    if (w < 60 || h < 60) return null;
+    if (w < 80 || h < 80) return null;
     return { x, y, w, h, right, bottom };
   }
 
@@ -298,42 +285,45 @@
     const pr = getPanelRect();
     if (!pr) return;
 
-    // Wrap the visible panel area
-    const pad = 14;
-    const inset = 8;
+    // keep the rune frame safely away from viewport edges
+    const VIEW_MARGIN = 18;
+    const pad = 26;     // distance OUT from panel
+    const inset = 10;
 
-    const left = pr.x - pad;
-    const top = pr.y - pad;
-    const right = pr.right + pad;
-    const bottom = pr.bottom + pad;
+    let left = pr.x - pad;
+    let top = pr.y - pad;
+    let right = pr.right + pad;
+    let bottom = pr.bottom + pad;
 
-    const pulse = 0.35 + 0.35 * (0.5 + 0.5 * Math.sin(t * 0.00026));
-    const glow  = 0.18 + 0.22 * (0.5 + 0.5 * Math.sin(t * 0.00018 + 1.7));
+    // clamp to viewport so corners never vanish into the edges
+    left = Math.max(VIEW_MARGIN, left);
+    top = Math.max(VIEW_MARGIN, top);
+    right = Math.min(window.innerWidth - VIEW_MARGIN, right);
+    bottom = Math.min(window.innerHeight - VIEW_MARGIN, bottom);
+
+    const spanW = right - left;
+    const spanH = bottom - top;
+    if (spanW < 120 || spanH < 120) return;
+
+    // stronger pulse + glow
+    const pulse = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(t * 0.00030));
+    const glow  = 0.35 + 0.40 * (0.5 + 0.5 * Math.sin(t * 0.00022 + 1.4));
 
     ctx.globalCompositeOperation = "lighter";
     ctx.lineWidth = 1;
 
-    // frame lines
-    ctx.strokeStyle = `rgba(198,121,83,${0.22 + glow})`;
-    strokeRoundRect(ctx, left, top, right - left, bottom - top, 22);
+    // frame lines — brighter
+    ctx.strokeStyle = `rgba(198,121,83,${0.40 + glow})`;
+    strokeRoundRect(ctx, left, top, spanW, spanH, 22);
 
-    ctx.strokeStyle = `rgba(198,121,83,${0.10 + glow * 0.7})`;
-    strokeRoundRect(
-      ctx,
-      left + inset,
-      top + inset,
-      (right - left) - inset * 2,
-      (bottom - top) - inset * 2,
-      18
-    );
+    ctx.strokeStyle = `rgba(198,121,83,${0.18 + glow * 0.9})`;
+    strokeRoundRect(ctx, left + inset, top + inset, spanW - inset * 2, spanH - inset * 2, 18);
 
     // runes
     ctx.font = "16px ui-serif, Georgia, serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    const spanW = right - left;
-    const spanH = bottom - top;
     const step = Math.max(44, Math.min(78, Math.floor(spanW / 16)));
 
     function drawRune(x, y, rot, idx) {
@@ -341,15 +331,18 @@
       ctx.translate(x, y);
       ctx.rotate(rot);
 
-      ctx.fillStyle = `rgba(198,121,83,${0.12 + glow})`;
-      ctx.shadowColor = `rgba(198,121,83,${0.55 * pulse})`;
-      ctx.shadowBlur = 14 + 22 * pulse;
-
       const r = RUNES[idx % RUNES.length];
+
+      // hotter glow
+      ctx.shadowColor = `rgba(198,121,83,${0.90 * pulse})`;
+      ctx.shadowBlur = 18 + 28 * pulse;
+
+      ctx.fillStyle = `rgba(198,121,83,${0.26 + glow})`;
       ctx.fillText(r, 0, 0);
 
+      // crisp inner highlight
       ctx.shadowBlur = 0;
-      ctx.fillStyle = `rgba(246,226,204,${0.08 + glow * 0.55})`;
+      ctx.fillStyle = `rgba(246,226,204,${0.14 + glow * 0.65})`;
       ctx.fillText(r, 0, 0);
 
       ctx.restore();
@@ -357,48 +350,35 @@
 
     let idx = 0;
 
-    // top
-    for (let x = left + step; x <= right - step; x += step) {
-      drawRune(x, top + 10, 0, idx++);
-    }
-    // bottom
-    for (let x = left + step; x <= right - step; x += step) {
-      drawRune(x, bottom - 10, Math.PI, idx++);
-    }
-    // left
-    for (let y = top + step; y <= bottom - step; y += step) {
-      drawRune(left + 10, y, -Math.PI / 2, idx++);
-    }
-    // right
-    for (let y = top + step; y <= bottom - step; y += step) {
-      drawRune(right - 10, y, Math.PI / 2, idx++);
-    }
+    for (let x = left + step; x <= right - step; x += step) drawRune(x, top + 12, 0, idx++);
+    for (let x = left + step; x <= right - step; x += step) drawRune(x, bottom - 12, Math.PI, idx++);
+    for (let y = top + step; y <= bottom - step; y += step) drawRune(left + 12, y, -Math.PI / 2, idx++);
+    for (let y = top + step; y <= bottom - step; y += step) drawRune(right - 12, y, Math.PI / 2, idx++);
 
-    // corner seals
+    // corner seals — brighter + safer placement
     function cornerSeal(x, y) {
       ctx.save();
       ctx.translate(x, y);
 
-      ctx.strokeStyle = `rgba(198,121,83,${0.14 + glow})`;
       ctx.lineWidth = 1;
+      ctx.shadowColor = `rgba(198,121,83,${0.95 * pulse})`;
+      ctx.shadowBlur = 22 + 34 * pulse;
 
-      ctx.shadowColor = `rgba(198,121,83,${0.6 * pulse})`;
-      ctx.shadowBlur = 18 + 26 * pulse;
-
+      ctx.strokeStyle = `rgba(198,121,83,${0.32 + glow})`;
       ctx.beginPath(); ctx.arc(0,0, 14, 0, Math.PI*2); ctx.stroke();
       ctx.beginPath(); ctx.arc(0,0, 22, 0, Math.PI*2); ctx.stroke();
 
       ctx.shadowBlur = 0;
-      ctx.strokeStyle = `rgba(198,121,83,${0.10 + glow * 0.5})`;
+      ctx.strokeStyle = `rgba(246,226,204,${0.12 + glow * 0.55})`;
       ctx.beginPath(); ctx.arc(0,0, 30, 0, Math.PI*2); ctx.stroke();
 
       ctx.restore();
     }
 
-    cornerSeal(left + 14, top + 14);
-    cornerSeal(right - 14, top + 14);
-    cornerSeal(left + 14, bottom - 14);
-    cornerSeal(right - 14, bottom - 14);
+    cornerSeal(left + 16, top + 16);
+    cornerSeal(right - 16, top + 16);
+    cornerSeal(left + 16, bottom - 16);
+    cornerSeal(right - 16, bottom - 16);
 
     ctx.globalCompositeOperation = "source-over";
   }
