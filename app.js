@@ -1,327 +1,362 @@
 (() => {
   "use strict";
 
-  // ---------- MENU DATA (keeps your items, adds realistic beverage prices) ----------
-  // Note: if you want EVERY beverage $14 again, tell me and I’ll flip one constant.
+  // ---------------------------
+  // BUILD META
+  // ---------------------------
+  const buildEl = document.getElementById("buildMeta");
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  buildEl.textContent = `BUILD: ${yyyy}-${mm}-${dd}`;
+
+  // ---------------------------
+  // MENU DATA (keep all items)
+  // ---------------------------
   const MENU = [
     {
       title: "House Coffees",
       items: [
-        { name: "Stag’s Dark Roast (drip)", price: "$4" },
-        { name: "Dawnwood Medium Roast (drip)", price: "$4" }
+        { name: "Stag’s Dark Roast (drip)", price: "$4.00" },
+        { name: "Dawnwood Medium Roast (drip)", price: "$4.00" },
+        { name: "Cold Brew", price: "$6.00" },
+        { name: "Nitro Cold Brew", price: "$7.00" }
       ]
     },
     {
       title: "Espresso Classics",
       items: [
-        { name: "Espresso", price: "$3" },
-        { name: "Americano", price: "$4" },
-        { name: "Cappuccino", price: "$5" },
-        { name: "Latte", price: "$6" }
+        { name: "Espresso", price: "$3.00" },
+        { name: "Americano", price: "$4.00" },
+        { name: "Cappuccino", price: "$5.00" },
+        { name: "Latte", price: "$5.50" }
       ]
     },
     {
       title: "Featured Lattes",
       items: [
-        { name: "Black Spell Mocha", desc: "Dark chocolate mocha", price: "$7" },
-        { name: "Caramel Draught Latte", desc: "Caramel latte", price: "$7" }
+        { name: "Black Spell Mocha", desc: "Dark chocolate mocha", price: "$6.50" },
+        { name: "Caramel Draught Latte", desc: "Caramel latte", price: "$6.50" }
       ]
     },
     {
       title: "Signature Coffeehouse",
       items: [
-        { name: "Stag King Brew", desc: "Signature sweet-cream coffee", price: "$7" },
-        { name: "Dragonfire Mocha", desc: "Spiced mocha", price: "$7" },
-        { name: "Siren Salted Cold Foam", desc: "Cold foam topper — add-on", price: "+$1" }
+        { name: "Stag King Brew", desc: "Signature sweet-cream coffee", price: "$6.75" },
+        { name: "Dragonfire Mocha", desc: "Spiced mocha", price: "$6.75" },
+        { name: "Siren Salted Cold Foam", desc: "Cold foam topper — add-on", price: "$1.50" }
       ]
     },
     {
       title: "Iced Coffeehouse",
       items: [
-        { name: "Iced Espresso Classic", desc: "Any espresso classic available iced", price: "+$0" }
+        { name: "Iced Espresso Classics", desc: "Any espresso classic available iced", price: "—" }
       ]
     },
     {
       title: "Teas & Herbals",
       items: [
-        { name: "Orchard Chai", desc: "Chai", price: "$4" },
-        { name: "Forest Mint", desc: "Mint herbal", price: "$4" },
-        { name: "Lavender Fields", desc: "Lavender herbal", price: "$4" },
-        { name: "Siren Blue", desc: "Butterfly pea herbal", price: "$4" }
+        { name: "Orchard Chai", desc: "Chai", price: "$4.50" },
+        { name: "Forest Mint", desc: "Mint herbal", price: "$4.50" },
+        { name: "Lavender Fields", desc: "Lavender herbal", price: "$4.50" },
+        { name: "Siren Blue", desc: "Butterfly pea herbal", price: "$4.50" }
       ]
     },
     {
       title: "Matcha",
       items: [
-        { name: "Matcha Green Elixir", desc: "Matcha latte", price: "$6" }
+        { name: "Matcha Green Elixir", desc: "Matcha latte", price: "$6.00" }
       ]
     },
     {
       title: "Iced & Refreshers",
       items: [
-        { name: "Iced Chai", price: "$5" },
-        { name: "Iced Matcha", price: "$6" },
-        { name: "Stormborn Lemonade", price: "$5" },
-        { name: "Witchlight Cooler", desc: "Seasonal refresher", price: "$6" }
+        { name: "Iced Chai", price: "$5.50" },
+        { name: "Iced Matcha", price: "$6.50" },
+        { name: "Stormborn Lemonade", price: "$5.50" },
+        { name: "Witchlight Cooler", desc: "Seasonal refresher", price: "$6.00" }
       ]
     },
     {
       title: "Sandwiches",
       items: [
-        { name: "The Stag Melt", desc: "Tavern ham, bacon, egg & melted cheese with thyme and parsley on house sourdough", price: "$14" },
-        { name: "Turkey, Brie & Cranberry", desc: "Roasted turkey, brie, and cranberry on house sourdough", price: "$13" },
-        { name: "Wildwood Melt (limited)", desc: "Chanterelle, beech, maitake, and cremini mushrooms with bacon jam, thyme and parsley on house sourdough", price: "$15" },
-        { name: "Tavern Ham & Grilled Cheese", desc: "Tavern ham and melted cheese on house sourdough", price: "$11" }
+        {
+          name: "The Stag Melt",
+          desc: "Tavern ham, bacon, egg & melted cheese with thyme and parsley on house sourdough",
+          price: "$14"
+        },
+        {
+          name: "Turkey, Brie & Cranberry",
+          desc: "Roasted turkey, brie, and cranberry on house sourdough",
+          price: "$13"
+        },
+        {
+          name: "Wildwood Melt (limited)",
+          desc: "Chanterelle, beech, maitake, and cremini mushrooms with bacon jam, thyme and parsley on house sourdough",
+          price: "$15"
+        },
+        {
+          name: "Tavern Ham & Grilled Cheese",
+          desc: "Tavern ham and melted cheese on house sourdough",
+          price: "$11"
+        }
       ]
     },
     {
       title: "Pastries",
       items: [
-        { name: "Fresh pastry (rotating)", price: "$5" },
-        { name: "Savory hand pie or scone", price: "$6" },
-        { name: "Biscotti or shortbread", price: "$4" }
+        { name: "Fresh pastry (rotating)", price: "—" },
+        { name: "Savory hand pie or scone", price: "—" },
+        { name: "Biscotti or shortbread", price: "—" }
       ]
     }
   ];
 
-  // ---------- DOM INJECTION ----------
-  function el(tag, className, text){
+  // ---------------------------
+  // RENDER MENU
+  // ---------------------------
+  const menuEl = document.getElementById("menu");
+
+  function el(tag, cls, text) {
     const n = document.createElement(tag);
-    if (className) n.className = className;
+    if (cls) n.className = cls;
     if (text != null) n.textContent = text;
     return n;
   }
 
-  function renderMenu(){
-    const menu = document.getElementById("menu");
-    menu.innerHTML = "";
+  function renderMenu() {
+    menuEl.innerHTML = "";
+    for (const section of MENU) {
+      const s = el("div", "section");
+      const h = el("h2", "", section.title);
+      s.appendChild(h);
 
-    for (const sec of MENU){
-      const section = el("section", "section");
-      const h2 = el("h2", "", sec.title);
-      section.appendChild(h2);
-
-      for (const it of sec.items){
+      for (const it of section.items) {
         const row = el("div", "item");
 
         const left = el("div", "left");
         const name = el("div", "name", it.name);
         left.appendChild(name);
 
+        if (it.desc) {
+          const desc = el("div", "desc", it.desc);
+          left.appendChild(desc);
+        }
+
         const price = el("div", "price", it.price || "");
         row.appendChild(left);
         row.appendChild(price);
 
-        if (it.desc){
-          const desc = el("div", "desc", it.desc);
-          row.appendChild(desc);
-        }
-
-        section.appendChild(row);
+        s.appendChild(row);
       }
 
-      menu.appendChild(section);
+      menuEl.appendChild(s);
     }
   }
+  renderMenu();
 
-  function setBuildMeta(){
-    const out = document.getElementById("buildMeta");
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth()+1).padStart(2,"0");
-    const dd = String(d.getDate()).padStart(2,"0");
-    out.textContent = `BUILD: ${yyyy}-${mm}-${dd} • SECTIONS: ${MENU.length}`;
-  }
+  // ---------------------------
+  // CANVAS SETUP
+  // ---------------------------
+  function setupCanvas(id) {
+    const canvas = document.getElementById(id);
+    const ctx = canvas.getContext("2d", { alpha: true });
+    const s = { canvas, ctx, w: 0, h: 0, dpr: 1 };
 
-  // ---------- EMBERS + RUNES (CANVAS) ----------
-  function fitCanvas(c){
-    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-    const w = Math.floor(window.innerWidth);
-    const h = Math.floor(window.innerHeight);
-    c.width = Math.floor(w * dpr);
-    c.height = Math.floor(h * dpr);
-    c.style.width = w + "px";
-    c.style.height = h + "px";
-    return { w, h, dpr };
-  }
-
-  function startEmbers(){
-    const c = document.getElementById("embers");
-    const ctx = c.getContext("2d", { alpha:true });
-    let { w, h, dpr } = fitCanvas(c);
-
-    const rand = (a,b)=> a + Math.random()*(b-a);
-
-    // Particles
-    const N = Math.round((w*h) / 45000); // density scales with screen
-    const P = [];
-    for (let i=0;i<N;i++){
-      P.push({
-        x: rand(0,w),
-        y: rand(0,h),
-        r: rand(0.6, 2.2),
-        vy: rand(18, 55),
-        vx: rand(-8, 8),
-        life: rand(0.4, 1.0),
-        hue: rand(18, 34), // ember orange
-        a: rand(0.12, 0.35)
-      });
+    function resize() {
+      s.dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      s.w = Math.floor(window.innerWidth);
+      s.h = Math.floor(window.innerHeight);
+      canvas.width = Math.floor(s.w * s.dpr);
+      canvas.height = Math.floor(s.h * s.dpr);
+      canvas.style.width = s.w + "px";
+      canvas.style.height = s.h + "px";
+      ctx.setTransform(s.dpr, 0, 0, s.dpr, 0, 0);
     }
 
-    function step(dt){
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      ctx.clearRect(0,0,w,h);
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+    return { ...s, resize };
+  }
 
-      // soft additive glow
-      ctx.globalCompositeOperation = "lighter";
+  const emb = setupCanvas("embers");
+  const ward = setupCanvas("wards");
 
-      for (const p of P){
-        p.y -= (p.vy * dt);
-        p.x += (p.vx * dt);
+  function rand(a, b) { return a + Math.random() * (b - a); }
 
-        // drift and fade as they rise
-        p.life -= dt * 0.10;
-        const alpha = Math.max(0, p.a * p.life);
+  // ---------------------------
+  // EMBERS (slow rising)
+  // ---------------------------
+  const EMBER_COUNT = 140;
+  const embers = Array.from({ length: EMBER_COUNT }, () => ({
+    x: rand(0, emb.w),
+    y: rand(0, emb.h),
+    r: rand(0.8, 2.6),
+    vy: rand(0.10, 0.42),
+    vx: rand(-0.08, 0.08),
+    life: rand(0.35, 1.0),
+    tw: rand(0, Math.PI * 2)
+  }));
 
-        // wrap
-        if (p.y < -20 || p.life <= 0){
-          p.x = rand(0,w);
-          p.y = h + rand(10, 140);
-          p.r = rand(0.6, 2.2);
-          p.vy = rand(18, 55);
-          p.vx = rand(-8, 8);
-          p.life = rand(0.45, 1.0);
-          p.hue = rand(18, 34);
-          p.a = rand(0.12, 0.35);
-        }
-        if (p.x < -30) p.x = w + 30;
-        if (p.x > w + 30) p.x = -30;
+  function resetEmber(p) {
+    p.x = rand(0, emb.w);
+    p.y = emb.h + rand(10, 80);
+    p.r = rand(0.8, 2.6);
+    p.vy = rand(0.10, 0.42);
+    p.vx = rand(-0.08, 0.08);
+    p.life = rand(0.35, 1.0);
+    p.tw = rand(0, Math.PI * 2);
+  }
 
-        // draw
-        ctx.beginPath();
-        ctx.fillStyle = `hsla(${p.hue}, 95%, 60%, ${alpha})`;
-        ctx.shadowColor = `hsla(${p.hue}, 95%, 60%, ${alpha})`;
-        ctx.shadowBlur = 10 + p.r*8;
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fill();
-      }
+  function drawEmbers(t) {
+    const ctx = emb.ctx;
+    ctx.clearRect(0, 0, emb.w, emb.h);
+    ctx.globalCompositeOperation = "lighter";
 
-      ctx.globalCompositeOperation = "source-over";
+    for (const p of embers) {
+      p.y -= p.vy;
+      p.x += p.vx + Math.sin(t * 0.001 + p.tw) * 0.05;
+      p.life -= 0.0008 + p.vy * 0.00035;
+
+      if (p.y < -30 || p.life <= 0) resetEmber(p);
+
+      const twinkle = 0.65 + 0.35 * Math.sin(t * 0.002 + p.tw);
+      const a = Math.max(0, Math.min(1, p.life)) * twinkle * 0.55;
+
+      // ember core
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(198,121,83,${a})`;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // soft halo
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(198,121,83,${a * 0.25})`;
+      ctx.arc(p.x, p.y, p.r * 3.0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.globalCompositeOperation = "source-over";
+  }
+
+  // ---------------------------
+  // PROTECTIVE WARDS (animated border runes)
+  // ---------------------------
+  // Abstract "protective" rune set (non-specific, ward-like marks)
+  const RUNES = ["ᛉ","ᛟ","ᛇ","ᛏ","ᚦ","ᛒ","ᛞ","ᚱ","ᛜ","ᚺ","ᛁ","ᛊ"];
+
+  function drawWards(t) {
+    const ctx = ward.ctx;
+    ctx.clearRect(0, 0, ward.w, ward.h);
+
+    // border geometry
+    const pad = Math.max(16, Math.min(28, Math.floor(ward.w * 0.02)));
+    const left = pad, top = pad, right = ward.w - pad, bottom = ward.h - pad;
+
+    // slow pulse 0..1..0 over ~24s
+    const pulse = 0.35 + 0.35 * (0.5 + 0.5 * Math.sin(t * 0.00026));
+    const glow = 0.18 + 0.22 * (0.5 + 0.5 * Math.sin(t * 0.00018 + 1.7));
+
+    // faint copper frame lines
+    ctx.globalCompositeOperation = "lighter";
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = `rgba(198,121,83,${0.22 + glow})`;
+
+    ctx.beginPath();
+    ctx.roundRect(left, top, right - left, bottom - top, 22);
+    ctx.stroke();
+
+    ctx.strokeStyle = `rgba(198,121,83,${0.08 + glow * 0.6})`;
+    ctx.beginPath();
+    ctx.roundRect(left + 6, top + 6, (right - left) - 12, (bottom - top) - 12, 18);
+    ctx.stroke();
+
+    // rune text styling
+    ctx.font = "16px ui-serif, Georgia, serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // rune spacing depends on screen
+    const step = Math.max(42, Math.min(76, Math.floor(ward.w / 18)));
+
+    function drawRune(x, y, rot, idx) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(rot);
+
+      // outer glow
+      ctx.fillStyle = `rgba(198,121,83,${0.10 + glow})`;
+      ctx.shadowColor = `rgba(198,121,83,${0.45 * pulse})`;
+      ctx.shadowBlur = 10 + 18 * pulse;
+
+      const r = RUNES[idx % RUNES.length];
+      ctx.fillText(r, 0, 0);
+
+      // crisp core
       ctx.shadowBlur = 0;
+      ctx.fillStyle = `rgba(246,226,204,${0.06 + glow * 0.45})`;
+      ctx.fillText(r, 0, 0);
+
+      ctx.restore();
     }
 
-    // RAF loop
-    let last = performance.now();
-    function loop(now){
-      const dt = Math.min(0.05, (now - last) / 1000);
-      last = now;
-      step(dt);
-      requestAnimationFrame(loop);
+    // top edge
+    let idx = 0;
+    for (let x = left + step; x <= right - step; x += step) {
+      drawRune(x, top + 10, 0, idx++);
     }
-    requestAnimationFrame(loop);
-
-    // resize
-    window.addEventListener("resize", () => {
-      ({ w, h, dpr } = fitCanvas(c));
-    }, { passive:true });
-  }
-
-  function startRunes(){
-    const c = document.getElementById("runes");
-    const ctx = c.getContext("2d", { alpha:true });
-    let { w, h, dpr } = fitCanvas(c);
-
-    // Simple rune glyph set (ASCII-safe)
-    const glyphs = ["ᚠ","ᚢ","ᚦ","ᚨ","ᚱ","ᚲ","ᚷ","ᚹ","ᚺ","ᚾ","ᛁ","ᛃ","ᛇ","ᛈ","ᛉ","ᛋ","ᛏ","ᛒ","ᛖ","ᛗ","ᛚ","ᛜ","ᛞ","ᛟ"];
-
-    const rand = (a,b)=> a + Math.random()*(b-a);
-    const pick = (arr)=> arr[(Math.random()*arr.length)|0];
-
-    // Place runes around edges (protection ring)
-    const R = [];
-    function seed(){
-      R.length = 0;
-      const pad = 28;
-      const step = Math.max(42, Math.floor(Math.min(w,h)/16));
-      // top + bottom
-      for (let x=pad; x<=w-pad; x+=step){
-        R.push({ x, y: pad, g: pick(glyphs), s: rand(14, 20), p: rand(0,Math.PI*2) });
-        R.push({ x, y: h-pad, g: pick(glyphs), s: rand(14, 20), p: rand(0,Math.PI*2) });
-      }
-      // left + right
-      for (let y=pad; y<=h-pad; y+=step){
-        R.push({ x: pad, y, g: pick(glyphs), s: rand(14, 20), p: rand(0,Math.PI*2) });
-        R.push({ x: w-pad, y, g: pick(glyphs), s: rand(14, 20), p: rand(0,Math.PI*2) });
-      }
+    // bottom edge
+    for (let x = left + step; x <= right - step; x += step) {
+      drawRune(x, bottom - 10, Math.PI, idx++);
     }
-    seed();
+    // left edge
+    for (let y = top + step; y <= bottom - step; y += step) {
+      drawRune(left + 10, y, -Math.PI / 2, idx++);
+    }
+    // right edge
+    for (let y = top + step; y <= bottom - step; y += step) {
+      drawRune(right - 10, y, Math.PI / 2, idx++);
+    }
 
-    let t = 0;
-    function draw(dt){
-      t += dt;
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      ctx.clearRect(0,0,w,h);
+    // corner seals (circles)
+    function cornerSeal(x, y) {
+      ctx.save();
+      ctx.translate(x, y);
 
-      // pulsing glow
-      const pulse = 0.55 + 0.45*Math.sin(t*0.75);
+      const ringA = 0.10 + glow * 0.9;
+      ctx.strokeStyle = `rgba(198,121,83,${ringA})`;
+      ctx.lineWidth = 1;
 
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.font = "18px Georgia";
+      ctx.shadowColor = `rgba(198,121,83,${0.55 * pulse})`;
+      ctx.shadowBlur = 16 + 22 * pulse;
 
-      for (const r of R){
-        const a = 0.10 + pulse*0.22;
-        const glow = 8 + pulse*14;
+      ctx.beginPath(); ctx.arc(0,0, 14, 0, Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0,0, 22, 0, Math.PI*2); ctx.stroke();
 
-        // faint copper-ish rune glow
-        ctx.save();
-        ctx.translate(r.x, r.y);
-        ctx.rotate(Math.sin(t*0.22 + r.p) * 0.06);
-
-        ctx.font = `${r.s}px Georgia`;
-        ctx.fillStyle = `rgba(198,122,82,${a})`;
-        ctx.shadowColor = `rgba(198,122,82,${a})`;
-        ctx.shadowBlur = glow;
-        ctx.fillText(r.g, 0, 0);
-        ctx.restore();
-      }
-
-      // corner seals (slightly stronger)
-      const corners = [
-        [34,34],[w-34,34],[34,h-34],[w-34,h-34]
-      ];
-      for (const [x,y] of corners){
-        ctx.beginPath();
-        ctx.strokeStyle = `rgba(246,224,200,${0.10 + pulse*0.18})`;
-        ctx.lineWidth = 1;
-        ctx.shadowColor = `rgba(246,224,200,${0.10 + pulse*0.18})`;
-        ctx.shadowBlur = 18 + pulse*18;
-        ctx.arc(x,y, 18, 0, Math.PI*2);
-        ctx.stroke();
-      }
       ctx.shadowBlur = 0;
+      ctx.strokeStyle = `rgba(198,121,83,${0.08 + glow * 0.45})`;
+      ctx.beginPath(); ctx.arc(0,0, 30, 0, Math.PI*2); ctx.stroke();
+
+      ctx.restore();
     }
 
-    let last = performance.now();
-    function loop(now){
-      const dt = Math.min(0.05, (now - last) / 1000);
-      last = now;
-      draw(dt);
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
+    cornerSeal(left + 14, top + 14);
+    cornerSeal(right - 14, top + 14);
+    cornerSeal(left + 14, bottom - 14);
+    cornerSeal(right - 14, bottom - 14);
 
-    window.addEventListener("resize", () => {
-      ({ w, h, dpr } = fitCanvas(c));
-      seed();
-    }, { passive:true });
+    ctx.globalCompositeOperation = "source-over";
   }
 
-  // ---------- INIT ----------
-  document.addEventListener("DOMContentLoaded", () => {
-    setBuildMeta();
-    renderMenu();
-    startEmbers();
-    startRunes();
-  });
+  // ---------------------------
+  // Animation loop
+  // ---------------------------
+  function tick(t) {
+    drawEmbers(t);
+    drawWards(t);
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
 })();
