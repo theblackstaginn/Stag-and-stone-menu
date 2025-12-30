@@ -5,19 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#050609" />
   <title>Stag & Stone Coffeehouse — Menu</title>
-  <div class="topActions">
-  <a class="actionBtn" href="#" id="orderBtn">
-    Order
-  </a>
 
-  <a class="actionBtn" href="tel:0000000000" id="callBtn">
-    Call
-  </a>
-</div>
-<!-- App icon / favicon -->
-<link rel="icon" href="favicon.png" sizes="64x64" />
-<link rel="apple-touch-icon" href="icon-512.png" />
-<meta name="theme-color" content="#0b0e13" />
+  <!-- App icon / favicon -->
+  <link rel="icon" href="favicon.png" sizes="64x64" />
+  <link rel="apple-touch-icon" href="icon-512.png" />
+
   <link rel="stylesheet" href="styles.css?v=20251229b" />
 </head>
 
@@ -29,11 +21,18 @@
   <!-- Content -->
   <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
     <header class="top">
-      <!-- You said you changed the header text. Keep whatever you want here. -->
       <div class="kicker copper">STAG &amp; STONE COFFEEHOUSE</div>
-      <h1 class="title copper">Menu</h1>
+
+      <!-- Buttons flank the Menu title (symmetrical) -->
+      <div class="menuHeader" aria-label="Quick actions">
+        <a class="cornerBtn" href="#" id="orderBtn" aria-label="Order online">ORDER</a>
+
+        <h1 class="title copper">Menu</h1>
+
+        <a class="cornerBtn" href="tel:0000000000" id="callBtn" aria-label="Call the coffeehouse">CALL</a>
+      </div>
+
       <div class="sub">Seasonal • Prices as listed</div>
-      
     </header>
 
     <section class="menu" id="menu" role="region" aria-label="Menu items">
