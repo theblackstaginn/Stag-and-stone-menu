@@ -36,8 +36,9 @@
   --wardSafeX: 34px;
   --wardSafeY: 44px;
 
-  /* Button safe inset from rune rails */
-  --btnInset: 0px;
+  /* Header button rail safety */
+  --btnRailPad: 18px;     /* keeps buttons off rune rails */
+  --btnGap: 16px;
 }
 
 *{ box-sizing:border-box; }
@@ -50,8 +51,6 @@ html, body{
 body{
   font-family: ui-serif, Georgia, "Times New Roman", serif;
   color: var(--text);
-
-  /* body does not scroll (panel does) */
   overflow: hidden;
 
   background:
@@ -113,7 +112,6 @@ body::after{
   border-radius: var(--radius);
   overflow:hidden;
 
-  /* see-through */
   background: linear-gradient(180deg, rgba(6,8,10,.22), rgba(6,8,10,.08));
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
@@ -141,41 +139,31 @@ body::after{
   border-bottom: 1px solid var(--rule);
 }
 
-/* Default kicker baseline */
 .kicker{
-  font-size: 14px;
+  font-size: clamp(18px, 2.2vw, 26px); /* larger */
   letter-spacing: 5px;
-  opacity:.90;
+  opacity:.95;
 }
 
-/* ✅ Brand made larger (used via class="kicker ... brandTitle") */
-.brandTitle{
-  font-size: clamp(22px, 4.6vw, 30px);
-  letter-spacing: 6px;
-  margin-bottom: 4px;
-}
-
-/* ✅ Location under brand */
-.locationHeader{
+.town{
   margin-top: 6px;
-  font-size: 13px;
+  font-size: clamp(14px, 1.8vw, 18px);
   letter-spacing: 2px;
-  opacity: .75;
   color: var(--muted);
 }
 
-/* MENU TITLE ROW (buttons) */
+/* ACTION ROW: centered + symmetric + rune-safe */
 .menuHeader{
-  display:grid;
-  grid-template-columns: auto 1fr auto;
+  display:flex;
+  justify-content:center;
   align-items:center;
-  gap: 12px;
+  gap: var(--btnGap);
 
-  margin-top: 10px;
+  margin-top: 12px;
   margin-bottom: 6px;
 
-  /* pulls both buttons inward symmetrically */
-  padding-inline: var(--btnInset);
+  /* keep the whole row away from rune rails */
+  padding-inline: var(--btnRailPad);
 }
 
 /* Square copper buttons */
@@ -214,19 +202,9 @@ body::after{
 }
 .cornerBtn:active{ transform: translateY(1px); }
 
-/* Copper seasonal line (used via class="sub copper") */
 .sub{
   font-size: clamp(14px, 2vw, 18px);
-  margin-top: 8px;
-  color: var(--muted);
-}
-
-.meta{
   margin-top: 10px;
-  font-size: 13px;
-  letter-spacing: 2px;
-  opacity:.75;
-  color: var(--muted);
 }
 
 /* ✅ only scroll container */
@@ -236,7 +214,6 @@ body::after{
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
-  /* rune-safe window (keeps text out of rune rails) */
   padding:
     calc(var(--wardSafeY) * 0.55)
     calc(var(--pad) + var(--wardSafeX))
@@ -287,20 +264,6 @@ body::after{
   white-space:nowrap;
 }
 
-/* Footer (kept, but empty in your HTML now) */
-.bottom{
-  padding: 12px var(--pad) 16px;
-  border-top: 1px solid var(--rule);
-  text-align:center;
-}
-
-.location{
-  font-size: 16px;
-  letter-spacing: 2px;
-  opacity:.85;
-  color: var(--muted);
-}
-
 /* ===========================
    MOBILE
    =========================== */
@@ -310,18 +273,18 @@ body::after{
     --wardSafeX: 54px;
     --wardSafeY: 54px;
 
-    /* pull buttons inward from rune rails */
-    --btnInset: 22px;
+    --btnRailPad: 26px; /* stronger inset from rune rails */
+    --btnGap: 12px;     /* closer together */
   }
 
   .panel{ width: 94vw; }
 
   .cornerBtn{
-    width: 70px;
-    height: 38px;
+    width: 68px;   /* smaller so they stop touching the rune border */
+    height: 36px;
     border-radius: 11px;
     font-size: 10px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.4px;
   }
 
   .name{ font-size: clamp(17px, 4.6vw, 22px); }
@@ -331,13 +294,14 @@ body::after{
 @media (max-width: 380px){
   :root{
     --wardSafeX: 62px;
-    --btnInset: 28px;
+    --btnRailPad: 30px;
+    --btnGap: 10px;
   }
 
   .cornerBtn{
-    width: 64px;
-    height: 36px;
+    width: 62px;
+    height: 34px;
     font-size: 10px;
-    letter-spacing: 1.35px;
+    letter-spacing: 1.25px;
   }
 }
