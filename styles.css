@@ -222,3 +222,42 @@ body::after{
   opacity:.85;
   color: var(--muted);
 }
+/* ===========================
+   MOBILE FIX: keep text out of rune rails
+   =========================== */
+
+/* Bigger “safe window” on narrow screens */
+:root{
+  --wardSafeX: 34px;  /* left/right clearance */
+  --wardSafeY: 44px;  /* top/bottom clearance (you already have this concept) */
+}
+
+/* Use the responsive values (keep your existing #menu rule, but override padding) */
+#menu{
+  padding:
+    calc(var(--wardSafeY) * 0.55)
+    calc(var(--pad) + var(--wardSafeX))
+    calc(var(--wardSafeY) * 0.75);
+}
+
+/* On phones: increase side clearance more */
+@media (max-width: 520px){
+  :root{
+    --wardSafeX: 54px;   /* push text away from rune rails */
+    --wardSafeY: 54px;   /* also helps top/bottom */
+  }
+
+  /* make the panel slightly wider on phones (less wasted margin) */
+  .panel{
+    width: 94vw;
+  }
+
+  /* optional: slightly smaller item text so long names don’t collide */
+  .name{ font-size: clamp(17px, 4.6vw, 22px); }
+  .price{ font-size: clamp(15px, 4.2vw, 20px); }
+}
+
+/* Super small phones */
+@media (max-width: 380px){
+  :root{ --wardSafeX: 62px; }
+}
