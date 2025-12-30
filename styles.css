@@ -75,13 +75,13 @@ body::after{
   pointer-events:none;
   z-index:0;
 
-  opacity:.18;
+  opacity:.35;
   background-image: var(--charcoalTex);
   background-size: 1100px 1100px;
   background-repeat: repeat;
 
   /* subtle + consistent */
-  mix-blend-mode: soft-light;
+  mix-blend-mode: multiply;
 }
 
 /* Border frame snaps to viewport */
