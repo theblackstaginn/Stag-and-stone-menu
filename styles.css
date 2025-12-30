@@ -35,6 +35,9 @@
   /* Rune-rail safe window */
   --wardSafeX: 34px;
   --wardSafeY: 44px;
+
+  /* Button safe inset from rune rails */
+  --btnInset: 0px;
 }
 
 *{ box-sizing:border-box; }
@@ -154,6 +157,9 @@ body::after{
   /* keeps buttons in the “red square” zone */
   margin-top: 8px;
   margin-bottom: 4px;
+
+  /* pulls both buttons inward symmetrically */
+  padding-inline: var(--btnInset);
 }
 
 .title{
@@ -284,59 +290,44 @@ body::after{
   color: var(--muted);
 }
 
-/* MOBILE */
+/* ===========================
+   MOBILE
+   =========================== */
+
 @media (max-width: 520px){
   :root{
     --wardSafeX: 54px;
     --wardSafeY: 54px;
+
+    /* pull buttons inward from rune rails */
+    --btnInset: 22px;
   }
 
   .panel{ width: 94vw; }
 
   .cornerBtn{
-    width: 76px;
-    height: 40px;
+    width: 70px;
+    height: 38px;
     border-radius: 11px;
-    font-size: 11px;
-    letter-spacing: 1.6px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
   }
 
+  /* optional: slightly smaller item text so long names don’t collide */
   .name{ font-size: clamp(17px, 4.6vw, 22px); }
   .price{ font-size: clamp(15px, 4.2vw, 20px); }
 }
 
 @media (max-width: 380px){
-  :root{ --wardSafeX: 62px; }
-}
-/* ===========================
-   MOBILE BUTTON REFINEMENT
-   =========================== */
-
-@media (max-width: 520px){
-  .topActions{
-    max-width: 360px;     /* slightly tighter row */
-    margin-top: 10px;     /* drop buttons down from runes */
-    gap: 14px;
+  :root{
+    --wardSafeX: 62px;
+    --btnInset: 28px; /* even more inward on tiny screens */
   }
 
-  .actionBtn{
-    padding: 8px 12px;    /* smaller vertical height */
-    font-size: 11px;      /* was 13px */
-    letter-spacing: 1.6px;
-    border-radius: 14px;  /* less pill-like */
-  }
-}
-
-/* Ultra-small phones */
-@media (max-width: 380px){
-  .topActions{
-    max-width: 320px;
-    margin-top: 12px;
-  }
-
-  .actionBtn{
-    padding: 7px 10px;
+  .cornerBtn{
+    width: 64px;
+    height: 36px;
     font-size: 10px;
-    letter-spacing: 1.4px;
+    letter-spacing: 1.35px;
   }
 }
