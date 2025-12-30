@@ -3,28 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0e13" />
+  <meta name="theme-color" content="#050609" />
   <title>Stag & Stone Coffeehouse — Menu</title>
 
-  <link rel="stylesheet" href="styles.css?v=20251229b" />
+  <link rel="stylesheet" href="styles.css?v=20251229x" />
 </head>
 
 <body>
-  <!-- FX layers -->
+  <!-- FX canvases -->
   <canvas id="embers" aria-hidden="true"></canvas>
   <canvas id="runes" aria-hidden="true"></canvas>
 
-  <!-- Content -->
+  <!-- Your border can stay if you already have it wired.
+       If you have a border div in your old code, keep it.
+       Otherwise, harmless to leave out. -->
+  <!-- <div class="frame" aria-hidden="true"></div> -->
+
   <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
     <header class="top">
-      <!-- KEEP YOUR NEW TEXT HERE -->
-      <h1 class="title">STAG &amp; STONE<br>COFFEEHOUSE</h1>
+      <!-- You said you changed the text; keep it here -->
+      <div class="kicker">STAG &amp; STONE COFFEEHOUSE</div>
+      <h1 class="title">Menu</h1>
       <div class="sub">Seasonal • Prices as listed</div>
+
+      <!-- THIS is what your JS was expecting -->
+      <div class="meta" id="buildMeta">BUILD: —</div>
     </header>
 
-    <!-- IMPORTANT: app.js almost certainly injects into #menu -->
-    <section id="menu" class="menu" role="region" aria-label="Menu items">
-      <div class="loading">Loading menu...</div>
+    <!-- Whole-page scroll: this is just content, no special scrolling container -->
+    <section class="menu" id="menu" aria-label="Menu items">
+      <div class="loading">Loading menu…</div>
     </section>
 
     <footer class="bottom">
@@ -32,10 +40,6 @@
     </footer>
   </main>
 
-  <noscript style="color:#d8d2c7; display:block; padding:16px; text-align:center;">
-    This menu needs JavaScript enabled.
-  </noscript>
-
-  <script src="app.js?v=20251229b" defer></script>
+  <script src="app.js?v=20251229x" defer></script>
 </body>
 </html>
