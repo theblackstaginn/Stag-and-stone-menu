@@ -1,7 +1,6 @@
 /* ===========================
    STAG & STONE — MENU + FX
-   Panel-scoped scroll with
-   rune-safe margins + copper UI
+   Panel-scoped scroll + rune-safe
    =========================== */
 
 :root{
@@ -33,14 +32,9 @@
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
 
-  /* scroll boundary gap from rune frame */
-  --wardSafe: 48px;
-}
-
-/* Mobile rail-safe defaults */
-:root{
-  --wardSafeX: 34px;  /* left/right clearance */
-  --wardSafeY: 44px;  /* top/bottom clearance */
+  /* Rune-rail safe window */
+  --wardSafeX: 34px;
+  --wardSafeY: 44px;
 }
 
 *{ box-sizing:border-box; }
@@ -54,7 +48,7 @@ body{
   font-family: ui-serif, Georgia, "Times New Roman", serif;
   color: var(--text);
 
-  /* IMPORTANT: body does not scroll */
+  /* body does not scroll (panel does) */
   overflow: hidden;
 
   background:
@@ -99,9 +93,9 @@ body::after{
   pointer-events:none;
 }
 #embers{ z-index:1; }
-#runes{ z-index:5; } /* above panel */
+#runes{ z-index:5; }
 
-/* Panel becomes the viewport stage */
+/* Panel viewport */
 .panel{
   position:relative;
   z-index:3;
@@ -116,7 +110,7 @@ body::after{
   border-radius: var(--radius);
   overflow:hidden;
 
-  /* keep it see-through */
+  /* see-through */
   background: linear-gradient(180deg, rgba(6,8,10,.22), rgba(6,8,10,.08));
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
@@ -150,46 +144,25 @@ body::after{
   opacity:.90;
 }
 
-.title{
-  margin: 10px 0 6px;
-  font-size: clamp(46px, 6.6vw, 74px);
-  line-height: 1;
-}
-
-.sub{
-  font-size: clamp(14px, 2vw, 18px);
-  margin-top: 6px;
-  color: var(--muted);
-}
-
-.meta{
-  margin-top: 10px;
-  font-size: 13px;
-  letter-spacing: 2px;
-  opacity:.75;
-  color: var(--muted);
-}
-
-/* ===========================
-   NEW: Small square copper buttons
-   positioned around the Menu title
-   =========================== */
-
+/* MENU TITLE ROW (buttons + title) */
 .menuHeader{
   display:grid;
   grid-template-columns: auto 1fr auto;
   align-items:center;
   gap: 12px;
 
-  /* keeps the buttons living in the “red square” zone */
-  margin-top: 6px;
-  margin-bottom: 6px;
+  /* keeps buttons in the “red square” zone */
+  margin-top: 8px;
+  margin-bottom: 4px;
 }
 
-.menuHeader .title{
+.title{
   margin: 0;
+  font-size: clamp(46px, 6.6vw, 74px);
+  line-height: 1;
 }
 
+/* Square copper buttons */
 .cornerBtn{
   width: 92px;
   height: 44px;
@@ -205,7 +178,6 @@ body::after{
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,.12);
 
-  /* realistic copper */
   background: var(--copperGrad);
   color: #1a0f0a;
 
@@ -224,30 +196,30 @@ body::after{
     inset 0 -2px 7px rgba(0,0,0,.45),
     0 14px 30px rgba(0,0,0,.65);
 }
+.cornerBtn:active{ transform: translateY(1px); }
 
-.cornerBtn:active{
-  transform: translateY(1px);
+.sub{
+  font-size: clamp(14px, 2vw, 18px);
+  margin-top: 8px;
+  color: var(--muted);
 }
 
-/* On very small screens, don’t let buttons crush the title */
-@media (max-width: 420px){
-  .cornerBtn{
-    width: 76px;
-    height: 40px;
-    border-radius: 11px;
-    font-size: 11px;
-    letter-spacing: 1.6px;
-  }
+.meta{
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  opacity:.75;
+  color: var(--muted);
 }
 
-/* ✅ ONLY scroll container */
+/* ✅ only scroll container */
 #menu{
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
-  /* rune-safe “window” so text never rides under the border */
+  /* rune-safe window (keeps text out of rune rails) */
   padding:
     calc(var(--wardSafeY) * 0.55)
     calc(var(--pad) + var(--wardSafeX))
@@ -257,29 +229,15 @@ body::after{
 }
 #menu::-webkit-scrollbar{ width:0; height:0; }
 
-/* Menu sections */
-.section{
-  margin: 18px 0 26px;
-}
+/* Sections */
+.section{ margin: 18px 0 26px; }
 
-/* Your JS makes <h2> without a class; style it directly */
-.section h2{
+.sectionTitle{
   margin: 0 0 12px;
   text-align:center;
   font-size: clamp(18px, 2.6vw, 30px);
   letter-spacing: 6px;
   text-transform: uppercase;
-
-  /* copper */
-  background: var(--copperGrad);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-
-  text-shadow:
-    0 2px 0 rgba(0,0,0,.55),
-    0 14px 26px rgba(0,0,0,.72);
 }
 
 /* Items */
@@ -297,17 +255,6 @@ body::after{
 .name{
   font-size: clamp(18px, 2.2vw, 28px);
   font-weight: 650;
-
-  /* copper */
-  background: var(--copperGrad);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-
-  text-shadow:
-    0 2px 0 rgba(0,0,0,.55),
-    0 14px 26px rgba(0,0,0,.72);
 }
 
 .desc{
@@ -321,17 +268,6 @@ body::after{
 .price{
   font-size: clamp(16px, 2vw, 24px);
   white-space:nowrap;
-
-  /* copper */
-  background: var(--copperGrad);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-
-  text-shadow:
-    0 2px 0 rgba(0,0,0,.55),
-    0 14px 26px rgba(0,0,0,.72);
 }
 
 /* Footer */
@@ -348,18 +284,21 @@ body::after{
   color: var(--muted);
 }
 
-/* ===========================
-   MOBILE FIX: keep text out of rune rails
-   =========================== */
-
+/* MOBILE */
 @media (max-width: 520px){
   :root{
-    --wardSafeX: 54px;   /* push text away from rune rails */
+    --wardSafeX: 54px;
     --wardSafeY: 54px;
   }
 
-  .panel{
-    width: 94vw;
+  .panel{ width: 94vw; }
+
+  .cornerBtn{
+    width: 76px;
+    height: 40px;
+    border-radius: 11px;
+    font-size: 11px;
+    letter-spacing: 1.6px;
   }
 
   .name{ font-size: clamp(17px, 4.6vw, 22px); }
