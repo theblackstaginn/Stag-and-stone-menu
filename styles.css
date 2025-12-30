@@ -1,22 +1,15 @@
-/* ===========================
-   STAG & STONE — MENU + FX
-   Whole-page scroll, charcoal,
-   copper text, animated wards.
-   =========================== */
-
 :root{
   --text: #d8d2c7;
-  --muted: rgba(216,210,199,.70);
+  --muted: rgba(216,210,199,.72);
   --rule: rgba(255,255,255,.10);
 
-  /* Charcoal base */
   --bg0:#050609;
   --bg1:#0b0e13;
 
-  /* MUST exist: /Assets/charcoal-bg.png (capital A) */
-  --charcoalTex: url("./Assets/charcoal-bg.png");
+  /* MUST exist exactly like this (case matters on GitHub Pages): */
+  --charcoalTex: url("Assets/charcoal-bg.png");
 
-  /* Copper stops */
+  /* Copper */
   --c1:#f6e3ce;
   --c2:#e6bf9a;
   --c3:#c57b54;
@@ -33,11 +26,6 @@
 
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
-
-  /* TRUE GLASS (see-through) */
-  --glassTop: rgba(10,12,15,.18);
-  --glassBottom: rgba(10,12,15,.08);
-  --glassLine: rgba(255,255,255,.06);
 }
 
 *{ box-sizing:border-box; }
@@ -51,7 +39,6 @@ body{
   font-family: ui-serif, Georgia, "Times New Roman", serif;
   color: var(--text);
 
-  /* Whole page scroll */
   overflow-y:auto;
   -webkit-overflow-scrolling: touch;
 
@@ -85,7 +72,7 @@ body::after{
   inset:0;
   pointer-events:none;
   z-index:0;
-  opacity:.26;
+  opacity:.28;
   background-image: var(--charcoalTex);
   background-repeat: repeat;
   background-size: 1000px 1000px;
@@ -100,10 +87,11 @@ body::after{
   height:100%;
   pointer-events:none;
 }
+
 #embers{ z-index:1; }
 #runes{ z-index:2; }
 
-/* Content panel */
+/* Panel — MORE SEE-THROUGH (this is what you asked for) */
 .panel{
   position:relative;
   z-index:3;
@@ -114,21 +102,13 @@ body::after{
   border-radius: var(--radius);
   overflow:hidden;
 
-  /* TRUE GLASS */
-  background: linear-gradient(180deg, var(--glassTop), var(--glassBottom));
-  backdrop-filter: blur(4px) saturate(110%);
-  -webkit-backdrop-filter: blur(4px) saturate(110%);
+  /* reduced opacity so background stays alive */
+  background: linear-gradient(180deg, rgba(6,8,10,.22), rgba(6,8,10,.10));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 
-  box-shadow:
-    0 12px 40px rgba(0,0,0,.45),
-    inset 0 0 0 1px var(--glassLine);
-
-  /* safe areas */
-  padding:
-    env(safe-area-inset-top)
-    env(safe-area-inset-right)
-    env(safe-area-inset-bottom)
-    env(safe-area-inset-left);
+  box-shadow: 0 18px 70px rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.06);
 }
 
 /* Header */
@@ -138,7 +118,25 @@ body::after{
   border-bottom: 1px solid var(--rule);
 }
 
-.sub, .location, .loading{ color: var(--muted); }
+.kicker{
+  font-size: 14px;
+  letter-spacing: 5px;
+  color: var(--muted);
+  opacity:.9;
+}
+
+.sub{
+  font-size: clamp(14px, 2vw, 18px);
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.meta{
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: rgba(216,210,199,.60);
+}
 
 /* Copper application */
 .title,
@@ -156,36 +154,18 @@ body::after{
 }
 
 .title{
-  margin: 0;
-  font-size: clamp(40px, 6.2vw, 72px);
-  line-height: .98;
-  letter-spacing: 3px;
-}
-
-.sub{
-  font-size: clamp(14px, 2vw, 18px);
-  margin-top: 8px;
+  margin: 10px 0 6px;
+  font-size: clamp(46px, 6.6vw, 74px);
+  line-height:1;
 }
 
 /* Menu content */
-#menu.menu{
-  position:relative;
+.menu{
   padding: 18px var(--pad) 22px;
-}
-
-/* Soft local contrast behind text only (doesn't swallow bg) */
-#menu.menu::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.05));
-  opacity:.55;
 }
 
 .section{
   margin: 18px 0 26px;
-  position: relative;
 }
 
 .sectionTitle{
@@ -236,5 +216,8 @@ body::after{
 .location{
   font-size: 16px;
   letter-spacing: 2px;
-  opacity:.85;
+  color: var(--muted);
+  opacity:.9;
 }
+
+.loading{ color: var(--muted); }
