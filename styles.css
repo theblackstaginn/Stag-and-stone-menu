@@ -34,7 +34,7 @@
   --radius: 18px;
 
   /* THIS is the “scroll boundary” gap from the rune frame */
-  --wardSafe: 56px; /* raise/lower if you want more/less clearance */
+  --wardSafe: 48px; /* raise/lower if you want more/less clearance */
 }
 
 *{ box-sizing:border-box; }
