@@ -2,17 +2,26 @@
   "use strict";
 
   // ---------------------------
-  // BUILD META
+  // SAFE HELPERS
   // ---------------------------
-  const buildEl = document.getElementById("buildMeta");
+  const $ = (id) => document.getElementById(id);
+
+  function setText(id, value) {
+    const el = $(id);
+    if (el) el.textContent = value;
+  }
+
+  // ---------------------------
+  // BUILD META (SAFE)
+  // ---------------------------
   const today = new Date();
   const yyyy = today.getFullYear();
   const mm = String(today.getMonth() + 1).padStart(2, "0");
   const dd = String(today.getDate()).padStart(2, "0");
-  buildEl.textContent = `BUILD: ${yyyy}-${mm}-${dd}`;
+  setText("buildMeta", `BUILD: ${yyyy}-${mm}-${dd}`);
 
   // ---------------------------
-  // MENU DATA (keep all items)
+  // MENU DATA
   // ---------------------------
   const MENU = [
     {
@@ -114,9 +123,10 @@
   ];
 
   // ---------------------------
-  // RENDER MENU
+  // RENDER MENU (NO CRASH)
   // ---------------------------
-  const menuEl = document.getElementById("menu");
+  const menuEl = $("menu");
+  if (!menuEl) throw new Error('Missing #menu container in HTML');
 
   function el(tag, cls, text) {
     const n = document.createElement(tag);
@@ -129,24 +139,18 @@
     menuEl.innerHTML = "";
     for (const section of MENU) {
       const s = el("div", "section");
-      const h = el("h2", "", section.title);
+      const h = el("h2", "sectionTitle", section.title);
       s.appendChild(h);
 
       for (const it of section.items) {
         const row = el("div", "item");
 
         const left = el("div", "left");
-        const name = el("div", "name", it.name);
-        left.appendChild(name);
+        left.appendChild(el("div", "name", it.name));
+        if (it.desc) left.appendChild(el("div", "desc", it.desc));
 
-        if (it.desc) {
-          const desc = el("div", "desc", it.desc);
-          left.appendChild(desc);
-        }
-
-        const price = el("div", "price", it.price || "");
         row.appendChild(left);
-        row.appendChild(price);
+        row.appendChild(el("div", "price", it.price || ""));
 
         s.appendChild(row);
       }
@@ -154,17 +158,21 @@
       menuEl.appendChild(s);
     }
   }
+
+  // Render immediately
   renderMenu();
 
   // ---------------------------
-  // CANVAS SETUP
+  // CANVAS SETUP (RESIZE SAFE)
   // ---------------------------
   function setupCanvas(id) {
-    const canvas = document.getElementById(id);
+    const canvas = $(id);
+    if (!canvas) return null;
+
     const ctx = canvas.getContext("2d", { alpha: true });
     const s = { canvas, ctx, w: 0, h: 0, dpr: 1 };
 
-    function resize() {
+    s.resize = () => {
       s.dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
       s.w = Math.floor(window.innerWidth);
       s.h = Math.floor(window.innerHeight);
@@ -173,23 +181,46 @@
       canvas.style.width = s.w + "px";
       canvas.style.height = s.h + "px";
       ctx.setTransform(s.dpr, 0, 0, s.dpr, 0, 0);
-    }
+    };
 
-    resize();
-    window.addEventListener("resize", resize, { passive: true });
-    return { ...s, resize };
+    s.resize();
+    window.addEventListener("resize", s.resize, { passive: true });
+    return s;
   }
 
   const emb = setupCanvas("embers");
-  const ward = setupCanvas("wards");
+  const runes = setupCanvas("runes");
 
   function rand(a, b) { return a + Math.random() * (b - a); }
 
+  // roundRect fallback
+  function strokeRoundRect(ctx, x, y, w, h, r) {
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, r);
+      ctx.stroke();
+      return;
+    }
+    const rr = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rr, y);
+    ctx.lineTo(x + w - rr, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + rr);
+    ctx.lineTo(x + w, y + h - rr);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - rr, y + h);
+    ctx.lineTo(x + rr, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - rr);
+    ctx.lineTo(x, y + rr);
+    ctx.quadraticCurveTo(x, y, x + rr, y);
+    ctx.closePath();
+    ctx.stroke();
+  }
+
   // ---------------------------
-  // EMBERS (slow rising)
+  // EMBERS
   // ---------------------------
   const EMBER_COUNT = 140;
-  const embers = Array.from({ length: EMBER_COUNT }, () => ({
+  const embers = emb ? Array.from({ length: EMBER_COUNT }, () => ({
     x: rand(0, emb.w),
     y: rand(0, emb.h),
     r: rand(0.8, 2.6),
@@ -197,7 +228,7 @@
     vx: rand(-0.08, 0.08),
     life: rand(0.35, 1.0),
     tw: rand(0, Math.PI * 2)
-  }));
+  })) : [];
 
   function resetEmber(p) {
     p.x = rand(0, emb.w);
@@ -210,6 +241,7 @@
   }
 
   function drawEmbers(t) {
+    if (!emb) return;
     const ctx = emb.ctx;
     ctx.clearRect(0, 0, emb.w, emb.h);
     ctx.globalCompositeOperation = "lighter";
@@ -224,13 +256,11 @@
       const twinkle = 0.65 + 0.35 * Math.sin(t * 0.002 + p.tw);
       const a = Math.max(0, Math.min(1, p.life)) * twinkle * 0.55;
 
-      // ember core
       ctx.beginPath();
       ctx.fillStyle = `rgba(198,121,83,${a})`;
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fill();
 
-      // soft halo
       ctx.beginPath();
       ctx.fillStyle = `rgba(198,121,83,${a * 0.25})`;
       ctx.arc(p.x, p.y, p.r * 3.0, 0, Math.PI * 2);
@@ -241,59 +271,47 @@
   }
 
   // ---------------------------
-  // PROTECTIVE WARDS (animated border runes)
+  // PROTECTIVE RUNES
   // ---------------------------
-  // Abstract "protective" rune set (non-specific, ward-like marks)
   const RUNES = ["ᛉ","ᛟ","ᛇ","ᛏ","ᚦ","ᛒ","ᛞ","ᚱ","ᛜ","ᚺ","ᛁ","ᛊ"];
 
-  function drawWards(t) {
-    const ctx = ward.ctx;
-    ctx.clearRect(0, 0, ward.w, ward.h);
+  function drawRunes(t) {
+    if (!runes) return;
+    const ctx = runes.ctx;
+    ctx.clearRect(0, 0, runes.w, runes.h);
 
-    // border geometry
-    const pad = Math.max(16, Math.min(28, Math.floor(ward.w * 0.02)));
-    const left = pad, top = pad, right = ward.w - pad, bottom = ward.h - pad;
+    const pad = Math.max(16, Math.min(28, Math.floor(runes.w * 0.02)));
+    const left = pad, top = pad, right = runes.w - pad, bottom = runes.h - pad;
 
-    // slow pulse 0..1..0 over ~24s
     const pulse = 0.35 + 0.35 * (0.5 + 0.5 * Math.sin(t * 0.00026));
     const glow = 0.18 + 0.22 * (0.5 + 0.5 * Math.sin(t * 0.00018 + 1.7));
 
-    // faint copper frame lines
     ctx.globalCompositeOperation = "lighter";
     ctx.lineWidth = 1;
-    ctx.strokeStyle = `rgba(198,121,83,${0.22 + glow})`;
 
-    ctx.beginPath();
-    ctx.roundRect(left, top, right - left, bottom - top, 22);
-    ctx.stroke();
+    ctx.strokeStyle = `rgba(198,121,83,${0.22 + glow})`;
+    strokeRoundRect(ctx, left, top, right - left, bottom - top, 22);
 
     ctx.strokeStyle = `rgba(198,121,83,${0.08 + glow * 0.6})`;
-    ctx.beginPath();
-    ctx.roundRect(left + 6, top + 6, (right - left) - 12, (bottom - top) - 12, 18);
-    ctx.stroke();
+    strokeRoundRect(ctx, left + 6, top + 6, (right - left) - 12, (bottom - top) - 12, 18);
 
-    // rune text styling
     ctx.font = "16px ui-serif, Georgia, serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // rune spacing depends on screen
-    const step = Math.max(42, Math.min(76, Math.floor(ward.w / 18)));
+    const step = Math.max(42, Math.min(76, Math.floor(runes.w / 18)));
 
     function drawRune(x, y, rot, idx) {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rot);
 
-      // outer glow
       ctx.fillStyle = `rgba(198,121,83,${0.10 + glow})`;
       ctx.shadowColor = `rgba(198,121,83,${0.45 * pulse})`;
       ctx.shadowBlur = 10 + 18 * pulse;
-
       const r = RUNES[idx % RUNES.length];
       ctx.fillText(r, 0, 0);
 
-      // crisp core
       ctx.shadowBlur = 0;
       ctx.fillStyle = `rgba(246,226,204,${0.06 + glow * 0.45})`;
       ctx.fillText(r, 0, 0);
@@ -301,25 +319,12 @@
       ctx.restore();
     }
 
-    // top edge
     let idx = 0;
-    for (let x = left + step; x <= right - step; x += step) {
-      drawRune(x, top + 10, 0, idx++);
-    }
-    // bottom edge
-    for (let x = left + step; x <= right - step; x += step) {
-      drawRune(x, bottom - 10, Math.PI, idx++);
-    }
-    // left edge
-    for (let y = top + step; y <= bottom - step; y += step) {
-      drawRune(left + 10, y, -Math.PI / 2, idx++);
-    }
-    // right edge
-    for (let y = top + step; y <= bottom - step; y += step) {
-      drawRune(right - 10, y, Math.PI / 2, idx++);
-    }
+    for (let x = left + step; x <= right - step; x += step) drawRune(x, top + 10, 0, idx++);
+    for (let x = left + step; x <= right - step; x += step) drawRune(x, bottom - 10, Math.PI, idx++);
+    for (let y = top + step; y <= bottom - step; y += step) drawRune(left + 10, y, -Math.PI / 2, idx++);
+    for (let y = top + step; y <= bottom - step; y += step) drawRune(right - 10, y, Math.PI / 2, idx++);
 
-    // corner seals (circles)
     function cornerSeal(x, y) {
       ctx.save();
       ctx.translate(x, y);
@@ -350,13 +355,12 @@
   }
 
   // ---------------------------
-  // Animation loop
+  // LOOP
   // ---------------------------
   function tick(t) {
     drawEmbers(t);
-    drawWards(t);
+    drawRunes(t);
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
-
 })();
