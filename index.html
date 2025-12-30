@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#07090c" />
+  <meta name="theme-color" content="#0b0e13" />
   <title>Stag & Stone Coffeehouse — Menu</title>
 
-  <link rel="stylesheet" href="styles.css?v=20251229a" />
+  <link rel="stylesheet" href="styles.css?v=20251229b" />
 </head>
 
 <body>
@@ -17,14 +17,14 @@
   <!-- Content -->
   <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
     <header class="top">
-      <div class="kicker"></div>
-      <h1 class="title">STAG &amp; STONE COFFEEHOUSE</h1>
+      <!-- KEEP YOUR NEW TEXT HERE -->
+      <h1 class="title">STAG &amp; STONE<br>COFFEEHOUSE</h1>
       <div class="sub">Seasonal • Prices as listed</div>
-      
     </header>
 
-    <section id="menu" class="menu" aria-label="Menu items">
-      <div class="loading">Loading menu…</div>
+    <!-- IMPORTANT: app.js almost certainly injects into #menu -->
+    <section id="menu" class="menu" role="region" aria-label="Menu items">
+      <div class="loading">Loading menu...</div>
     </section>
 
     <footer class="bottom">
@@ -32,6 +32,10 @@
     </footer>
   </main>
 
-  <script src="app.js?v=20251229a" defer></script>
+  <noscript style="color:#d8d2c7; display:block; padding:16px; text-align:center;">
+    This menu needs JavaScript enabled.
+  </noscript>
+
+  <script src="app.js?v=20251229b" defer></script>
 </body>
 </html>
