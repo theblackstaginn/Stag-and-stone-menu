@@ -2,7 +2,6 @@
    STAG & STONE — MENU + FX
    Whole-page scroll, charcoal,
    copper text, animated wards.
-   Panel is TRUE GLASS (see-through).
    =========================== */
 
 :root{
@@ -35,7 +34,7 @@
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
 
-  /* Panel glass tuning (see-through) */
+  /* TRUE GLASS (see-through) */
   --glassTop: rgba(10,12,15,.18);
   --glassBottom: rgba(10,12,15,.08);
   --glassLine: rgba(255,255,255,.06);
@@ -101,14 +100,10 @@ body::after{
   height:100%;
   pointer-events:none;
 }
-
-/* embers behind runes */
 #embers{ z-index:1; }
-
-/* runes above embers, under content */
 #runes{ z-index:2; }
 
-/* Content panel (TRUE GLASS) */
+/* Content panel */
 .panel{
   position:relative;
   z-index:3;
@@ -119,7 +114,7 @@ body::after{
   border-radius: var(--radius);
   overflow:hidden;
 
-  /* see-through glass */
+  /* TRUE GLASS */
   background: linear-gradient(180deg, var(--glassTop), var(--glassBottom));
   backdrop-filter: blur(4px) saturate(110%);
   -webkit-backdrop-filter: blur(4px) saturate(110%);
@@ -128,7 +123,7 @@ body::after{
     0 12px 40px rgba(0,0,0,.45),
     inset 0 0 0 1px var(--glassLine);
 
-  /* safe areas for iPhone notch */
+  /* safe areas */
   padding:
     env(safe-area-inset-top)
     env(safe-area-inset-right)
@@ -136,8 +131,20 @@ body::after{
     env(safe-area-inset-left);
 }
 
-/* copper text utility */
-.copper{
+/* Header */
+.top{
+  padding: var(--pad);
+  text-align:center;
+  border-bottom: 1px solid var(--rule);
+}
+
+.sub, .location, .loading{ color: var(--muted); }
+
+/* Copper application */
+.title,
+.sectionTitle,
+.name,
+.price{
   background: var(--copperGrad);
   -webkit-background-clip:text;
   background-clip:text;
@@ -148,55 +155,31 @@ body::after{
     0 14px 26px rgba(0,0,0,.72);
 }
 
-/* Header */
-.top{
-  padding: var(--pad);
-  text-align:center;
-  border-bottom: 1px solid var(--rule);
-}
-
-.kicker{
-  font-size: 14px;
-  letter-spacing: 5px;
-  opacity:.85;
-}
-
-/* Muted items (still copper-applied where relevant below) */
-.kicker, .sub, .meta, .location, .loading{ color: var(--muted); }
-
 .title{
-  margin: 10px 0 6px;
-  font-size: clamp(46px, 6.6vw, 74px);
-  line-height:1;
+  margin: 0;
+  font-size: clamp(40px, 6.2vw, 72px);
+  line-height: .98;
+  letter-spacing: 3px;
 }
 
 .sub{
   font-size: clamp(14px, 2vw, 18px);
-  margin-top: 4px;
-}
-
-.meta{
-  margin-top: 10px;
-  font-size: 13px;
-  letter-spacing: 2px;
-  opacity:.75;
+  margin-top: 8px;
 }
 
 /* Menu content */
-.menu{
+#menu.menu{
+  position:relative;
   padding: 18px var(--pad) 22px;
 }
 
-/* Optional micro-contrast only behind menu text (doesn't "swallow" the bg) */
-.menu::before{
+/* Soft local contrast behind text only (doesn't swallow bg) */
+#menu.menu::before{
   content:"";
   position:absolute;
-  left:0; right:0;
-  /* start after header: approximate using padding + header height */
-  top: 120px;
-  bottom: 0;
+  inset:0;
   pointer-events:none;
-  background: linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.06));
+  background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.05));
   opacity:.55;
 }
 
@@ -254,19 +237,4 @@ body::after{
   font-size: 16px;
   letter-spacing: 2px;
   opacity:.85;
-}
-
-/* Copper application (explicit) */
-.title,
-.sectionTitle,
-.name,
-.price{
-  background: var(--copperGrad);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  text-shadow:
-    0 2px 0 rgba(0,0,0,.55),
-    0 14px 26px rgba(0,0,0,.72);
 }
