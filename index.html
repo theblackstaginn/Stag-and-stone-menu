@@ -1,38 +1,40 @@
-<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0f14" />
+  <meta name="theme-color" content="#080a0d" />
   <title>Stag & Stone Coffeehouse — Menu</title>
 
-  <link rel="stylesheet" href="styles.css?v=20251229-7" />
+  <link rel="stylesheet" href="./styles.css?v=full-20251229-01" />
 </head>
 
 <body>
-  <!-- Decorative border that snaps to the screen -->
+  <!-- Full-page ritual layers -->
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <canvas id="runes" aria-hidden="true"></canvas>
+
+  <!-- Decorative border snaps to viewport -->
   <div class="frame" aria-hidden="true"></div>
 
-  <!-- Panel content inside the frame -->
+  <!-- Content -->
   <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
     <header class="top">
-      <div class="kicker">STAG &amp; STONE COFFEEHOUSE</div>
-      <h1 class="title">Menu</h1>
-      <div class="sub">Seasonal • Prices as listed</div>
-      
+      <div class="kicker copper">STAG &amp; STONE COFFEEHOUSE</div>
+      <h1 class="title copper">Menu</h1>
+      <div class="sub copper">Seasonal • Prices as listed</div>
+      <div class="meta copper" id="buildMeta"></div>
     </header>
 
-    <!-- Only scroll container -->
-    <section class="menuScroll" id="menu" role="region" aria-label="Menu items" tabindex="0">
-      <div class="loading">Loading menu…</div>
+    <section class="menu" id="menu" aria-label="Menu items">
+      <div class="loading copper">Loading menu…</div>
     </section>
 
     <footer class="bottom">
-      <div class="location">Dahlonega, Georgia</div>
+      <div class="location copper">Dahlonega, Georgia</div>
     </footer>
   </main>
 
-  <script src="app.js?v=20251229-7" defer></script>
+  <script src="./app.js?v=full-20251229-01" defer></script>
 </body>
 </html>
