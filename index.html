@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="icon-512.png" />
   <meta name="theme-color" content="#050609" />
 
-  <link rel="stylesheet" href="styles.css?v=20251229c" />
+  <link rel="stylesheet" href="styles.css?v=20251229d" />
 </head>
 
 <body>
@@ -21,31 +21,45 @@
   <!-- Content -->
   <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
     <header class="top">
-      <div class="kicker copper">STAG &amp; STONE COFFEEHOUSE</div>
 
-      <!-- ✅ Location moved under the name (no build line) -->
-      <div class="locationHeader">Dahlonega, Georgia</div>
-
-      <!-- Buttons flank the Menu title (your red squares) -->
-      <div class="menuHeader">
-        <a class="cornerBtn" href="#" id="orderBtn" aria-label="Order online">ORDER<br>ONLINE</a>
-
-    
-
-        <a class="cornerBtn" href="tel:0000000000" id="callBtn" aria-label="Call the coffeehouse">CALL-IN</a>
+      <!-- Primary identity (slightly larger via CSS) -->
+      <div class="kicker copper brandTitle">
+        STAG &amp; STONE COFFEEHOUSE
       </div>
 
-      <div class="sub">Seasonal • Prices as listed</div>
+      <!-- Location lives under the name -->
+      <div class="locationHeader">
+        Dahlonega, Georgia
+      </div>
+
+      <!-- Buttons stay exactly where they are -->
+      <div class="menuHeader">
+        <a class="cornerBtn" href="#" id="orderBtn" aria-label="Order online">
+          ORDER<br>ONLINE
+        </a>
+
+        <!-- Empty center column keeps symmetry -->
+        <div></div>
+
+        <a class="cornerBtn" href="tel:0000000000" id="callBtn" aria-label="Call the coffeehouse">
+          CALL-IN
+        </a>
+      </div>
+
+      <!-- Copper seasonal line -->
+      <div class="sub copper">
+        Seasonal • Prices as listed
+      </div>
+
     </header>
 
     <section class="menu" id="menu" role="region" aria-label="Menu items">
       <div class="loading">Loading menu…</div>
     </section>
 
-    <!-- ✅ Footer kept, but location removed -->
     <footer class="bottom"></footer>
   </main>
 
-  <script src="app.js?v=20251229c" defer></script>
+  <script src="app.js?v=20251229d" defer></script>
 </body>
 </html>
