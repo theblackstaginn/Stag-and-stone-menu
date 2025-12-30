@@ -2,6 +2,7 @@
    STAG & STONE — MENU + FX
    Whole-page scroll, charcoal,
    copper text, animated wards.
+   Panel is TRUE GLASS (see-through).
    =========================== */
 
 :root{
@@ -13,8 +14,8 @@
   --bg0:#050609;
   --bg1:#0b0e13;
 
-  /* MUST exist: /Assets/charcoal-bg.png */
-  --charcoalTex: url("Assets/charcoal-bg.png");
+  /* MUST exist: /Assets/charcoal-bg.png (capital A) */
+  --charcoalTex: url("./Assets/charcoal-bg.png");
 
   /* Copper stops */
   --c1:#f6e3ce;
@@ -33,6 +34,11 @@
 
   --pad: clamp(14px, 2.2vw, 22px);
   --radius: 18px;
+
+  /* Panel glass tuning (see-through) */
+  --glassTop: rgba(10,12,15,.18);
+  --glassBottom: rgba(10,12,15,.08);
+  --glassLine: rgba(255,255,255,.06);
 }
 
 *{ box-sizing:border-box; }
@@ -102,7 +108,7 @@ body::after{
 /* runes above embers, under content */
 #runes{ z-index:2; }
 
-/* Content panel */
+/* Content panel (TRUE GLASS) */
 .panel{
   position:relative;
   z-index:3;
@@ -113,11 +119,21 @@ body::after{
   border-radius: var(--radius);
   overflow:hidden;
 
-  background: linear-gradient(180deg, rgba(6,8,10,.68), rgba(6,8,10,.42));
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  /* see-through glass */
+  background: linear-gradient(180deg, var(--glassTop), var(--glassBottom));
+  backdrop-filter: blur(4px) saturate(110%);
+  -webkit-backdrop-filter: blur(4px) saturate(110%);
 
-  box-shadow: 0 18px 70px rgba(0,0,0,.65);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,.45),
+    inset 0 0 0 1px var(--glassLine);
+
+  /* safe areas for iPhone notch */
+  padding:
+    env(safe-area-inset-top)
+    env(safe-area-inset-right)
+    env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
 }
 
 /* copper text utility */
@@ -144,6 +160,8 @@ body::after{
   letter-spacing: 5px;
   opacity:.85;
 }
+
+/* Muted items (still copper-applied where relevant below) */
 .kicker, .sub, .meta, .location, .loading{ color: var(--muted); }
 
 .title{
@@ -151,9 +169,6 @@ body::after{
   font-size: clamp(46px, 6.6vw, 74px);
   line-height:1;
 }
-.title, .sectionTitle, .name, .price{ composes: copper; }
-
-/* (no CSS "composes" in vanilla; we'll just apply .copper in HTML via JS) */
 
 .sub{
   font-size: clamp(14px, 2vw, 18px);
@@ -172,8 +187,22 @@ body::after{
   padding: 18px var(--pad) 22px;
 }
 
+/* Optional micro-contrast only behind menu text (doesn't "swallow" the bg) */
+.menu::before{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  /* start after header: approximate using padding + header height */
+  top: 120px;
+  bottom: 0;
+  pointer-events:none;
+  background: linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.06));
+  opacity:.55;
+}
+
 .section{
   margin: 18px 0 26px;
+  position: relative;
 }
 
 .sectionTitle{
@@ -220,6 +249,7 @@ body::after{
   border-top: 1px solid var(--rule);
   text-align:center;
 }
+
 .location{
   font-size: 16px;
   letter-spacing: 2px;
