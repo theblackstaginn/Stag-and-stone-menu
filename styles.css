@@ -5,6 +5,7 @@
    - Clearer “glass” panel
    - Wider panel + more inner breathing room (prevents clipped glyphs like E)
    - Safer line-height + no text clipping
+   - ✅ iOS/Safari gradient-text fallback (fixes random black glyph like the E)
    =========================== */
 
 :root{
@@ -144,13 +145,18 @@ body::after{
   border: 1px solid rgba(255,255,255,.07);
 }
 
-/* Copper utility */
+/* Copper utility
+   ✅ iOS/Safari fix: set a fallback color BEFORE clipping the gradient.
+   If WebKit fails to paint a glyph, it falls back to color (not black). */
 .copper{
+  color: var(--c2); /* ✅ fallback so no random black letters */
+
   background: var(--copperGrad);
   -webkit-background-clip:text;
   background-clip:text;
-  color: transparent;
+
   -webkit-text-fill-color: transparent;
+
   text-shadow:
     0 2px 0 rgba(0,0,0,.55),
     0 14px 26px rgba(0,0,0,.72);
