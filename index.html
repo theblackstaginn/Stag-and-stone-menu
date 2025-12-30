@@ -6,32 +6,25 @@
   <meta name="theme-color" content="#050609" />
   <title>Stag & Stone Coffeehouse — Menu</title>
 
-  <link rel="stylesheet" href="styles.css?v=20251229x" />
+  <link rel="stylesheet" href="styles.css?v=20251229b" />
 </head>
 
 <body>
-  <!-- FX canvases -->
+  <!-- FX layers -->
   <canvas id="embers" aria-hidden="true"></canvas>
   <canvas id="runes" aria-hidden="true"></canvas>
 
-  <!-- Your border can stay if you already have it wired.
-       If you have a border div in your old code, keep it.
-       Otherwise, harmless to leave out. -->
-  <!-- <div class="frame" aria-hidden="true"></div> -->
-
+  <!-- Content -->
   <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
     <header class="top">
-      <!-- You said you changed the text; keep it here -->
-      <div class="kicker">STAG &amp; STONE COFFEEHOUSE</div>
-      <h1 class="title">Menu</h1>
+      <!-- You said you changed the header text. Keep whatever you want here. -->
+      <div class="kicker copper">STAG &amp; STONE COFFEEHOUSE</div>
+      <h1 class="title copper">Menu</h1>
       <div class="sub">Seasonal • Prices as listed</div>
-
-      <!-- THIS is what your JS was expecting -->
       <div class="meta" id="buildMeta">BUILD: —</div>
     </header>
 
-    <!-- Whole-page scroll: this is just content, no special scrolling container -->
-    <section class="menu" id="menu" aria-label="Menu items">
+    <section class="menu" id="menu" role="region" aria-label="Menu items">
       <div class="loading">Loading menu…</div>
     </section>
 
@@ -40,6 +33,6 @@
     </footer>
   </main>
 
-  <script src="app.js?v=20251229x" defer></script>
+  <script src="app.js?v=20251229b" defer></script>
 </body>
 </html>
