@@ -1,5 +1,6 @@
 /* styles.css — FINAL full rewrite: charcoal background + subtle texture + realistic copper + scroll-safe panel */
-
+/* DEBUG: remove after test */
+body { background: hotpink !important; }
 :root{
   /* Text */
   --text:#d8d2c7;
