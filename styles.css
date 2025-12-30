@@ -308,3 +308,35 @@ body::after{
 @media (max-width: 380px){
   :root{ --wardSafeX: 62px; }
 }
+/* ===========================
+   MOBILE BUTTON REFINEMENT
+   =========================== */
+
+@media (max-width: 520px){
+  .topActions{
+    max-width: 360px;     /* slightly tighter row */
+    margin-top: 10px;     /* drop buttons down from runes */
+    gap: 14px;
+  }
+
+  .actionBtn{
+    padding: 8px 12px;    /* smaller vertical height */
+    font-size: 11px;      /* was 13px */
+    letter-spacing: 1.6px;
+    border-radius: 14px;  /* less pill-like */
+  }
+}
+
+/* Ultra-small phones */
+@media (max-width: 380px){
+  .topActions{
+    max-width: 320px;
+    margin-top: 12px;
+  }
+
+  .actionBtn{
+    padding: 7px 10px;
+    font-size: 10px;
+    letter-spacing: 1.4px;
+  }
+}
