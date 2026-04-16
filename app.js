@@ -1,9 +1,6 @@
 (() => {
   "use strict";
 
-  // ---------------------------
-  // CANVAS SETUP
-  // ---------------------------
   function setupCanvas(id) {
     const canvas = document.getElementById(id);
     if (!canvas) return null;
@@ -31,9 +28,6 @@
 
   function rand(a, b) { return a + Math.random() * (b - a); }
 
-  // ---------------------------
-  // EMBERS
-  // ---------------------------
   const EMBER_COUNT = 160;
   const embers = Array.from({ length: EMBER_COUNT }, () => ({
     x: rand(0, emb ? emb.w : 1000),
@@ -94,9 +88,6 @@
     ctx.globalCompositeOperation = "source-over";
   }
 
-  // ---------------------------
-  // PROTECTIVE RUNES
-  // ---------------------------
   const RUNES = ["ᛉ","ᛟ","ᛇ","ᛏ","ᚦ","ᛒ","ᛞ","ᚱ","ᛜ","ᚺ","ᛁ","ᛊ"];
 
   function getPanelRect() {
@@ -135,7 +126,7 @@
     if (!pr) return;
 
     const VIEW_MARGIN = 18;
-    const pad = 26;
+    const pad = 18;
     const inset = 10;
 
     let left = pr.x - pad;
@@ -224,9 +215,6 @@
     ctx.globalCompositeOperation = "source-over";
   }
 
-  // ---------------------------
-  // Animation loop
-  // ---------------------------
   function tick(t) {
     drawEmbers(t);
     drawRunes(t);
