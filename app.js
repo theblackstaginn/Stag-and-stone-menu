@@ -2,157 +2,6 @@
   "use strict";
 
   // ---------------------------
-  // BUILD META
-  // ---------------------------
-  const buildEl = document.getElementById("buildMeta");
-  if (buildEl) {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const dd = String(today.getDate()).padStart(2, "0");
-    buildEl.textContent = `BUILD: ${yyyy}-${mm}-${dd}`;
-  }
-
-  // ---------------------------
-  // MENU DATA
-  // ---------------------------
-  const MENU = [
-    {
-      title: "House Coffees",
-      items: [
-        { name: "Stag’s Dark Roast (drip)", price: "$4.00" },
-        { name: "Dawnwood Medium Roast (drip)", price: "$4.00" },
-        { name: "Cold Brew", price: "$6.00" },
-        { name: "Nitro Cold Brew", price: "$7.00" }
-      ]
-    },
-    {
-      title: "Espresso Classics",
-      items: [
-        { name: "Espresso", price: "$3.00" },
-        { name: "Americano", price: "$4.00" },
-        { name: "Cappuccino", price: "$5.00" },
-        { name: "Latte", price: "$5.50" }
-      ]
-    },
-    {
-      title: "Featured Lattes",
-      items: [
-        { name: "Black Spell Mocha", desc: "Dark chocolate mocha", price: "$6.50" },
-        { name: "Caramel Draught Latte", desc: "Caramel latte", price: "$6.50" }
-      ]
-    },
-    {
-      title: "Signature Coffeehouse",
-      items: [
-        { name: "Stag King Brew", desc: "Signature sweet-cream coffee", price: "$6.75" },
-        { name: "Dragonfire Mocha", desc: "Spiced mocha", price: "$6.75" },
-        { name: "Siren Salted Cold Foam", desc: "Cold foam topper — add-on", price: "$1.50" }
-      ]
-    },
-    {
-      title: "Iced Coffeehouse",
-      items: [
-        { name: "Iced Espresso Classics", desc: "Any espresso classic available iced", price: "—" }
-      ]
-    },
-    {
-      title: "Teas & Herbals",
-      items: [
-        { name: "Orchard Chai", desc: "Chai", price: "$4.50" },
-        { name: "Forest Mint", desc: "Mint herbal", price: "$4.50" },
-        { name: "Lavender Fields", desc: "Lavender herbal", price: "$4.50" },
-        { name: "Siren Blue", desc: "Butterfly pea herbal", price: "$4.50" }
-      ]
-    },
-    {
-      title: "Matcha",
-      items: [
-        { name: "Matcha Green Elixir", desc: "Matcha latte", price: "$6.00" }
-      ]
-    },
-    {
-      title: "Iced & Refreshers",
-      items: [
-        { name: "Iced Chai", price: "$5.50" },
-        { name: "Iced Matcha", price: "$6.50" },
-        { name: "Stormborn Lemonade", price: "$5.50" },
-        { name: "Witchlight Cooler", desc: "Seasonal refresher", price: "$6.00" }
-      ]
-    },
-    {
-      title: "Sandwiches",
-      items: [
-        {
-          name: "The Stag Melt",
-          desc: "Tavern ham, bacon, egg & melted cheese with thyme and parsley on house sourdough",
-          price: "$14"
-        },
-        {
-          name: "Turkey, Brie & Cranberry",
-          desc: "Roasted turkey, brie, and cranberry on house sourdough",
-          price: "$13"
-        },
-        {
-          name: "Wildwood Melt (limited)",
-          desc: "Chanterelle, beech, maitake, and cremini mushrooms with bacon jam, thyme and parsley on house sourdough",
-          price: "$15"
-        },
-        {
-          name: "Tavern Ham & Grilled Cheese",
-          desc: "Tavern ham and melted cheese on house sourdough",
-          price: "$11"
-        }
-      ]
-    },
-    {
-      title: "Pastries",
-      items: [
-        { name: "Fresh pastry (rotating)", price: "—" },
-        { name: "Savory hand pie or scone", price: "—" },
-        { name: "Biscotti or shortbread", price: "—" }
-      ]
-    }
-  ];
-
-  // ---------------------------
-  // RENDER MENU
-  // ---------------------------
-  const menuEl = document.getElementById("menu");
-
-  function el(tag, cls, text) {
-    const n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text != null) n.textContent = text;
-    return n;
-  }
-
-  function renderMenu() {
-    if (!menuEl) return;
-    menuEl.innerHTML = "";
-
-    for (const section of MENU) {
-      const s = el("div", "section");
-      s.appendChild(el("h2", "sectionTitle copper", section.title));
-
-      for (const it of section.items) {
-        const row = el("div", "item");
-
-        const left = el("div", "left");
-        left.appendChild(el("div", "name copper", it.name));
-        if (it.desc) left.appendChild(el("div", "desc", it.desc));
-
-        row.appendChild(left);
-        row.appendChild(el("div", "price copper", it.price || ""));
-        s.appendChild(row);
-      }
-
-      menuEl.appendChild(s);
-    }
-  }
-  renderMenu();
-
-  // ---------------------------
   // CANVAS SETUP
   // ---------------------------
   function setupCanvas(id) {
@@ -183,7 +32,7 @@
   function rand(a, b) { return a + Math.random() * (b - a); }
 
   // ---------------------------
-  // EMBERS (brighter)
+  // EMBERS
   // ---------------------------
   const EMBER_COUNT = 160;
   const embers = Array.from({ length: EMBER_COUNT }, () => ({
@@ -223,7 +72,7 @@
       const twinkle = 0.70 + 0.42 * Math.sin(t * 0.0024 + p.tw);
       const a = Math.max(0, Math.min(1, p.life)) * twinkle;
 
-      const coreA = a * 0.95;  // brighter
+      const coreA = a * 0.95;
       const haloA = a * 0.40;
 
       ctx.beginPath();
@@ -246,7 +95,7 @@
   }
 
   // ---------------------------
-  // PROTECTIVE RUNES (wrap panel, never fall into edges)
+  // PROTECTIVE RUNES
   // ---------------------------
   const RUNES = ["ᛉ","ᛟ","ᛇ","ᛏ","ᚦ","ᛒ","ᛞ","ᚱ","ᛜ","ᚺ","ᛁ","ᛊ"];
 
@@ -285,9 +134,8 @@
     const pr = getPanelRect();
     if (!pr) return;
 
-    // keep the rune frame safely away from viewport edges
     const VIEW_MARGIN = 18;
-    const pad = 26;     // distance OUT from panel
+    const pad = 26;
     const inset = 10;
 
     let left = pr.x - pad;
@@ -295,7 +143,6 @@
     let right = pr.right + pad;
     let bottom = pr.bottom + pad;
 
-    // clamp to viewport so corners never vanish into the edges
     left = Math.max(VIEW_MARGIN, left);
     top = Math.max(VIEW_MARGIN, top);
     right = Math.min(window.innerWidth - VIEW_MARGIN, right);
@@ -305,21 +152,18 @@
     const spanH = bottom - top;
     if (spanW < 120 || spanH < 120) return;
 
-    // stronger pulse + glow
     const pulse = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(t * 0.00030));
     const glow  = 0.35 + 0.40 * (0.5 + 0.5 * Math.sin(t * 0.00022 + 1.4));
 
     ctx.globalCompositeOperation = "lighter";
     ctx.lineWidth = 1;
 
-    // frame lines — brighter
     ctx.strokeStyle = `rgba(198,121,83,${0.40 + glow})`;
     strokeRoundRect(ctx, left, top, spanW, spanH, 22);
 
     ctx.strokeStyle = `rgba(198,121,83,${0.18 + glow * 0.9})`;
     strokeRoundRect(ctx, left + inset, top + inset, spanW - inset * 2, spanH - inset * 2, 18);
 
-    // runes
     ctx.font = "16px ui-serif, Georgia, serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -333,14 +177,12 @@
 
       const r = RUNES[idx % RUNES.length];
 
-      // hotter glow
       ctx.shadowColor = `rgba(198,121,83,${0.90 * pulse})`;
       ctx.shadowBlur = 18 + 28 * pulse;
 
       ctx.fillStyle = `rgba(198,121,83,${0.26 + glow})`;
       ctx.fillText(r, 0, 0);
 
-      // crisp inner highlight
       ctx.shadowBlur = 0;
       ctx.fillStyle = `rgba(246,226,204,${0.14 + glow * 0.65})`;
       ctx.fillText(r, 0, 0);
@@ -355,7 +197,6 @@
     for (let y = top + step; y <= bottom - step; y += step) drawRune(left + 12, y, -Math.PI / 2, idx++);
     for (let y = top + step; y <= bottom - step; y += step) drawRune(right - 12, y, Math.PI / 2, idx++);
 
-    // corner seals — brighter + safer placement
     function cornerSeal(x, y) {
       ctx.save();
       ctx.translate(x, y);
@@ -392,5 +233,4 @@
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
-
 })();
