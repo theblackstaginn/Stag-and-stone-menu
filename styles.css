@@ -21,11 +21,8 @@
     var(--c4) 100%
   );
 
-  --pad: clamp(12px, 1.6vw, 18px);
+  --pad: clamp(10px, 1.2vw, 14px);
   --radius: 18px;
-
-  --wardSafeX: 30px;
-  --wardSafeY: 34px;
 
   --panelMaxW: 1120px;
   --panelW: 95vw;
@@ -118,21 +115,18 @@ body::after{
   text-shadow:
     0 2px 0 rgba(0,0,0,.55),
     0 14px 26px rgba(0,0,0,.72);
-  line-height: 1.15;
-  padding-top: 1px;
-  padding-bottom: 1px;
+  line-height: 1.06;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .menuBoard{
   flex: 1 1 auto;
   min-height: 0;
   display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  padding:
-    42px
-    58px
-    42px;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 28px 48px 28px;
 }
 
 .menuCol{
@@ -140,25 +134,25 @@ body::after{
 }
 
 .section{
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 
 .sectionTitle{
-  margin: 0 0 10px;
+  margin: 0 0 4px;
   text-align:center;
-  font-size: clamp(16px, 1.7vw, 22px);
-  letter-spacing: 4px;
+  font-size: 15px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  line-height: 1.1;
+  line-height: 1.0;
 }
 
 .item{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
-  gap: 14px;
-  padding: 7px 0;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,.07);
 }
 .item:last-child{ border-bottom:none; }
 
@@ -168,9 +162,9 @@ body::after{
 }
 
 .name{
-  font-size: clamp(16px, 1.7vw, 22px);
+  font-size: 16px;
   font-weight: 650;
-  line-height: 1.08;
+  line-height: 1.0;
 }
 
 .desc{
@@ -178,61 +172,70 @@ body::after{
 }
 
 .price{
-  font-size: clamp(15px, 1.5vw, 20px);
+  font-size: 16px;
   white-space:nowrap;
-  line-height: 1.08;
-  padding-left: 14px;
+  line-height: 1.0;
+  padding-left: 10px;
   flex: 0 0 auto;
 }
 
-@media (max-width: 900px){
-  body{
-    overflow-y:auto;
-  }
+/* tighten provisions specifically */
+.section:last-child .item{
+  padding: 3px 0;
+}
 
-  .panel{
-    height: auto;
-    min-height: unset;
-  }
-
+/* TV / desktop */
+@media (min-width: 700px){
   .menuBoard{
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding:
-      34px
-      46px
-      34px;
+    padding: 26px 64px 26px;
+  }
+
+  .section{
+    margin: 0 0 8px;
+  }
+
+  .sectionTitle{
+    font-size: 14px;
+    letter-spacing: 4px;
+    margin-bottom: 3px;
+  }
+
+  .item{
+    padding: 3px 0;
+  }
+
+  .name,
+  .price{
+    font-size: 15px;
   }
 }
 
+/* small mobile preview only */
 @media (max-width: 520px){
   :root{
     --panelW: 96vw;
   }
 
   .menuBoard{
-    padding:
-      40px
-      52px
-      40px;
+    padding: 24px 42px 24px;
   }
 
   .section{
-    margin: 0 0 14px;
+    margin: 0 0 8px;
   }
 
   .sectionTitle{
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: 2px;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
   }
 
-  .name{
-    font-size: 16px;
+  .item{
+    padding: 3px 0;
   }
 
+  .name,
   .price{
-    font-size: 15px;
-    padding-left: 12px;
+    font-size: 14px;
   }
 }
