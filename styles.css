@@ -123,43 +123,16 @@ body::after{
   padding-bottom: 1px;
 }
 
-.top{
-  padding: 12px var(--pad) 10px;
-  text-align:center;
-  border-bottom: 1px solid var(--rule);
-}
-
-.kicker{
-  font-size: clamp(18px, 2vw, 24px);
-  letter-spacing: 4px;
-  opacity:.95;
-  line-height: 1.15;
-}
-
-.town{
-  margin-top: 4px;
-  font-size: clamp(12px, 1.2vw, 16px);
-  letter-spacing: 2px;
-  color: var(--muted);
-  line-height: 1.15;
-}
-
-.sub{
-  font-size: clamp(12px, 1.25vw, 16px);
-  margin-top: 6px;
-  line-height: 1.15;
-}
-
 .menuBoard{
   flex: 1 1 auto;
   min-height: 0;
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
   padding:
-    20px
-    calc(var(--pad) + var(--wardSafeX))
-    22px;
+    42px
+    58px
+    42px;
 }
 
 .menuCol{
@@ -171,7 +144,7 @@ body::after{
 }
 
 .sectionTitle{
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   text-align:center;
   font-size: clamp(16px, 1.7vw, 22px);
   letter-spacing: 4px;
@@ -183,7 +156,7 @@ body::after{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
-  gap: 10px;
+  gap: 14px;
   padding: 7px 0;
   border-bottom: 1px solid rgba(255,255,255,.08);
 }
@@ -208,7 +181,8 @@ body::after{
   font-size: clamp(15px, 1.5vw, 20px);
   white-space:nowrap;
   line-height: 1.08;
-  padding-left: 10px;
+  padding-left: 14px;
+  flex: 0 0 auto;
 }
 
 @media (max-width: 900px){
@@ -225,9 +199,9 @@ body::after{
     grid-template-columns: 1fr;
     gap: 10px;
     padding:
-      18px
-      calc(var(--pad) + 18px)
-      22px;
+      34px
+      46px
+      34px;
   }
 }
 
@@ -236,24 +210,21 @@ body::after{
     --panelW: 96vw;
   }
 
-  .top{
-    padding: 12px 12px 10px;
+  .menuBoard{
+    padding:
+      40px
+      52px
+      40px;
   }
 
-  .kicker{
-    font-size: 18px;
-    letter-spacing: 2px;
-  }
-
-  .town,
-  .sub{
-    font-size: 12px;
-    letter-spacing: 1px;
+  .section{
+    margin: 0 0 14px;
   }
 
   .sectionTitle{
     font-size: 16px;
     letter-spacing: 2px;
+    margin-bottom: 8px;
   }
 
   .name{
@@ -262,5 +233,6 @@ body::after{
 
   .price{
     font-size: 15px;
+    padding-left: 12px;
   }
 }
