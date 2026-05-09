@@ -32,17 +32,22 @@
   --glassBlur: 6px;
 }
 
-*{ box-sizing:border-box; }
+*{
+  box-sizing:border-box;
+}
 
-html, body{
-  height: 100%;
+html,
+body{
+  height:100%;
   margin:0;
 }
 
 body{
   font-family: ui-serif, Georgia, "Times New Roman", serif;
   color: var(--text);
-  overflow: hidden;
+
+  overflow:hidden;
+
   background:
     radial-gradient(120% 90% at 50% 12%, rgba(255,255,255,.05), transparent 60%),
     radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0,0,0,.82) 100%),
@@ -56,9 +61,18 @@ body::before{
   pointer-events:none;
   z-index:0;
   opacity:.12;
+
   background:
-    repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, rgba(0,0,0,.03) 1px 2px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0 1px, rgba(0,0,0,.02) 1px 3px);
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.03) 0 1px,
+      rgba(0,0,0,.03) 1px 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.02) 0 1px,
+      rgba(0,0,0,.02) 1px 3px
+    );
 }
 
 body::after{
@@ -68,92 +82,114 @@ body::after{
   pointer-events:none;
   z-index:0;
   opacity:.30;
+
   background-image: var(--charcoalTex);
   background-repeat: repeat;
   background-size: 1000px 1000px;
+
   mix-blend-mode: soft-light;
 }
 
-#embers, #runes{
+#embers,
+#runes{
   position:fixed;
   inset:0;
   width:100%;
   height:100%;
   pointer-events:none;
 }
+
 #embers{ z-index:1; }
 #runes{ z-index:5; }
 
 .panel{
   position:relative;
   z-index:3;
-  width: min(var(--panelMaxW), var(--panelW));
-  height: var(--panelH);
-  margin: clamp(14px, 2.5vh, 28px) auto;
+
+  width:min(var(--panelMaxW), var(--panelW));
+  height:var(--panelH);
+
+  margin:clamp(14px, 2.5vh, 28px) auto;
 
   display:flex;
   flex-direction:column;
 
   overflow:hidden;
 
-  border-radius: var(--radius);
+  border-radius:var(--radius);
+
   background:
     linear-gradient(
       180deg,
       rgba(6,8,10, calc(var(--glassA) * 0.60)),
       rgba(6,8,10, calc(var(--glassA) * 0.30))
     );
+
   backdrop-filter: blur(var(--glassBlur));
   -webkit-backdrop-filter: blur(var(--glassBlur));
-  box-shadow: 0 18px 70px rgba(0,0,0,.65);
-  border: 1px solid rgba(255,255,255,.07);
+
+  box-shadow:0 18px 70px rgba(0,0,0,.65);
+
+  border:1px solid rgba(255,255,255,.07);
 }
 
 .copper{
-  color: var(--c2);
-  background: var(--copperGrad);
+  color:var(--c2);
+
+  background:var(--copperGrad);
+
   -webkit-background-clip:text;
   background-clip:text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color:transparent;
+
   text-shadow:
     0 2px 0 rgba(0,0,0,.55),
     0 14px 26px rgba(0,0,0,.72);
-  line-height: 1.08;
-  padding-top: 0;
-  padding-bottom: 0;
+
+  line-height:1.08;
+
+  padding-top:0;
+  padding-bottom:0;
 }
 
+/* =========================
+   SCROLLABLE MENU
+========================= */
+
 .menuBoard{
-  flex: 1 1 auto;
-  min-height: 0;
+  flex:1 1 auto;
+  min-height:0;
+  height:100%;
 
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 0;
+  display:block;
 
-  padding: 30px 52px 30px;
+  padding:30px 52px 120px;
 
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  -webkit-overflow-scrolling:touch;
+
+  overscroll-behavior:contain;
+  touch-action:pan-y;
 }
 
 .menuBoard::-webkit-scrollbar{
-  width: 8px;
+  width:8px;
 }
 
 .menuBoard::-webkit-scrollbar-track{
-  background: rgba(0,0,0,.18);
-  border-radius: 999px;
+  background:rgba(0,0,0,.18);
+  border-radius:999px;
 }
 
 .menuBoard::-webkit-scrollbar-thumb{
-  background: rgba(230,191,154,.28);
-  border-radius: 999px;
+  background:rgba(230,191,154,.28);
+  border-radius:999px;
 }
 
 .menuBoard::-webkit-scrollbar-thumb:hover{
-  background: rgba(230,191,154,.42);
+  background:rgba(230,191,154,.42);
 }
 
 .menuCol{
@@ -161,25 +197,31 @@ body::after{
 }
 
 .section{
-  margin: 0 0 18px;
+  margin:0 0 18px;
 }
 
 .sectionTitle{
-  margin: 0 0 8px;
+  margin:0 0 8px;
+
   text-align:center;
-  font-size: 17px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  line-height: 1.05;
+
+  font-size:17px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+
+  line-height:1.05;
 }
 
 .item{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
-  gap: 12px;
-  padding: 5px 0;
-  border-bottom: 1px solid rgba(255,255,255,.07);
+
+  gap:12px;
+
+  padding:5px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.07);
 }
 
 .item:last-child{
@@ -192,9 +234,9 @@ body::after{
 }
 
 .name{
-  font-size: 18px;
-  font-weight: 650;
-  line-height: 1.04;
+  font-size:18px;
+  font-weight:650;
+  line-height:1.04;
 }
 
 .desc{
@@ -202,69 +244,92 @@ body::after{
 }
 
 .price{
-  font-size: 18px;
+  font-size:18px;
+
   white-space:nowrap;
-  line-height: 1.04;
-  padding-left: 12px;
-  flex: 0 0 auto;
+
+  line-height:1.04;
+
+  padding-left:12px;
+
+  flex:0 0 auto;
 }
 
-/* slightly tighten only the provisions block */
+/* tighten provisions */
+
 .section:last-child{
-  margin-bottom: 0;
+  margin-bottom:0;
 }
 
 .section:last-child .item{
-  padding: 4px 0;
+  padding:4px 0;
 }
 
-/* TV / desktop */
+/* =========================
+   DESKTOP
+========================= */
+
 @media (min-width: 700px){
+
   .menuBoard{
-    padding: 30px 58px 30px;
+    padding:30px 58px 120px;
   }
 
   .section{
-    margin: 0 0 16px;
+    margin:0 0 16px;
   }
 
   .sectionTitle{
-    font-size: 18px;
-    margin-bottom: 7px;
+    font-size:18px;
+    margin-bottom:7px;
   }
 
   .name,
   .price{
-    font-size: 18px;
+    font-size:18px;
   }
 }
 
-/* small mobile preview only */
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 520px){
+
   :root{
-    --panelW: 96vw;
+    --panelW:96vw;
+    --panelH:calc(100dvh - 34px);
+  }
+
+  .panel{
+    height:var(--panelH);
+    margin:14px auto;
   }
 
   .menuBoard{
-    padding: 28px 50px 28px;
+    padding:28px 50px 150px;
+
+    overflow-y:auto;
+
+    -webkit-overflow-scrolling:touch;
   }
 
   .section{
-    margin: 0 0 14px;
+    margin:0 0 14px;
   }
 
   .sectionTitle{
-    font-size: 16px;
-    letter-spacing: 3px;
-    margin-bottom: 6px;
+    font-size:16px;
+    letter-spacing:3px;
+    margin-bottom:6px;
   }
 
   .item{
-    padding: 4px 0;
+    padding:4px 0;
   }
 
   .name,
   .price{
-    font-size: 17px;
+    font-size:17px;
   }
 }
