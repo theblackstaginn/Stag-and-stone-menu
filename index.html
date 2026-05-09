@@ -3,39 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Stag & Stone Coffeehouse — Menu</title>
+
+  <title>Stag & Stone Coffeehouse — Offerings</title>
 
   <link rel="icon" href="favicon.png" sizes="64x64" />
   <link rel="apple-touch-icon" href="icon-512.png" />
   <meta name="theme-color" content="#050609" />
 
-  <link rel="stylesheet" href="styles.css?v=20260416c" />
+  <link rel="stylesheet" href="styles.css?v=20260509a" />
 </head>
 
 <body>
   <canvas id="embers" aria-hidden="true"></canvas>
   <canvas id="runes" aria-hidden="true"></canvas>
 
-  <main class="panel" aria-label="Stag & Stone Coffeehouse Menu">
+  <main class="panel" aria-label="Stag & Stone Coffeehouse Offerings">
+
     <section class="menuBoard" id="menu" role="region" aria-label="Menu items">
+
+      <!-- LEFT COLUMN -->
       <div class="menuCol">
-        <div class="section">
-          <h2 class="sectionTitle copper">Coffee</h2>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Stag’s Dark Roast</div>
-            </div>
-            <div class="price copper">$4.00</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Cold Brew</div>
-            </div>
-            <div class="price copper">$6.00</div>
-          </div>
-        </div>
 
         <div class="section">
           <h2 class="sectionTitle copper">Espresso</h2>
@@ -43,31 +30,104 @@
           <div class="item">
             <div class="left">
               <div class="name copper">Espresso</div>
+              <div class="desc">Single or double shot</div>
             </div>
-            <div class="price copper">$3.00</div>
+            <div class="price copper">$3</div>
           </div>
 
           <div class="item">
             <div class="left">
               <div class="name copper">Americano</div>
+              <div class="desc">Bold espresso with hot water</div>
             </div>
-            <div class="price copper">$4.00</div>
+            <div class="price copper">$4</div>
           </div>
 
           <div class="item">
             <div class="left">
               <div class="name copper">Latte</div>
+              <div class="desc">Steamed milk and espresso</div>
             </div>
             <div class="price copper">$5.50</div>
           </div>
         </div>
 
         <div class="section">
-          <h2 class="sectionTitle copper">Signatures</h2>
+          <h2 class="sectionTitle copper">Pour Overs & Coffee</h2>
+
+          <div class="item">
+            <div class="left">
+              <div class="name copper">House Dark Roast</div>
+              <div class="desc">Fresh brewed drip coffee</div>
+            </div>
+            <div class="price copper">$4</div>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="name copper">Pour Over</div>
+              <div class="desc">Slow brewed by hand</div>
+            </div>
+            <div class="price copper">$6</div>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="name copper">Cold Brew</div>
+              <div class="desc">Smooth, bold, and chilled</div>
+            </div>
+            <div class="price copper">$6</div>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="name copper">Iced Coffee</div>
+              <div class="desc">Simple and refreshing</div>
+            </div>
+            <div class="price copper">$5</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="menuCol">
+
+        <div class="section">
+          <h2 class="sectionTitle copper">Tea & Lemonade</h2>
+
+          <div class="item">
+            <div class="left">
+              <div class="name copper">House Tea</div>
+              <div class="desc">Rotating seasonal tea</div>
+            </div>
+            <div class="price copper">$4.50</div>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="name copper">Iced Tea</div>
+              <div class="desc">Fresh brewed and chilled</div>
+            </div>
+            <div class="price copper">$4.50</div>
+          </div>
+
+          <div class="item">
+            <div class="left">
+              <div class="name copper">Fresh Lemonade</div>
+              <div class="desc">Seasonal lemonade varieties</div>
+            </div>
+            <div class="price copper">$5.50</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="sectionTitle copper">Seasonal Signatures</h2>
 
           <div class="item">
             <div class="left">
               <div class="name copper">Black Spell Mocha</div>
+              <div class="desc">Dark chocolate mocha</div>
             </div>
             <div class="price copper">$6.50</div>
           </div>
@@ -75,28 +135,9 @@
           <div class="item">
             <div class="left">
               <div class="name copper">Dragonfire Mocha</div>
+              <div class="desc">Spiced mocha with heat</div>
             </div>
             <div class="price copper">$6.75</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="menuCol">
-        <div class="section">
-          <h2 class="sectionTitle copper">Other Elixirs</h2>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Orchard Chai</div>
-            </div>
-            <div class="price copper">$4.50</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Stormborn Lemonade</div>
-            </div>
-            <div class="price copper">$5.50</div>
           </div>
         </div>
 
@@ -106,21 +147,25 @@
           <div class="item">
             <div class="left">
               <div class="name copper">Lemon Blueberry Scone</div>
+              <div class="desc">Commissary baked</div>
             </div>
-            <div class="price copper">—</div>
+            <div class="price copper">$5</div>
           </div>
 
           <div class="item">
             <div class="left">
               <div class="name copper">Elderberry Cream Cheese Loaf</div>
+              <div class="desc">Sweet cream loaf slice</div>
             </div>
-            <div class="price copper">—</div>
+            <div class="price copper">$5</div>
           </div>
         </div>
+
       </div>
+
     </section>
   </main>
 
-  <script src="app.js?v=20260416c" defer></script>
+  <script src="app.js?v=20260509a" defer></script>
 </body>
 </html>
