@@ -90,9 +90,12 @@ body::after{
   width: min(var(--panelMaxW), var(--panelW));
   height: var(--panelH);
   margin: clamp(14px, 2.5vh, 28px) auto;
+
   display:flex;
   flex-direction:column;
+
   overflow:hidden;
+
   border-radius: var(--radius);
   background:
     linear-gradient(
@@ -123,10 +126,34 @@ body::after{
 .menuBoard{
   flex: 1 1 auto;
   min-height: 0;
+
   display:grid;
   grid-template-columns: 1fr;
   gap: 0;
+
   padding: 30px 52px 30px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.menuBoard::-webkit-scrollbar{
+  width: 8px;
+}
+
+.menuBoard::-webkit-scrollbar-track{
+  background: rgba(0,0,0,.18);
+  border-radius: 999px;
+}
+
+.menuBoard::-webkit-scrollbar-thumb{
+  background: rgba(230,191,154,.28);
+  border-radius: 999px;
+}
+
+.menuBoard::-webkit-scrollbar-thumb:hover{
+  background: rgba(230,191,154,.42);
 }
 
 .menuCol{
@@ -154,7 +181,10 @@ body::after{
   padding: 5px 0;
   border-bottom: 1px solid rgba(255,255,255,.07);
 }
-.item:last-child{ border-bottom:none; }
+
+.item:last-child{
+  border-bottom:none;
+}
 
 .left{
   flex:1;
@@ -183,6 +213,7 @@ body::after{
 .section:last-child{
   margin-bottom: 0;
 }
+
 .section:last-child .item{
   padding: 4px 0;
 }
