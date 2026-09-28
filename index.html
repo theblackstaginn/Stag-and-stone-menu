@@ -3,215 +3,74 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-
-  <title>Stag & Stone Coffeehouse — Offerings</title>
-
-  <link rel="icon" href="favicon.png" sizes="64x64" />
+  <title>Stag & Stone — Menu</title>
+  <meta name="description" content="The current Stag & Stone Coffee and Bakehouse menu: coffee, apothecary drinks, breakfast, bakehouse, lunch, sides, sauces, jams, and seasonal offerings." />
+  <meta name="theme-color" content="#17130f" />
+  <link rel="icon" href="favicon.png" />
   <link rel="apple-touch-icon" href="icon-512.png" />
-  <meta name="theme-color" content="#050609" />
-
-  <link rel="stylesheet" href="styles.css?v=20260509a" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <canvas id="embers" aria-hidden="true"></canvas>
-  <canvas id="runes" aria-hidden="true"></canvas>
-
-  <main class="panel" aria-label="Stag & Stone Coffeehouse Offerings">
-
-    <section class="menuBoard" id="menu" role="region" aria-label="Menu items">
-
-      <!-- LEFT COLUMN -->
-      <div class="menuCol">
-
-        <div class="section">
-          <h2 class="sectionTitle copper">Espresso</h2>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Espresso</div>
-              <div class="desc">Single or double shot</div>
-            </div>
-            <div class="price copper">$3</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Americano</div>
-              <div class="desc">Bold espresso with hot water</div>
-            </div>
-            <div class="price copper">$4</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Latte</div>
-              <div class="desc">Steamed milk and espresso</div>
-            </div>
-            <div class="price copper">$5.50</div>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2 class="sectionTitle copper">Pour Overs & Coffee</h2>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">House Dark Roast</div>
-              <div class="desc">Fresh brewed drip coffee</div>
-            </div>
-            <div class="price copper">$4</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Pour Over</div>
-              <div class="desc">Slow brewed by hand</div>
-            </div>
-            <div class="price copper">$6</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Cold Brew</div>
-              <div class="desc">Smooth, bold, and chilled</div>
-            </div>
-            <div class="price copper">$6</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Iced Coffee</div>
-              <div class="desc">Simple and refreshing</div>
-            </div>
-            <div class="price copper">$5</div>
-          </div>
-        </div>
-        <br>
-        <div class="section">
-  <h2 class="sectionTitle copper">The Beans</h2>
-  <div class="item">
-    <div class="left">
-      <div class="name copper">
-        Always organic and pesticide free
-      </div>
-    </div>
-   
+  <div class="atmosphere" aria-hidden="true">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+    <div class="grain"></div>
   </div>
 
-  <div class="item">
-    <div class="left">
-      <div class="name copper">
-        Locally sourced when available
-      </div>
+  <header class="site-header">
+    <a class="brand" href="https://stagandstonecoffee.com" aria-label="Stag and Stone Coffee and Bakehouse">
+      <span class="brand-kicker">Coffee & Bakehouse</span>
+      <span class="brand-name">Stag & Stone</span>
+      <span class="brand-place">Clarkesville, Georgia</span>
+    </a>
+    <a class="main-site-link" href="https://stagandstonecoffee.com" target="_blank" rel="noopener">Main site ↗</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-mark" aria-hidden="true">☾</div>
+      <p class="eyebrow">Gathered at the hearth</p>
+      <h1>The Menu</h1>
+      <p class="hero-copy">Coffee, hearth food, fresh baking, and a little something gathered from the garden.</p>
+      <p class="hero-note">Offerings mirror the current menu at stagandstonecoffee.com.</p>
+    </section>
+
+    <div class="jump-shell">
+      <nav class="jump-nav" id="jumpNav" aria-label="Menu categories"></nav>
     </div>
-    <div class="price copper"></div>
-  </div>
-</div>
-<br>
 
-      </div>
+    <div class="menu-shell" id="menuShell"></div>
 
-      <!-- RIGHT COLUMN -->
-      <div class="menuCol">
-
-        <div class="section">
-          <h2 class="sectionTitle copper">Tea & Lemonade</h2>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">House Tea</div>
-              <div class="desc">Rotating seasonal tea</div>
-            </div>
-            <div class="price copper">$4.50</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Iced Tea</div>
-              <div class="desc">Fresh brewed and chilled</div>
-            </div>
-            <div class="price copper">$4.50</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Fresh Lemonade</div>
-              <div class="desc">Seasonal lemonade varieties</div>
-            </div>
-            <div class="price copper">$5.50</div>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2 class="sectionTitle copper">Seasonal Signatures</h2>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Black Spell Mocha</div>
-              <div class="desc">Dark chocolate mocha</div>
-            </div>
-            <div class="price copper">$6.50</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Dragonfire Mocha</div>
-              <div class="desc">Spiced mocha with heat</div>
-            </div>
-            <div class="price copper">$6.75</div>
-          </div>
-        </div>
-        <br>
-        <div class="section">
-  <h2 class="sectionTitle copper">Crafted In House</h2>
-
-  <div class="item">
-    <div class="left">
-      <div class="name copper">
-        House-made syrups and seasonal flavors
-      </div>
-    </div>
-    
-  </div>
-
-  <div class="item">
-    <div class="left">
-      <div class="name copper">
-        Fresh baked pastries made in our commissary kitchen
-      </div>
-    </div>
-    <div class="price copper"></div>
-  </div>
-</div>
-<br>
-</div>
-
-        <div class="section">
-          <h2 class="sectionTitle copper">Provisions</h2>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Lemon Blueberry Scone</div>
-              <div class="desc">Commissary baked</div>
-            </div>
-            <div class="price copper">$5</div>
-          </div>
-
-          <div class="item">
-            <div class="left">
-              <div class="name copper">Elderberry Cream Cheese Loaf</div>
-              <div class="desc">Sweet cream loaf slice</div>
-            </div>
-            <div class="price copper">$5</div>
-          </div>
-        </div>
-
-      </div>
-
+    <section class="availability">
+      <span class="availability-mark" aria-hidden="true">❦</span>
+      <p>Bakehouse selections and seasonal offerings may change with availability. Some items are offered while supplies last.</p>
+      <a href="https://stagandstonecoffee.com/menu.html" target="_blank" rel="noopener">View the source menu ↗</a>
     </section>
   </main>
 
-  <script src="app.js?v=20260509a" defer></script>
+  <dialog class="viewer" id="viewer" aria-labelledby="viewerTitle">
+    <button class="viewer-close" type="button" aria-label="Close preview">×</button>
+    <div class="viewer-frame">
+      <p class="eyebrow">Stag & Stone</p>
+      <h2 id="viewerTitle"></h2>
+      <img id="viewerImg" alt="" />
+    </div>
+  </dialog>
+
+  <footer>
+    <div>
+      <strong>STAG & STONE</strong>
+      <span>Coffee and Bakehouse</span>
+    </div>
+    <a href="mailto:theblackstaginn@gmail.com">theblackstaginn@gmail.com</a>
+    <span>© <span id="year"></span> Stag & Stone</span>
+  </footer>
+
+  <script src="menu-data.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
