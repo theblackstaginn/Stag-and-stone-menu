@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Stag & Stone — Menu</title>
-  <meta name="description" content="The current Stag & Stone Coffee and Bakehouse menu: coffee, apothecary drinks, breakfast, bakehouse, lunch, sides, sauces, jams, and seasonal offerings." />
-  <meta name="theme-color" content="#17130f" />
+  <title>Stag & Stone — Order</title>
+  <meta name="description" content="Touch-first ordering interface for Stag & Stone Coffee and Bakehouse." />
+  <meta name="theme-color" content="#16110d" />
   <link rel="icon" href="favicon.png" />
   <link rel="apple-touch-icon" href="icon-512.png" />
   <link rel="manifest" href="manifest.webmanifest" />
@@ -15,60 +15,112 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="atmosphere" aria-hidden="true">
-    <div class="glow glow-a"></div>
-    <div class="glow glow-b"></div>
-    <div class="grain"></div>
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient-glow"></div>
+    <div class="ambient-grain"></div>
   </div>
 
-  <header class="site-header">
-    <a class="brand" href="https://stagandstonecoffee.com" aria-label="Stag and Stone Coffee and Bakehouse">
-      <span class="brand-kicker">Coffee & Bakehouse</span>
-      <span class="brand-name">Stag & Stone</span>
-      <span class="brand-place">Clarkesville, Georgia</span>
-    </a>
-    <a class="main-site-link" href="https://stagandstonecoffee.com" target="_blank" rel="noopener">Main site ↗</a>
-  </header>
+  <div class="kiosk-shell">
+    <header class="topbar">
+      <button class="brand-lockup" id="homeBtn" type="button" aria-label="Return to menu home">
+        <span class="brand-kicker">Coffee & Bakehouse</span>
+        <span class="brand-name">Stag & Stone</span>
+      </button>
 
-  <main>
-    <section class="hero">
-      <div class="hero-mark" aria-hidden="true">☾</div>
-      <p class="eyebrow">Gathered at the hearth</p>
-      <h1>The Menu</h1>
-      <p class="hero-copy">Coffee, hearth food, fresh baking, and a little something gathered from the garden.</p>
-      <p class="hero-note">Offerings mirror the current menu at stagandstonecoffee.com.</p>
-    </section>
+      <div class="fulfillment" id="fulfillmentControl" aria-label="Order type"></div>
 
-    <div class="jump-shell">
-      <nav class="jump-nav" id="jumpNav" aria-label="Menu categories"></nav>
-    </div>
+      <button class="order-pill" id="orderPill" type="button" aria-label="Review order">
+        <span>Your Order</span>
+        <strong id="orderCount">0</strong>
+      </button>
+    </header>
 
-    <div class="menu-shell" id="menuShell"></div>
+    <main class="workspace">
+      <aside class="category-rail" aria-label="Menu categories">
+        <div class="category-list" id="categoryList"></div>
+        <button class="rail-info" id="sourceBtn" type="button">Menu source ↗</button>
+      </aside>
 
-    <section class="availability">
-      <span class="availability-mark" aria-hidden="true">❦</span>
-      <p>Bakehouse selections and seasonal offerings may change with availability. Some items are offered while supplies last.</p>
-      <a href="https://stagandstonecoffee.com/menu.html" target="_blank" rel="noopener">View the source menu ↗</a>
-    </section>
-  </main>
+      <section class="menu-stage" aria-live="polite">
+        <div class="stage-heading">
+          <div>
+            <p class="eyebrow" id="categoryEyebrow"></p>
+            <h1 id="categoryTitle">Menu</h1>
+            <p class="stage-note" id="categoryNote"></p>
+          </div>
+          <div class="availability-note">Seasonal offerings may vary.</div>
+        </div>
 
-  <dialog class="viewer" id="viewer" aria-labelledby="viewerTitle">
-    <button class="viewer-close" type="button" aria-label="Close preview">×</button>
-    <div class="viewer-frame">
-      <p class="eyebrow">Stag & Stone</p>
-      <h2 id="viewerTitle"></h2>
-      <img id="viewerImg" alt="" />
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+
+      <aside class="order-panel" id="orderPanel" aria-label="Current order">
+        <div class="order-panel-head">
+          <div>
+            <p class="eyebrow">At the counter</p>
+            <h2>Your Order</h2>
+          </div>
+          <button class="text-btn" id="clearOrderBtn" type="button">Clear</button>
+        </div>
+
+        <div class="order-lines" id="orderLines"></div>
+
+        <div class="order-empty" id="orderEmpty">
+          <span aria-hidden="true">❦</span>
+          <strong>Your order is empty</strong>
+          <p>Choose something from the menu to begin.</p>
+        </div>
+
+        <div class="order-panel-foot">
+          <p class="order-status" id="orderStatus">Prices and payment will come from Square when connected.</p>
+          <button class="primary-action" id="reviewBtn" type="button" disabled>Review Order</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <dialog class="item-sheet" id="itemSheet" aria-labelledby="itemName">
+    <div class="sheet-layout">
+      <div class="sheet-image-wrap">
+        <img id="itemImage" alt="" />
+      </div>
+
+      <div class="sheet-content">
+        <button class="sheet-close" id="itemCloseBtn" type="button" aria-label="Close item">×</button>
+        <p class="eyebrow" id="itemCategory"></p>
+        <h2 id="itemName"></h2>
+        <p class="sheet-source">Current menu card from stagandstonecoffee.com</p>
+
+        <div class="modifier-host" id="modifierHost"></div>
+
+        <div class="quantity-row">
+          <span>Quantity</span>
+          <div class="stepper">
+            <button type="button" id="qtyDown" aria-label="Decrease quantity">−</button>
+            <strong id="qtyValue">1</strong>
+            <button type="button" id="qtyUp" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <button class="primary-action add-action" id="addToOrderBtn" type="button">Add to Order</button>
+      </div>
     </div>
   </dialog>
 
-  <footer>
-    <div>
-      <strong>STAG & STONE</strong>
-      <span>Coffee and Bakehouse</span>
+  <dialog class="review-sheet" id="reviewSheet" aria-labelledby="reviewTitle">
+    <div class="review-card">
+      <button class="sheet-close" id="reviewCloseBtn" type="button" aria-label="Close order review">×</button>
+      <p class="eyebrow">Final check</p>
+      <h2 id="reviewTitle">Review Order</h2>
+      <div class="review-list" id="reviewList"></div>
+      <div class="review-meta">
+        <span id="reviewMode"></span>
+        <span>Pricing will be supplied by Square catalog data.</span>
+      </div>
+      <button class="primary-action" id="checkoutBtn" type="button">Ready for Square Checkout</button>
+      <p class="integration-note">This prototype stops here until Square Catalog / Orders / payment wiring is connected.</p>
     </div>
-    <a href="mailto:theblackstaginn@gmail.com">theblackstaginn@gmail.com</a>
-    <span>© <span id="year"></span> Stag & Stone</span>
-  </footer>
+  </dialog>
 
   <script src="menu-data.js"></script>
   <script src="app.js" defer></script>
