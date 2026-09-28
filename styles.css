@@ -293,3 +293,33 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
       url("Assets/stone-ui.webp") center top / 900px auto repeat-y;
   }
 }
+
+
+/* Leather interface body */
+.category-rail,
+.order-panel,
+.item-sheet,
+.review-sheet{
+  background-color:#15100d;
+  background-image:
+    linear-gradient(rgba(10,8,7,.74),rgba(10,8,7,.82)),
+    url("Assets/leather-ui.webp");
+  background-size:auto,640px 360px;
+  background-repeat:no-repeat,repeat;
+  background-position:center,center;
+}
+
+.category-rail,
+.order-panel{
+  box-shadow:inset 0 0 34px rgba(0,0,0,.28);
+}
+
+@media(max-width:780px){
+  .category-rail,
+  .order-panel{
+    background-image:
+      linear-gradient(rgba(10,8,7,.70),rgba(10,8,7,.80)),
+      url("Assets/leather-ui.webp");
+    background-size:auto,560px 315px;
+  }
+}
