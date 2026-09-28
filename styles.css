@@ -275,3 +275,21 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
     -webkit-backdrop-filter:blur(10px);
   }
 }
+
+
+/* Keep the stone at a native-scale texture density instead of stretching it to viewport cover. */
+.ambient{
+  background:
+    linear-gradient(rgba(9,7,6,.78),rgba(9,7,6,.88)),
+    radial-gradient(circle at 42% -10%,rgba(126,76,45,.18) 0,transparent 38%),
+    url("Assets/stone-ui.webp") center top / 1200px auto repeat-y;
+}
+
+@media(max-width:780px){
+  .ambient{
+    background:
+      linear-gradient(rgba(9,7,6,.76),rgba(9,7,6,.87)),
+      radial-gradient(circle at 42% -10%,rgba(126,76,45,.16) 0,transparent 38%),
+      url("Assets/stone-ui.webp") center top / 900px auto repeat-y;
+  }
+}
