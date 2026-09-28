@@ -1,13 +1,13 @@
 {
-  "name": "Stag & Stone Coffeehouse",
+  "name": "Stag & Stone Ordering",
   "short_name": "Stag & Stone",
-  "description": "Stag & Stone Coffeehouse — seasonal coffee, ritual drinks, and hearth fare in Dahlonega, Georgia.",
+  "description": "Customer-facing ordering interface for Stag & Stone Coffee and Bakehouse in Clarkesville, Georgia.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0b0e13",
-  "theme_color": "#0b0e13",
+  "orientation": "any",
+  "background_color": "#0f0c09",
+  "theme_color": "#16110d",
   "icons": [
     {
       "src": "icon-512.png",
