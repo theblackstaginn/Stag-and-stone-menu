@@ -292,7 +292,7 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
   .ambient{
     background:
       linear-gradient(rgba(5,5,5,.18),rgba(5,5,5,.34)),
-      url("Assets/stag-menu-bg.webp?v=1") center top / cover no-repeat;
+      var(--menu-bg-texture,url("Assets/stag-menu-bg.webp?v=1")) center top / cover no-repeat;
     background-color:#151515;
   }
 }
@@ -453,7 +453,7 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
   .category-btn.active{
     background:
       linear-gradient(rgba(38,14,5,.18),rgba(20,8,3,.28)),
-      url("Assets/stag-menu-copper-texture.webp?v=1") center / cover no-repeat;
+      var(--active-copper-texture,url("Assets/stag-menu-copper-texture.webp?v=1")) center / cover no-repeat;
     border-color:rgba(225,177,127,.42);
     color:#fff3e6;
     box-shadow:

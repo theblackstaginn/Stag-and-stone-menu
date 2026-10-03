@@ -12,7 +12,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=17" />
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const cacheBust = params.get("_cb") || "";
+      window.__STAG_CACHE_BUST__ = cacheBust;
+
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "styles.css?v=18" + (cacheBust ? "&_cb=" + encodeURIComponent(cacheBust) : "");
+      document.head.appendChild(link);
+    })();
+  </script>
 </head>
 <body>
   <div class="pull-refresh" id="pullRefresh" aria-hidden="true">
@@ -156,7 +167,20 @@
     </div>
   </dialog>
 
-  <script src="menu-data.js?v=4"></script>
-  <script src="app.js?v=5" defer></script>
+  <script>
+    (() => {
+      const cacheBust = window.__STAG_CACHE_BUST__ || "";
+      const suffix = cacheBust ? "&_cb=" + encodeURIComponent(cacheBust) : "";
+
+      const menuData = document.createElement("script");
+      menuData.src = "menu-data.js?v=4" + suffix;
+      menuData.onload = () => {
+        const app = document.createElement("script");
+        app.src = "app.js?v=6" + suffix;
+        document.body.appendChild(app);
+      };
+      document.body.appendChild(menuData);
+    })();
+  </script>
 </body>
 </html>

@@ -4,6 +4,30 @@
   const catalog = window.STAG_STONE_CATALOG;
   if (!catalog) return;
 
+  const CACHE_BUST = window.__STAG_CACHE_BUST__ || "";
+  const bustUrl = source => {
+    if (!CACHE_BUST || !source) return source;
+    try {
+      const url = new URL(source, window.location.href);
+      url.searchParams.set("_cb", CACHE_BUST);
+      return url.href;
+    } catch {
+      const joiner = source.includes("?") ? "&" : "?";
+      return source + joiner + "_cb=" + encodeURIComponent(CACHE_BUST);
+    }
+  };
+
+  if (CACHE_BUST) {
+    document.documentElement.style.setProperty(
+      "--menu-bg-texture",
+      `url("${bustUrl("Assets/stag-menu-bg.webp?v=1")}")`
+    );
+    document.documentElement.style.setProperty(
+      "--active-copper-texture",
+      `url("${bustUrl("Assets/stag-menu-copper-texture.webp?v=1")}")`
+    );
+  }
+
   const $ = selector => document.querySelector(selector);
   const els = {
     categories: $("#categoryList"), grid: $("#productGrid"),
@@ -89,7 +113,7 @@
         button.setAttribute("aria-label", "Choose " + item.name);
         button.innerHTML = `
           <span class="product-image">
-            <img src="${item.image}" alt="" loading="lazy">
+            <img src="${bustUrl(item.image)}" alt="" loading="lazy">
             ${item.seasonal ? '<span class="seasonal-tag">Seasonal</span>' : ""}
           </span>
           <span class="product-meta">
@@ -109,7 +133,7 @@
     state.selectedItemId = id;
     state.quantity = 1;
     els.qty.textContent = "1";
-    els.itemImage.src = item.image;
+    els.itemImage.src = bustUrl(item.image);
     els.itemImage.alt = item.name;
     els.itemCategory.textContent = category?.name || "";
     els.itemName.textContent = item.name;
@@ -338,7 +362,9 @@
         if (label) label.textContent = "Refreshing";
 
         window.setTimeout(() => {
-          window.location.reload();
+          const url = new URL(window.location.href);
+          url.searchParams.set("_cb", Date.now().toString(36));
+          window.location.replace(url.toString());
         }, 260);
         return;
       }
@@ -356,4 +382,10 @@
   renderCategories();
   renderProducts();
   renderOrder();
+
+  if (CACHE_BUST) {
+    const cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete("_cb");
+    window.history.replaceState({}, "", cleanUrl.toString());
+  }
 })();
