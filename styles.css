@@ -172,12 +172,13 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
   width:var(--size);
   height:var(--size);
   border-radius:50%;
-  background:rgba(226,133,72,.9);
+  background:rgba(247,118,42,.96);
   box-shadow:
-    0 0 6px rgba(226,133,72,.85),
-    0 0 16px rgba(170,70,32,.28);
-  opacity:.18;
-  filter:blur(.15px);
+    0 0 7px rgba(255,132,52,.96),
+    0 0 18px rgba(231,82,24,.52),
+    0 0 28px rgba(176,48,14,.22);
+  opacity:.28;
+  filter:blur(.1px);
   animation:
     ember-rise var(--dur) linear infinite,
     ember-flicker var(--flick) ease-in-out infinite;
@@ -185,17 +186,20 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
 }
 
 .ember-field i:nth-child(3n){
-  background:rgba(255,184,115,.95);
+  background:rgba(255,173,82,.98);
+  box-shadow:
+    0 0 8px rgba(255,177,88,.98),
+    0 0 20px rgba(239,96,29,.48);
 }
 
 .ember-field i:nth-child(4n){
   --size:2px;
-  opacity:.12;
+  opacity:.20;
 }
 
 .ember-field i:nth-child(5n){
   --size:4px;
-  opacity:.24;
+  opacity:.36;
 }
 
 @keyframes ember-rise{
@@ -217,10 +221,10 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
 }
 
 @keyframes ember-flicker{
-  0%,100%{ opacity:.08; }
-  35%{ opacity:.28; }
-  60%{ opacity:.16; }
-  78%{ opacity:.34; }
+  0%,100%{ opacity:.14; }
+  35%{ opacity:.42; }
+  60%{ opacity:.24; }
+  78%{ opacity:.50; }
 }
 
 @media(prefers-reduced-motion:reduce){
