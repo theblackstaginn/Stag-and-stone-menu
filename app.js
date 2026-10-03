@@ -208,6 +208,14 @@
     state.order = state.order.filter(line => line.lineId !== lineId);
     saveOrder();
     renderOrder();
+
+    if (els.reviewSheet.open) {
+      if (!state.order.length) {
+        els.reviewSheet.close();
+      } else {
+        renderReview();
+      }
+    }
   }
 
   function clearOrder() {
@@ -216,20 +224,35 @@
     renderOrder();
   }
 
-  function openReview() {
-    if (!state.order.length) return;
+  function renderReview() {
     els.reviewList.innerHTML = "";
+
     state.order.forEach(line => {
       const item = getItem(line.itemId);
       if (!item) return;
+
       const row = document.createElement("div");
       row.className = "review-item";
-      row.innerHTML = `<strong>${item.name}</strong><span>× ${line.quantity}</span>`;
+      row.innerHTML = `
+        <div class="review-item-copy">
+          <strong>${item.name}</strong>
+          <span>× ${line.quantity}</span>
+        </div>
+        <button class="review-remove" type="button" aria-label="Remove ${item.name} from order">Remove</button>
+      `;
+
+      row.querySelector(".review-remove").addEventListener("click", () => removeLine(line.lineId));
       els.reviewList.appendChild(row);
     });
+
     const mode = catalog.serviceModes.find(mode => mode.id === state.serviceMode);
     els.reviewMode.textContent = "Order type: " + (mode?.label || "Dine In");
-    els.reviewSheet.showModal();
+  }
+
+  function openReview() {
+    if (!state.order.length) return;
+    renderReview();
+    if (!els.reviewSheet.open) els.reviewSheet.showModal();
   }
 
   function formatMoney(amount) {

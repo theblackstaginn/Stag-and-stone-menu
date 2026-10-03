@@ -513,3 +513,60 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
   filter:saturate(.72) brightness(.82);
   cursor:not-allowed;
 }
+
+
+/* Cart removal controls */
+.review-item{
+  align-items:center;
+}
+
+.review-item-copy{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex:1;
+}
+
+.review-item-copy strong{
+  min-width:0;
+}
+
+.review-remove{
+  flex:0 0 auto;
+  min-height:36px;
+  padding:7px 11px;
+  border:1px solid rgba(225,177,127,.24);
+  border-radius:10px;
+  background:#202124;
+  color:#d8cabc;
+  font-family:Cinzel,serif;
+  font-size:.58rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  cursor:pointer;
+}
+
+.review-remove:active{
+  transform:translateY(1px);
+  background:#2a2020;
+  border-color:rgba(200,110,80,.48);
+}
+
+@media(max-width:780px){
+  .review-item{
+    gap:10px;
+    padding:11px;
+  }
+
+  .review-item-copy{
+    display:grid;
+    gap:3px;
+  }
+
+  .review-remove{
+    min-height:38px;
+    padding-inline:12px;
+  }
+}
