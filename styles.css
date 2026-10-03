@@ -848,3 +848,68 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
     bottom:0;
   }
 }
+
+
+/* Mobile order-mode switch */
+@media(max-width:780px){
+  .topbar{
+    height:118px;
+    min-height:118px;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-rows:54px 40px;
+    grid-template-areas:
+      "brand order"
+      "mode mode";
+    column-gap:12px;
+    row-gap:6px;
+    padding:8px 12px 10px;
+  }
+
+  .brand-lockup{
+    grid-area:brand;
+    align-self:center;
+  }
+
+  .order-pill{
+    grid-area:order;
+    align-self:center;
+  }
+
+  .fulfillment{
+    grid-area:mode;
+    display:flex;
+    justify-self:center;
+    align-self:center;
+    width:min(270px,100%);
+    padding:3px;
+    border:1px solid rgba(225,177,127,.22);
+    border-radius:999px;
+    background:#17181a;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+  }
+
+  .fulfillment button{
+    flex:1 1 0;
+    min-width:0;
+    padding:8px 12px;
+    border-radius:999px;
+    color:#bdb8b0;
+    font-size:.61rem;
+  }
+
+  .fulfillment button.active{
+    background:
+      linear-gradient(rgba(38,14,5,.14),rgba(20,8,3,.24)),
+      var(--active-copper-texture,url("Assets/stag-menu-copper-texture.webp?v=1")) center / cover no-repeat;
+    color:#fff3e6;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.08),
+      inset 0 -1px 0 rgba(0,0,0,.30),
+      0 3px 10px rgba(0,0,0,.22);
+    text-shadow:0 1px 2px rgba(0,0,0,.58);
+  }
+
+  .category-rail{
+    top:118px;
+  }
+}
