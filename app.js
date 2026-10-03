@@ -244,6 +244,114 @@
     if (event.target === els.reviewSheet) els.reviewSheet.close();
   });
 
+  function initPullToRefresh() {
+    const indicator = $("#pullRefresh");
+    if (!indicator || !window.matchMedia("(max-width: 780px)").matches) return;
+
+    const label = indicator.querySelector(".pull-refresh-label");
+    const threshold = 82;
+    const maxPull = 124;
+    let startX = 0;
+    let startY = 0;
+    let pullDistance = 0;
+    let tracking = false;
+    let verticalPull = false;
+    let refreshing = false;
+
+    const reset = () => {
+      tracking = false;
+      verticalPull = false;
+      pullDistance = 0;
+      indicator.classList.remove("is-pulling", "is-ready");
+      indicator.style.transform = "translate3d(-50%,-72px,0)";
+      indicator.style.setProperty("--pull-rotation", "0deg");
+      if (label) label.textContent = "Pull to refresh";
+    };
+
+    document.addEventListener("touchstart", event => {
+      if (refreshing || event.touches.length !== 1) return;
+      if (window.scrollY > 1) return;
+      if (els.itemSheet.open || els.reviewSheet.open) return;
+
+      const touch = event.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      tracking = true;
+      verticalPull = false;
+      pullDistance = 0;
+    }, { passive: true });
+
+    document.addEventListener("touchmove", event => {
+      if (!tracking || refreshing || event.touches.length !== 1) return;
+
+      const touch = event.touches[0];
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+
+      if (!verticalPull) {
+        if (dy <= 0) {
+          reset();
+          return;
+        }
+        if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+          if (dy < Math.abs(dx) * 1.2) {
+            reset();
+            return;
+          }
+          verticalPull = true;
+        } else {
+          return;
+        }
+      }
+
+      if (window.scrollY > 1 || dy <= 0) {
+        reset();
+        return;
+      }
+
+      event.preventDefault();
+
+      pullDistance = Math.min(maxPull, dy * 0.58);
+      const progress = Math.min(1, pullDistance / threshold);
+      const y = -72 + (pullDistance * 0.86);
+
+      indicator.classList.add("is-pulling");
+      indicator.classList.toggle("is-ready", pullDistance >= threshold);
+      indicator.style.transform = `translate3d(-50%,${y}px,0)`;
+      indicator.style.setProperty("--pull-rotation", `${Math.round(progress * 250)}deg`);
+
+      if (label) {
+        label.textContent = pullDistance >= threshold
+          ? "Release to refresh"
+          : "Pull to refresh";
+      }
+    }, { passive: false });
+
+    const finishPull = () => {
+      if (!tracking || refreshing) return;
+
+      if (verticalPull && pullDistance >= threshold) {
+        refreshing = true;
+        tracking = false;
+        indicator.classList.remove("is-pulling", "is-ready");
+        indicator.classList.add("is-refreshing");
+        if (label) label.textContent = "Refreshing";
+
+        window.setTimeout(() => {
+          window.location.reload();
+        }, 260);
+        return;
+      }
+
+      reset();
+    };
+
+    document.addEventListener("touchend", finishPull, { passive: true });
+    document.addEventListener("touchcancel", reset, { passive: true });
+  }
+
+  initPullToRefresh();
+
   renderFulfillment();
   renderCategories();
   renderProducts();

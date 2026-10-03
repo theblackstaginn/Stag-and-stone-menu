@@ -12,9 +12,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=12" />
+  <link rel="stylesheet" href="styles.css?v=13" />
 </head>
 <body>
+  <div class="pull-refresh" id="pullRefresh" aria-hidden="true">
+    <span class="pull-refresh-mark">↻</span>
+    <span class="pull-refresh-label">Pull to refresh</span>
+  </div>
+
   <div class="ambient" aria-hidden="true">
     <div class="ambient-glow"></div>
     <div class="ambient-grain"></div>
@@ -152,6 +157,6 @@
   </dialog>
 
   <script src="menu-data.js?v=4"></script>
-  <script src="app.js?v=4" defer></script>
+  <script src="app.js?v=5" defer></script>
 </body>
 </html>
