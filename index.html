@@ -20,7 +20,7 @@
 
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "styles.css?v=21" + (cacheBust ? "&_cb=" + encodeURIComponent(cacheBust) : "");
+      link.href = "styles.css?v=22" + (cacheBust ? "&_cb=" + encodeURIComponent(cacheBust) : "");
       document.head.appendChild(link);
     })();
   </script>
@@ -124,6 +124,8 @@
 
   <dialog class="item-sheet" id="itemSheet" aria-labelledby="itemName">
     <div class="sheet-layout">
+      <button class="sheet-close item-sheet-close" id="itemCloseBtn" type="button" aria-label="Close item">×</button>
+
       <div class="sheet-image-wrap">
         <div class="sheet-image-frame">
           <img id="itemImage" alt="" />
@@ -131,7 +133,6 @@
       </div>
 
       <div class="sheet-content">
-        <button class="sheet-close" id="itemCloseBtn" type="button" aria-label="Close item">×</button>
         <p class="eyebrow" id="itemCategory"></p>
         <h2 id="itemName"></h2>
         <p class="sheet-source">Current offering from stagandstonecoffee.com</p>
