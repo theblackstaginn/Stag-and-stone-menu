@@ -292,7 +292,7 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
   .ambient{
     background:
       linear-gradient(rgba(5,5,5,.18),rgba(5,5,5,.34)),
-      url("Assets/stag-menu-bg.webp") center top / cover no-repeat;
+      url("Assets/stag-menu-bg.webp?v=1") center top / cover no-repeat;
     background-color:#151515;
   }
 }
@@ -401,4 +401,65 @@ url("Assets/stone-ui.webp") center/cover no-repeat;background-color:#0c0a08}
 
 @keyframes pull-refresh-spin{
   to{transform:rotate(360deg)}
+}
+
+
+/* Mobile charcoal material pass: no brown glass */
+@media(max-width:780px){
+  .topbar{
+    background:#111214;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    border-bottom-color:rgba(255,255,255,.08);
+  }
+
+  .category-rail{
+    background:#151618;
+    background-image:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    box-shadow:inset 0 -1px rgba(255,255,255,.03);
+    border-bottom-color:rgba(255,255,255,.08);
+  }
+
+  .menu-stage{
+    background:
+      linear-gradient(rgba(10,11,12,.08),rgba(10,11,12,.18));
+  }
+
+  .product-card{
+    background:linear-gradient(145deg,rgba(34,35,37,.96),rgba(20,21,23,.98));
+    border-color:rgba(255,255,255,.08);
+    box-shadow:0 12px 28px rgba(0,0,0,.24);
+  }
+
+  .product-image{
+    background:rgba(0,0,0,.18);
+  }
+
+  .order-panel{
+    background:#121315;
+    background-image:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    border-top-color:rgba(255,255,255,.08);
+    box-shadow:0 -10px 28px rgba(0,0,0,.28);
+  }
+
+  .category-btn{
+    color:#bdb8b0;
+  }
+
+  .category-btn.active{
+    background:#222326;
+    border-color:rgba(225,177,127,.22);
+    color:var(--ink);
+  }
+
+  .pull-refresh{
+    background:#17181a;
+    background-image:none;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
 }
